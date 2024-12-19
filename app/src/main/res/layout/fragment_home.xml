@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_white"
+    android:padding="0dp"
+    tools:context=".fragments.HomeFragment">
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fbAddNote"
+        android:layout_width="61dp"
+        android:layout_height="56dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="84dp"
+        android:backgroundTint="@color/colorPrimary"
+        android:clickable="true"
+        android:contentDescription="image"
+        android:src="@drawable/ic_add"
+        android:tintMode="@color/white"
+        app:borderWidth="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="32dp"
+        android:backgroundTint="@color/white"
+        android:elevation="10dp"
+        android:visibility="visible"
+        app:cardCornerRadius="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tv_no_notes_available"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:padding="50dp"
+            android:text="No Items available!"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_bar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <!-- Bottom Bar -->
+    <LinearLayout
+        android:id="@+id/bottom_bar"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_alignParentBottom="true"
+        android:background="#E0E0E0"
+        android:gravity="bottom"
+        android:orientation="horizontal"
+        android:weightSum="3"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <!-- Customers Button -->
+        <ImageButton
+            android:id="@+id/button_customers"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="1px"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_button"
+            android:contentDescription="Customers"
+            android:scaleType="centerInside"
+            android:src="@drawable/baseline_people_outline_24"
+            app:tint="#FFFFFF" />
+
+        <!-- Search Button -->
+        <ImageButton
+            android:id="@+id/button_search"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="1px"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_button"
+            android:contentDescription="Search"
+            android:scaleType="centerInside"
+            android:src="@drawable/baseline_search_24"
+            app:tint="#FFFFFF" />
+
+        <!-- Purchases Button -->
+        <ImageButton
+            android:id="@+id/button_purchases"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_button"
+            android:contentDescription="Purchases"
+            android:scaleType="centerInside"
+            android:src="@drawable/baseline_playlist_add_check_24"
+            app:tint="#FFFFFF" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

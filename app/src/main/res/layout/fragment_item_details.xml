@@ -1,0 +1,33 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Include the item layout for item details -->
+    <include
+        layout="@layout/item_layout"
+        android:id="@+id/itemDetailsLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <!-- ListView for Recent Customers -->
+<!--    <TextView-->
+<!--        android:id="@+id/titleTextView"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Recent Customers"-->
+<!--        android:textSize="18sp"-->
+<!--        android:paddingTop="16dp"-->
+<!--        android:paddingBottom="8dp"-->
+<!--        android:textStyle="bold" />-->
+
+<!--    <ListView-->
+<!--        android:id="@+id/recentListView"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:divider="#D3D3D3"-->
+<!--        android:dividerHeight="1dp" />-->
+
+</LinearLayout>
