@@ -8,10 +8,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.EditText
-import android.widget.Spinner
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.brickcommander.shop.MainActivity
@@ -21,7 +18,6 @@ import com.brickcommander.shop.model.Item
 import com.brickcommander.shop.shared.CONSTANTS
 import com.brickcommander.shop.util.toast
 import com.brickcommander.shop.viewModel.ItemViewModel
-import com.google.android.material.snackbar.Snackbar
 
 class DetailItemFragment : Fragment(R.layout.fragment_details_item) {
     companion object {
@@ -54,6 +50,12 @@ class DetailItemFragment : Fragment(R.layout.fragment_details_item) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            Log.d(TAG, "onBackPressedDispatcher: ")
+            view.findNavController().popBackStack(R.id.homeFragment, false) // Pop up to homeFragment
+        }
+
         currItem = arguments?.getParcelable("item")
         Log.d(TAG, "onViewCreated: $currItem")
         itemViewModel = (activity as MainActivity).itemViewModel
