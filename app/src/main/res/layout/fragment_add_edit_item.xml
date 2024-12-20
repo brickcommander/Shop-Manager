@@ -22,7 +22,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center" />
+                android:gravity="center"
+                android:inputType="textCapWords" />
         </TableRow>
 
         <TableRow>
@@ -36,7 +37,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:inputType="numberSigned"
+                android:inputType="numberDecimal"
                 android:gravity="center" />
             <TextView
                 android:text="Rs"
@@ -55,7 +56,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:inputType="numberSigned"
+                android:inputType="numberDecimal"
                 android:gravity="center" />
             <TextView
                 android:text="Rs"
