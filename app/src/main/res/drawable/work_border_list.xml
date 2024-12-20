@@ -1,10 +1,8 @@
+<!-- res/drawable/item_border.xml -->
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="#0000" /> <!-- Transparent background -->
-
+    <solid android:color="#0000" /> <!-- Background color, can be transparent or any color -->
     <stroke
-        android:width="2px"
-    android:color="#615D5D" /> <!-- Border color for bottom -->
-
-    <!-- Set top, left, and right borders to transparent using padding -->
-    <corners android:radius="0dp" /> <!-- No rounded corners -->
+        android:width="2dp"
+        android:color="#615D5D" /> <!-- Border color and width -->
+    <corners android:radius="5dp" /> <!-- Optional rounded corners -->
 </shape>

@@ -1,62 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:background="@color/background_white"
+android:orientation="vertical">
+
+<androidx.cardview.widget.CardView
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="3dp"
-    android:orientation="vertical"
-    android:padding="10dp"
-    android:background="@drawable/work_border_list">
+    android:layout_height="match_parent"
+    android:layout_margin="8dp"
+    android:background="@color/white"
+    app:cardCornerRadius="5dp"
+    app:cardElevation="8dp">
 
-    <TextView
-        android:id="@+id/nameId"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:text="Item Name"
-        android:layout_weight="1"
-        android:textSize="19sp"
-        android:textStyle="bold" />
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        android:orientation="vertical">
 
-    <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:stretchColumns="1,3">
-
-        <TableRow>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/nameId"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="Item Name"
+                android:layout_weight="20"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:textStyle="bold"/>
+
+            <View
+                android:id="@+id/view_color"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
                 android:layout_weight="1"
-                android:text="Sell  "
-                android:textSize="16sp" />
+                android:layout_marginEnd="8dp"
+                android:layout_gravity="center"/>
+        </LinearLayout>
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:stretchColumns="1,3">
 
-            <TextView
-                android:id="@+id/sellingPriceId"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Selling Price"
-                android:textStyle="bold"
-                android:textSize="16sp" />
+            <TableRow>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Rem  "
-                android:textSize="16sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Sell  "
+                    android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/remainingCountId"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Remaining"
-                android:textStyle="bold"
-                android:textSize="16sp" />
+                <TextView
+                    android:id="@+id/sellingPriceId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Selling Price"
+                    android:textStyle="bold"
+                    android:textSize="16sp" />
 
-        </TableRow>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Rem  "
+                    android:textSize="16sp" />
 
-    </TableLayout>
+                <TextView
+                    android:id="@+id/remainingCountId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Remaining"
+                    android:textStyle="bold"
+                    android:textSize="16sp" />
 
+            </TableRow>
+
+        </TableLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
 </LinearLayout>

@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.brickcommander.shop.MainActivity
 import com.brickcommander.shop.R
@@ -49,7 +50,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), SearchView.OnQueryTextLis
         itemViewModel = (activity as MainActivity).itemViewModel
         setUpRecyclerView()
         binding.fbAddNote.setOnClickListener { mView ->
-            mView.findNavController().navigate(R.id.action_homeFragment_to_detailFragment)
+            mView.findNavController().navigate(R.id.action_homeFragment_to_addEditItemFragment)
         }
     }
 
@@ -58,11 +59,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), SearchView.OnQueryTextLis
         itemAdapter = ItemAdapter()
 
         binding.recyclerView.apply {
-            layoutManager = StaggeredGridLayoutManager(
-                2,
-                StaggeredGridLayoutManager.VERTICAL
-            )
-            setHasFixedSize(true)
+            layoutManager = LinearLayoutManager(requireContext())
             adapter = itemAdapter
         }
 
