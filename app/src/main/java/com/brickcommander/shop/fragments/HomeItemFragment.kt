@@ -11,17 +11,19 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.brickcommander.shop.MainActivity
 import com.brickcommander.shop.R
 import com.brickcommander.shop.adapter.ItemAdapter
 import com.brickcommander.shop.model.Item
 import com.brickcommander.shop.viewModel.ItemViewModel
-import com.brickcommander.shop.databinding.FragmentHomeBinding
+import com.brickcommander.shop.databinding.FragmentHomeItemBinding
 
-class HomeFragment : Fragment(R.layout.fragment_home), SearchView.OnQueryTextListener {
+class HomeItemFragment : Fragment(R.layout.fragment_home_item), SearchView.OnQueryTextListener {
+    companion object {
+        const val TAG = "HomeItemFragment"
+    }
 
-    private var _binding: FragmentHomeBinding? = null
+    private var _binding: FragmentHomeItemBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var itemViewModel: ItemViewModel
@@ -37,7 +39,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), SearchView.OnQueryTextLis
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentHomeBinding.inflate(
+        _binding = FragmentHomeItemBinding.inflate(
             inflater,
             container,
             false
@@ -65,7 +67,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), SearchView.OnQueryTextLis
 
         activity?.let {
             itemViewModel.getAllItems().observe(viewLifecycleOwner) { item ->
-                Log.d("HomeFragment", "Items: $item")
+                Log.d(TAG, "Items: $item")
                 itemAdapter.differ.submitList(item)
                 updateUI(item)
             }

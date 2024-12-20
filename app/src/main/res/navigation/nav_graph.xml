@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.brickcommander.shop.fragments.HomeFragment"
+        android:name="com.brickcommander.shop.fragments.HomeItemFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home_item" >
         <action
             android:id="@+id/action_homeFragment_to_detailFragment"
             app:destination="@id/detailFragment" />
@@ -23,7 +23,9 @@
         android:label="AddEditItemFragment" >
         <action
             android:id="@+id/action_addEditItemFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_addEditItemFragment_to_detailFragment"
             app:destination="@id/detailFragment" />
@@ -34,14 +36,16 @@
     </fragment>
     <fragment
         android:id="@+id/detailFragment"
-        android:name="com.brickcommander.shop.fragments.DetailFragment"
+        android:name="com.brickcommander.shop.fragments.DetailItemFragment"
         android:label="DetailFragment" >
         <action
             android:id="@+id/action_detailFragment_to_addEditItemFragment"
             app:destination="@id/addEditItemFragment" />
         <action
             android:id="@+id/action_detailFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true" />
         <argument
             android:name="item"
             app:argType="com.brickcommander.shop.model.Item"

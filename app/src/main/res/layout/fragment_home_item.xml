@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/background_white"
     android:padding="0dp"
-    tools:context=".fragments.HomeFragment">
+    tools:context=".fragments.HomeItemFragment">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fbAddNote"

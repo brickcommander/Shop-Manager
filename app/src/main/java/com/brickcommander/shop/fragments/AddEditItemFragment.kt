@@ -16,19 +16,19 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.brickcommander.shop.MainActivity
 import com.brickcommander.shop.R
-import com.brickcommander.shop.databinding.FragmentEditItemBinding
+import com.brickcommander.shop.databinding.FragmentAddEditItemBinding
 import com.brickcommander.shop.model.Item
 import com.brickcommander.shop.shared.CONSTANTS
 import com.brickcommander.shop.util.toast
 import com.brickcommander.shop.viewModel.ItemViewModel
 import com.google.android.material.snackbar.Snackbar
 
-class AddEditItemFragment : Fragment(R.layout.fragment_edit_item) {
+class AddEditItemFragment : Fragment(R.layout.fragment_add_edit_item) {
     companion object {
         const val TAG = "AddEditItemFragment"
     }
 
-    private var _binding: FragmentEditItemBinding? = null
+    private var _binding: FragmentAddEditItemBinding? = null
     private val binding get() = _binding!!
 
     private var currItem: Item? = null
@@ -52,7 +52,7 @@ class AddEditItemFragment : Fragment(R.layout.fragment_edit_item) {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentEditItemBinding.inflate(
+        _binding = FragmentAddEditItemBinding.inflate(
             inflater,
             container,
             false
@@ -115,7 +115,7 @@ class AddEditItemFragment : Fragment(R.layout.fragment_edit_item) {
         }
     }
 
-    private fun saveNote(view: View) {
+    private fun saveItem(view: View) {
         if (nameEditText.text.toString().isEmpty()) {
             activity?.toast("Please Enter Item Name")
             return
@@ -145,14 +145,18 @@ class AddEditItemFragment : Fragment(R.layout.fragment_edit_item) {
         ).show()
 
         if (isNewItem) view.findNavController().navigate(R.id.action_addEditItemFragment_to_homeFragment)
-        else view.findNavController().navigate(R.id.action_addEditItemFragment_to_detailFragment)
+        else {
+            val bundle = Bundle().apply {
+                putParcelable("item", currItem)
+            }
+            view.findNavController().navigate(R.id.action_addEditItemFragment_to_detailFragment, bundle)
+        }
     }
 
     override fun onOptionsItemSelected(menuItem: MenuItem): Boolean {
-
         when (menuItem.itemId) {
             R.id.save_menu -> {
-                saveNote(mView)
+                saveItem(mView)
             }
         }
         return super.onOptionsItemSelected(menuItem)
