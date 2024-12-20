@@ -1,5 +1,6 @@
 package com.brickcommander.shop.fragments
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -80,10 +81,26 @@ class DetailItemFragment : Fragment(R.layout.fragment_details_item) {
         view.findNavController().navigate(R.id.action_detailFragment_to_addEditItemFragment, bundle)
     }
 
+    private fun deleteItem() {
+        AlertDialog.Builder(activity).apply {
+            setTitle("Delete ${currItem?.name}?")
+            setPositiveButton("DELETE") { _, _ ->
+                currItem?.let { itemViewModel.deleteItem(it) }
+                view?.findNavController()?.navigate(
+                    R.id.action_detailFragment_to_homeFragment
+                )
+            }
+            setNegativeButton("CANCEL", null)
+        }.create().show()
+    }
+
     override fun onOptionsItemSelected(menuItem: MenuItem): Boolean {
         when (menuItem.itemId) {
-            R.id.save_menu -> {
+            R.id.update_menu -> {
                 editItem(mView)
+            }
+            R.id.delete_menu -> {
+                deleteItem()
             }
         }
         return super.onOptionsItemSelected(menuItem)
@@ -91,7 +108,7 @@ class DetailItemFragment : Fragment(R.layout.fragment_details_item) {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.new_note_menu, menu)
+        inflater.inflate(R.menu.update_note, menu)
     }
 
     override fun onDestroy() {
