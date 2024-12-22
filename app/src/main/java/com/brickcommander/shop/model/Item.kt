@@ -21,7 +21,7 @@ data class Item(
     var createdDate: LocalDateTime? = LocalDateTime.now()
 
     @PrimaryKey(autoGenerate = true)
-    var id: Long = System.currentTimeMillis()
+    var itemId: Long = System.currentTimeMillis()
 
     // Optional methods or computed properties if needed
     fun getProfit(): Double {

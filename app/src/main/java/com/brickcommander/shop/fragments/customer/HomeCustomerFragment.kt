@@ -58,6 +58,7 @@ class HomeCustomerFragment : Fragment(R.layout.fragment_home_item), SearchView.O
         super.onViewCreated(view, savedInstanceState)
         customerViewModel = (activity as MainActivity).customerViewModel
         setUpRecyclerView()
+
         binding.fbAddItem.setOnClickListener { mView ->
             mView.findNavController().navigate(R.id.action_homeCustomerFragment_to_addEditCustomerFragment)
         }

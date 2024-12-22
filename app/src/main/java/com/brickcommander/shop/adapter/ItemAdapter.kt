@@ -18,7 +18,7 @@ class ItemAdapter : RecyclerView.Adapter<ItemAdapter.ItemViewHolder>() {
     private val differCallback =
         object : DiffUtil.ItemCallback<Item>() {
             override fun areItemsTheSame(oldItem: Item, newItem: Item): Boolean {
-                return oldItem.id == newItem.id
+                return oldItem.itemId == newItem.itemId
             }
 
             override fun areContentsTheSame(oldItem: Item, newItem: Item): Boolean {

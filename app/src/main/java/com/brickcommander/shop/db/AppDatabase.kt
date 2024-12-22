@@ -9,7 +9,7 @@ import com.brickcommander.shop.model.Customer
 import com.brickcommander.shop.model.Item
 import com.brickcommander.shop.util.Converters
 
-@Database(entities = [Item::class,Customer::class], version = 1, exportSchema = false)
+@Database(entities = [Item::class,Customer::class], version = 2, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
 

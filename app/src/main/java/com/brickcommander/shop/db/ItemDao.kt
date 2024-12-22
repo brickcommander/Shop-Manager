@@ -21,7 +21,7 @@ interface ItemDao {
     @Delete
     fun deleteItem(item: Item)
 
-    @Query("SELECT * FROM ItemMaster ORDER BY id DESC")
+    @Query("SELECT * FROM ItemMaster ORDER BY itemId DESC")
     fun getAllItems(): LiveData<List<Item>>
 
     @Query("SELECT * FROM ItemMaster WHERE name LIKE :query")

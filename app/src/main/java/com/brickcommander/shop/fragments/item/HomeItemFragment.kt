@@ -59,6 +59,7 @@ class HomeItemFragment : Fragment(R.layout.fragment_home_item), SearchView.OnQue
         super.onViewCreated(view, savedInstanceState)
         itemViewModel = (activity as MainActivity).itemViewModel
         setUpRecyclerView()
+
         binding.fbAddItem.setOnClickListener { mView ->
             mView.findNavController().navigate(R.id.action_homeFragment_to_addEditItemFragment)
         }
