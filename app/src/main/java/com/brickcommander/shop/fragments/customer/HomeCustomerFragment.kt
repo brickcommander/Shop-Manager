@@ -14,11 +14,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.brickcommander.shop.MainActivity
 import com.brickcommander.shop.R
 import com.brickcommander.shop.adapter.CustomerAdapter
-import com.brickcommander.shop.adapter.ItemAdapter
-import com.brickcommander.shop.model.Item
 import com.brickcommander.shop.viewModel.CustomerViewModel
 import com.brickcommander.shop.databinding.FragmentHomeItemBinding
 import com.brickcommander.shop.model.Customer
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class HomeCustomerFragment : Fragment(R.layout.fragment_home_item), SearchView.OnQueryTextListener {
     companion object {
@@ -30,6 +33,8 @@ class HomeCustomerFragment : Fragment(R.layout.fragment_home_item), SearchView.O
 
     private lateinit var customerViewModel: CustomerViewModel
     private lateinit var customerAdapter: CustomerAdapter
+
+    private var animationJob: Job? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -123,6 +128,26 @@ class HomeCustomerFragment : Fragment(R.layout.fragment_home_item), SearchView.O
         customerViewModel.search(searchQuery).observe(this) { list ->
             customerAdapter.differ.submitList(list)
         }
+    }
+
+    private fun startLoadingAnimation() {
+        val baseText = "Loading"
+        val dots = listOf("", ".", "..", "...")
+        var index = 0
+
+        binding.loadingTextView.visibility = View.VISIBLE
+        animationJob = CoroutineScope(Dispatchers.Main).launch {
+            while (true) {
+                binding.loadingTextView.text = baseText + dots[index]
+                index = (index + 1) % dots.size
+                delay(500) // Delay between each update
+            }
+        }
+    }
+
+    private fun stopLoadingAnimation() {
+        animationJob?.cancel()
+        binding.loadingTextView.visibility = View.GONE
     }
 
 }

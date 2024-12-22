@@ -17,6 +17,12 @@ import com.brickcommander.shop.adapter.ItemAdapter
 import com.brickcommander.shop.model.Item
 import com.brickcommander.shop.viewModel.ItemViewModel
 import com.brickcommander.shop.databinding.FragmentHomeItemBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import java.lang.Thread.sleep
 
 class HomeItemFragment : Fragment(R.layout.fragment_home_item), SearchView.OnQueryTextListener {
     companion object {
@@ -28,6 +34,8 @@ class HomeItemFragment : Fragment(R.layout.fragment_home_item), SearchView.OnQue
 
     private lateinit var itemViewModel: ItemViewModel
     private lateinit var itemAdapter: ItemAdapter
+
+    private var animationJob: Job? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,12 +77,10 @@ class HomeItemFragment : Fragment(R.layout.fragment_home_item), SearchView.OnQue
             adapter = itemAdapter
         }
 
-        startLoadingAnimation()
         activity?.let {
             itemViewModel.getAll().observe(viewLifecycleOwner) { item ->
                 Log.d(TAG, "Items: $item")
                 itemAdapter.differ.submitList(item)
-                stopLoadingAnimation()
                 updateUI(item)
             }
         }
@@ -124,6 +130,26 @@ class HomeItemFragment : Fragment(R.layout.fragment_home_item), SearchView.OnQue
         itemViewModel.search(searchQuery).observe(this) { list ->
             itemAdapter.differ.submitList(list)
         }
+    }
+
+    private fun startLoadingAnimation() {
+        val baseText = "Loading"
+        val dots = listOf("", ".", "..", "...")
+        var index = 0
+
+        binding.loadingTextView.visibility = View.VISIBLE
+        animationJob = CoroutineScope(Dispatchers.Main).launch {
+            while (true) {
+                binding.loadingTextView.text = baseText + dots[index]
+                index = (index + 1) % dots.size
+                delay(500) // Delay between each update
+            }
+        }
+    }
+
+    private fun stopLoadingAnimation() {
+        animationJob?.cancel()
+        binding.loadingTextView.visibility = View.GONE
     }
 
 }
