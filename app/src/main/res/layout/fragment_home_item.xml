@@ -6,10 +6,10 @@
     android:layout_height="match_parent"
     android:background="@color/background_white"
     android:padding="0dp"
-    tools:context=".fragments.HomeItemFragment">
+    tools:context=".fragments.item.HomeItemFragment">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fbAddNote"
+        android:id="@+id/fbAddItem"
         android:layout_width="61dp"
         android:layout_height="56dp"
         android:layout_marginEnd="16dp"
@@ -68,8 +68,21 @@
         android:background="#E0E0E0"
         android:gravity="bottom"
         android:orientation="horizontal"
-        android:weightSum="3"
+        android:weightSum="4"
         app:layout_constraintBottom_toBottomOf="parent">
+
+        <!-- Customers Button -->
+        <ImageButton
+            android:id="@+id/button_items"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="1px"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_button"
+            android:contentDescription="Items"
+            android:scaleType="centerInside"
+            android:src="@drawable/outline_home_24"
+            app:tint="#FFFFFF" />
 
         <!-- Customers Button -->
         <ImageButton
@@ -84,24 +97,12 @@
             android:src="@drawable/baseline_people_outline_24"
             app:tint="#FFFFFF" />
 
-        <!-- Search Button -->
-        <ImageButton
-            android:id="@+id/button_search"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginRight="1px"
-            android:layout_weight="1"
-            android:background="@drawable/rounded_button"
-            android:contentDescription="Search"
-            android:scaleType="centerInside"
-            android:src="@drawable/baseline_search_24"
-            app:tint="#FFFFFF" />
-
         <!-- Purchases Button -->
         <ImageButton
             android:id="@+id/button_purchases"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_marginRight="1px"
             android:layout_weight="1"
             android:background="@drawable/rounded_button"
             android:contentDescription="Purchases"
@@ -109,6 +110,29 @@
             android:src="@drawable/baseline_playlist_add_check_24"
             app:tint="#FFFFFF" />
 
+        <!-- Card Button -->
+        <ImageButton
+            android:id="@+id/button_cart"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_button"
+            android:contentDescription="Cart"
+            android:scaleType="centerInside"
+            android:src="@drawable/outline_add_shopping_cart_24"
+            app:tint="#FFFFFF" />
+
     </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

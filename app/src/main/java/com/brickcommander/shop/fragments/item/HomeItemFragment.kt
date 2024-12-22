@@ -1,4 +1,4 @@
-package com.brickcommander.shop.fragments
+package com.brickcommander.shop.fragments.item
 
 import android.os.Bundle
 import android.util.Log
@@ -51,8 +51,12 @@ class HomeItemFragment : Fragment(R.layout.fragment_home_item), SearchView.OnQue
         super.onViewCreated(view, savedInstanceState)
         itemViewModel = (activity as MainActivity).itemViewModel
         setUpRecyclerView()
-        binding.fbAddNote.setOnClickListener { mView ->
+        binding.fbAddItem.setOnClickListener { mView ->
             mView.findNavController().navigate(R.id.action_homeFragment_to_addEditItemFragment)
+        }
+
+        binding.buttonCustomers.setOnClickListener { mView ->
+            mView.findNavController().navigate(R.id.action_homeFragment_to_homeCustomerFragment)
         }
     }
 
@@ -65,10 +69,12 @@ class HomeItemFragment : Fragment(R.layout.fragment_home_item), SearchView.OnQue
             adapter = itemAdapter
         }
 
+        startLoadingAnimation()
         activity?.let {
-            itemViewModel.getAllItems().observe(viewLifecycleOwner) { item ->
+            itemViewModel.getAll().observe(viewLifecycleOwner) { item ->
                 Log.d(TAG, "Items: $item")
                 itemAdapter.differ.submitList(item)
+                stopLoadingAnimation()
                 updateUI(item)
             }
         }
@@ -90,7 +96,7 @@ class HomeItemFragment : Fragment(R.layout.fragment_home_item), SearchView.OnQue
         inflater.inflate(R.menu.home_menu, menu)
 
         val mMenuSearch = menu.findItem(R.id.menu_search).actionView as SearchView
-        mMenuSearch.isSubmitButtonEnabled = true
+        mMenuSearch.isSubmitButtonEnabled = false
         mMenuSearch.setOnQueryTextListener(this)
     }
 
@@ -115,7 +121,7 @@ class HomeItemFragment : Fragment(R.layout.fragment_home_item), SearchView.OnQue
 
     private fun searchItem(query: String?) {
         val searchQuery = "%$query%"
-        itemViewModel.searchItem(searchQuery).observe(this) { list ->
+        itemViewModel.search(searchQuery).observe(this) { list ->
             itemAdapter.differ.submitList(list)
         }
     }

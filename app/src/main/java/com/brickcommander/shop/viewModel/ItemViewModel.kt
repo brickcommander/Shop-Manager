@@ -17,19 +17,19 @@ class ItemViewModel(
         Log.d("ItemViewModel", "ItemViewModel created")
     }
 
-    fun addItem(item: Item) = viewModelScope.launch {
+    fun add(item: Item) = viewModelScope.launch {
         itemRepository.addItem(item)
     }
 
-    fun deleteItem(item: Item) = viewModelScope.launch {
+    fun delete(item: Item) = viewModelScope.launch {
         itemRepository.deleteItem(item)
     }
 
-    fun updateItem(item: Item) = viewModelScope.launch {
+    fun update(item: Item) = viewModelScope.launch {
         itemRepository.updateItem(item)
     }
 
-    fun getAllItems() = itemRepository.getAllItems()
+    fun getAll() = itemRepository.getAllItems()
 
-    fun searchItem(query: String?) = itemRepository.searchItem(query)
+    fun search(query: String?) = itemRepository.searchItem(query)
 }

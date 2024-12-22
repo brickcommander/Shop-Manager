@@ -5,21 +5,22 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import com.brickcommander.shop.model.Customer
 import com.brickcommander.shop.model.Item
 import com.brickcommander.shop.util.Converters
 
-@Database(entities = [Item::class], version = 1, exportSchema = false)
+@Database(entities = [Item::class,Customer::class], version = 1, exportSchema = false)
 @TypeConverters(Converters::class)
-abstract class ItemDatabase : RoomDatabase() {
+abstract class AppDatabase : RoomDatabase() {
 
     abstract fun getItemDao(): ItemDao
+    abstract fun getCustomerDao(): CustomerDao
 
     companion object {
-
-        private const val DATABASE_NAME = "items_db"
+        private const val DATABASE_NAME = "SHOP_APP_BY_BRICKCOMMANDER_DB"
 
         @Volatile
-        private var instance: ItemDatabase? = null
+        private var instance: AppDatabase? = null
         private val LOCK = Any()
 
         operator fun invoke(context: Context) = instance ?: synchronized(LOCK) {
@@ -28,8 +29,8 @@ abstract class ItemDatabase : RoomDatabase() {
 
         private fun createDatabase(context: Context) = Room.databaseBuilder(
             context.applicationContext,
-            ItemDatabase::class.java,
+            AppDatabase::class.java,
             DATABASE_NAME
-        ).build()
+        ).fallbackToDestructiveMigration().build()
     }
 }

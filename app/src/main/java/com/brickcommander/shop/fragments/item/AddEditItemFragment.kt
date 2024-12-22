@@ -1,4 +1,4 @@
-package com.brickcommander.shop.fragments
+package com.brickcommander.shop.fragments.item
 
 import android.os.Bundle
 import android.util.Log
@@ -135,8 +135,8 @@ class AddEditItemFragment : Fragment(R.layout.fragment_add_edit_item) {
         if (itemTotalSpinner.selectedItemPosition != 0) currItem!!.totalQ = itemTotalSpinner.selectedItemPosition
         if (itemRemSpinner.selectedItemPosition != 0) currItem!!.remainingQ = itemRemSpinner.selectedItemPosition
 
-        if (isNewItem) itemViewModel.addItem(currItem!!)
-        else itemViewModel.updateItem(currItem!!)
+        if (isNewItem) itemViewModel.add(currItem!!)
+        else itemViewModel.update(currItem!!)
 
         Snackbar.make(
             view,

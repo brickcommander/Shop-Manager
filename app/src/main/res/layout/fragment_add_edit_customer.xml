@@ -22,14 +22,15 @@
                 android:id="@+id/customerNameSpinner"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.3" />
+                android:layout_weight="0.4" />
 
             <EditText
                 android:id="@+id/nameEditText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.7"
-                android:gravity="center" />
+                android:layout_weight="0.6"
+                android:gravity="center"
+                android:inputType="textCapWords"/>
         </TableRow>
 
         <TableRow>
@@ -71,18 +72,24 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:gravity="center"
+                android:inputType="textCapWords" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:text="Due Amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <EditText
+                android:id="@+id/dueAmountEditText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:inputType="number"
                 android:gravity="center" />
         </TableRow>
 
     </TableLayout>
-
-
-    <Button
-        android:id="@+id/saveButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="Save"
-        android:layout_gravity="center_horizontal"  />
 
 </LinearLayout>

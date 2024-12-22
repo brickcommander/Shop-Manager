@@ -8,12 +8,12 @@
     <!-- Include the item layout for item details -->
     <include
         layout="@layout/customer_layout"
-        android:id="@+id/itemDetailsLayout"
+        android:id="@+id/customerDetailsLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <!-- ListView for Recent Customers -->
-    <TextView
+    <!--<TextView
         android:id="@+id/titleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -21,13 +21,13 @@
         android:textSize="18sp"
         android:paddingTop="16dp"
         android:paddingBottom="8dp"
-        android:textStyle="bold" />
+        android:textStyle="bold" />-->
 
-    <ListView
+    <!--<ListView
         android:id="@+id/recentListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:divider="#D3D3D3"
-        android:dividerHeight="1dp" />
+        android:dividerHeight="1dp" />-->
 
 </LinearLayout>

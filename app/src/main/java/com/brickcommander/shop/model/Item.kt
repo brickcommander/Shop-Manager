@@ -19,6 +19,7 @@ data class Item(
 ) : Parcelable {
 
     var createdDate: LocalDateTime? = LocalDateTime.now()
+
     @PrimaryKey(autoGenerate = true)
     var id: Long = System.currentTimeMillis()
 

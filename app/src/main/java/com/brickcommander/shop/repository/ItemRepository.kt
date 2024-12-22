@@ -1,10 +1,10 @@
 package com.brickcommander.shop.repository
 
-import com.brickcommander.shop.db.ItemDatabase
+import com.brickcommander.shop.db.AppDatabase
 import com.brickcommander.shop.model.Item
 import com.brickcommander.shop.util.coroutineAspect
 
-class ItemRepository(private val db: ItemDatabase) {
+class ItemRepository(private val db: AppDatabase) {
     fun addItem(item: Item) = coroutineAspect {
         db.getItemDao().addItem(item)
     }

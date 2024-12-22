@@ -1,4 +1,4 @@
-package com.brickcommander.shop.fragments
+package com.brickcommander.shop.fragments.customer
 
 import android.app.AlertDialog
 import android.os.Bundle
@@ -14,22 +14,22 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.brickcommander.shop.MainActivity
 import com.brickcommander.shop.R
-import com.brickcommander.shop.databinding.FragmentDetailsItemBinding
-import com.brickcommander.shop.model.Item
+import com.brickcommander.shop.databinding.FragmentDetailsCustomerBinding
+import com.brickcommander.shop.model.Customer
 import com.brickcommander.shop.shared.CONSTANTS
 import com.brickcommander.shop.util.toast
-import com.brickcommander.shop.viewModel.ItemViewModel
+import com.brickcommander.shop.viewModel.CustomerViewModel
 
-class DetailItemFragment : Fragment(R.layout.fragment_details_item) {
+class DetailCustomerFragment : Fragment(R.layout.fragment_details_customer) {
     companion object {
-        const val TAG = "DetailItemFragment"
+        const val TAG = "DetailCustomerFragment"
     }
 
-    private var _binding: FragmentDetailsItemBinding? = null
+    private var _binding: FragmentDetailsCustomerBinding? = null
     private val binding get() = _binding!!
 
-    private var currItem: Item? = null
-    private lateinit var itemViewModel: ItemViewModel
+    private var currCustomer: Customer? = null
+    private lateinit var customerViewModel: CustomerViewModel
     private lateinit var mView: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,7 +41,7 @@ class DetailItemFragment : Fragment(R.layout.fragment_details_item) {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentDetailsItemBinding.inflate(
+        _binding = FragmentDetailsCustomerBinding.inflate(
             inflater,
             container,
             false
@@ -54,40 +54,44 @@ class DetailItemFragment : Fragment(R.layout.fragment_details_item) {
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             Log.d(TAG, "onBackPressedDispatcher: ")
-            view.findNavController().popBackStack(R.id.homeFragment, false) // Pop up to homeFragment
+            view.findNavController().popBackStack(R.id.homeCustomerFragment, false) // Pop up to homeFragment
         }
 
-        currItem = arguments?.getParcelable("item")
-        Log.d(TAG, "onViewCreated: $currItem")
-        itemViewModel = (activity as MainActivity).itemViewModel
+        currCustomer = arguments?.getParcelable("customer")
+        Log.d(TAG, "onViewCreated: $currCustomer")
+        customerViewModel = (activity as MainActivity).customerViewModel
         mView = view
 
-        if(currItem == null) {
+        if(currCustomer == null) {
             activity?.toast("Error Occured!")
-            view.findNavController().navigate(R.id.action_detailFragment_to_homeFragment)
+            view.findNavController().navigate(R.id.action_detailCustomerFragment_to_homeCustomerFragment)
         }
 
-        binding.itemDetailsLayout2.nameId.text = currItem!!.name
-        binding.itemDetailsLayout2.buyingPriceId.text = currItem!!.buyingPrice.toString() + " Rs"
-        binding.itemDetailsLayout2.sellingPriceId.text = currItem!!.sellingPrice.toString() + " Rs"
-        binding.itemDetailsLayout2.totalCountId.text = currItem!!.totalCount.toString() + CONSTANTS.QUANTITY[currItem!!.totalQ]
-        binding.itemDetailsLayout2.remainingCountId.text = currItem!!.remainingCount.toString() + CONSTANTS.QUANTITY[currItem!!.remainingQ]
+        if(currCustomer!!.customerNameQ > 0) {
+            binding.customerDetailsLayout.customerNameId.text = CONSTANTS.NAME[currCustomer!!.customerNameQ] + " " + currCustomer!!.name
+        } else {
+            binding.customerDetailsLayout.customerNameId.text = currCustomer!!.name
+        }
+        binding.customerDetailsLayout.mobileId.text = currCustomer!!.mobile
+        binding.customerDetailsLayout.emailId.text = currCustomer!!.email
+        binding.customerDetailsLayout.addressId.text = currCustomer!!.address
+        binding.customerDetailsLayout.dueAmountId.text = currCustomer!!.dueAmount.toString()
     }
 
     private fun editItem(view: View) {
         val bundle = Bundle().apply {
-            putParcelable("item", currItem)
+            putParcelable("customer", currCustomer)
         }
-        view.findNavController().navigate(R.id.action_detailFragment_to_addEditItemFragment, bundle)
+        view.findNavController().navigate(R.id.action_detailCustomerFragment_to_addEditCustomerFragment, bundle)
     }
 
     private fun deleteItem() {
         AlertDialog.Builder(activity).apply {
-            setTitle("Delete ${currItem?.name}?")
+            setTitle("Delete ${currCustomer?.name}?")
             setPositiveButton("DELETE") { _, _ ->
-                currItem?.let { itemViewModel.deleteItem(it) }
+                currCustomer?.let { customerViewModel.delete(it) }
                 view?.findNavController()?.navigate(
-                    R.id.action_detailFragment_to_homeFragment
+                    R.id.action_detailCustomerFragment_to_homeCustomerFragment
                 )
             }
             setNegativeButton("CANCEL", null)

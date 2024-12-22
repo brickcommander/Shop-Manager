@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.brickcommander.shop.fragments.HomeItemFragment"
+        android:name="com.brickcommander.shop.fragments.item.HomeItemFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home_item" >
         <action
@@ -16,15 +16,19 @@
         <action
             android:id="@+id/action_homeFragment_to_addEditItemFragment"
             app:destination="@id/addEditItemFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_homeCustomerFragment"
+            app:destination="@id/homeCustomerFragment"
+            app:popUpTo="@id/nav_graph.xml" />
     </fragment>
     <fragment
         android:id="@+id/addEditItemFragment"
-        android:name="com.brickcommander.shop.fragments.AddEditItemFragment"
+        android:name="com.brickcommander.shop.fragments.item.AddEditItemFragment"
         android:label="AddEditItemFragment" >
         <action
             android:id="@+id/action_addEditItemFragment_to_homeFragment"
             app:destination="@id/homeFragment"
-            app:popUpTo="@id/homeFragment"
+            app:popUpTo="@id/nav_graph.xml"
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_addEditItemFragment_to_detailFragment"
@@ -36,7 +40,7 @@
     </fragment>
     <fragment
         android:id="@+id/detailFragment"
-        android:name="com.brickcommander.shop.fragments.DetailItemFragment"
+        android:name="com.brickcommander.shop.fragments.item.DetailItemFragment"
         android:label="DetailFragment" >
         <action
             android:id="@+id/action_detailFragment_to_addEditItemFragment"
@@ -44,11 +48,60 @@
         <action
             android:id="@+id/action_detailFragment_to_homeFragment"
             app:destination="@id/homeFragment"
-            app:popUpTo="@id/homeFragment"
+            app:popUpTo="@id/nav_graph.xml"
             app:popUpToInclusive="true" />
         <argument
             android:name="item"
             app:argType="com.brickcommander.shop.model.Item"
             app:nullable="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/addEditCustomerFragment"
+        android:name="com.brickcommander.shop.fragments.customer.AddEditCustomerFragment"
+        android:label="AddEditCustomerFragment" >
+        <action
+            android:id="@+id/action_addEditCustomerFragment_to_detailCustomerFragment"
+            app:destination="@id/detailCustomerFragment" />
+        <action
+            android:id="@+id/action_addEditCustomerFragment_to_homeCustomerFragment"
+            app:destination="@id/homeCustomerFragment"
+            app:popUpTo="@id/nav_graph.xml"
+            app:popUpToInclusive="true" />
+        <argument
+            android:name="customer"
+            app:argType="com.brickcommander.shop.model.Customer"
+            app:nullable="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailCustomerFragment"
+        android:name="com.brickcommander.shop.fragments.customer.DetailCustomerFragment"
+        android:label="DetailCustomerFragment" >
+        <action
+            android:id="@+id/action_detailCustomerFragment_to_addEditCustomerFragment"
+            app:destination="@id/addEditCustomerFragment" />
+        <action
+            android:id="@+id/action_detailCustomerFragment_to_homeCustomerFragment"
+            app:destination="@id/homeCustomerFragment"
+            app:popUpTo="@id/nav_graph.xml"
+            app:popUpToInclusive="true" />
+        <argument
+            android:name="customer"
+            app:argType="com.brickcommander.shop.model.Customer"
+            app:nullable="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/homeCustomerFragment"
+        android:name="com.brickcommander.shop.fragments.customer.HomeCustomerFragment"
+        android:label="HomeCustomerFragment" >
+        <action
+            android:id="@+id/action_homeCustomerFragment_to_addEditCustomerFragment"
+            app:destination="@id/addEditCustomerFragment" />
+        <action
+            android:id="@+id/action_homeCustomerFragment_to_detailCustomerFragment"
+            app:destination="@id/detailCustomerFragment" />
+        <action
+            android:id="@+id/action_homeCustomerFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/nav_graph.xml" />
     </fragment>
 </navigation>
