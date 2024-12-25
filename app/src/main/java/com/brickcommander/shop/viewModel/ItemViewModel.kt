@@ -18,18 +18,18 @@ class ItemViewModel(
     }
 
     fun add(item: Item) = viewModelScope.launch {
-        itemRepository.addItem(item)
+        itemRepository.add(item)
     }
 
     fun delete(item: Item) = viewModelScope.launch {
-        itemRepository.deleteItem(item)
+        itemRepository.delete(item)
     }
 
     fun update(item: Item) = viewModelScope.launch {
-        itemRepository.updateItem(item)
+        itemRepository.update(item)
     }
 
-    fun getAll() = itemRepository.getAllItems()
+    fun getAll() = itemRepository.getAll()
 
-    fun search(query: String?) = itemRepository.searchItem(query)
+    fun search(query: String?) = itemRepository.search(query)
 }

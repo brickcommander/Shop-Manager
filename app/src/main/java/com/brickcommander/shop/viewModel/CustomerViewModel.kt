@@ -18,18 +18,18 @@ class CustomerViewModel(
     }
 
     fun add(customer: Customer) = viewModelScope.launch {
-        customerRepository.addCustomer(customer)
+        customerRepository.add(customer)
     }
 
     fun delete(customer: Customer) = viewModelScope.launch {
-        customerRepository.deleteCustomer(customer)
+        customerRepository.delete(customer)
     }
 
     fun update(customer: Customer) = viewModelScope.launch {
-        customerRepository.updateCustomer(customer)
+        customerRepository.update(customer)
     }
 
-    fun getAll() = customerRepository.getAllCustomers()
+    fun getAll() = customerRepository.getAll()
 
-    fun search(query: String?) = customerRepository.searchCustomer(query)
+    fun search(query: String?) = customerRepository.search(query)
 }
