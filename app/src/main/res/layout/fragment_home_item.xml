@@ -43,7 +43,7 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:padding="50dp"
-            android:text="No Items available!"
+            android:text="Empty !"
             android:textColor="@color/black"
             android:textSize="18sp" />
     </androidx.cardview.widget.CardView>

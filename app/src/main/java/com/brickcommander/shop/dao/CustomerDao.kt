@@ -1,4 +1,4 @@
-package com.brickcommander.shop.db
+package com.brickcommander.shop.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao

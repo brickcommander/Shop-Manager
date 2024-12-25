@@ -60,6 +60,8 @@ class HomeItemFragment : Fragment(R.layout.fragment_home_item), SearchView.OnQue
         itemViewModel = (activity as MainActivity).itemViewModel
         setUpRecyclerView()
 
+        (requireActivity() as MainActivity).supportActionBar?.title = "SHOP"
+
         binding.fbAddItem.setOnClickListener { mView ->
             mView.findNavController().navigate(R.id.action_homeFragment_to_addEditItemFragment)
         }
@@ -91,9 +93,11 @@ class HomeItemFragment : Fragment(R.layout.fragment_home_item), SearchView.OnQue
         if (note.isNotEmpty()) {
             binding.recyclerView.visibility = View.VISIBLE
             binding.tvNoNotesAvailable.visibility = View.GONE
+            binding.cardView.visibility = View.GONE
         } else {
             binding.recyclerView.visibility = View.GONE
             binding.tvNoNotesAvailable.visibility = View.VISIBLE
+            binding.cardView.visibility = View.VISIBLE
         }
     }
 

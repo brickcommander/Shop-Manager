@@ -59,6 +59,8 @@ class HomeCustomerFragment : Fragment(R.layout.fragment_home_item), SearchView.O
         customerViewModel = (activity as MainActivity).customerViewModel
         setUpRecyclerView()
 
+        (requireActivity() as MainActivity).supportActionBar?.title = "Customers"
+
         binding.fbAddItem.setOnClickListener { mView ->
             mView.findNavController().navigate(R.id.action_homeCustomerFragment_to_addEditCustomerFragment)
         }
@@ -89,9 +91,11 @@ class HomeCustomerFragment : Fragment(R.layout.fragment_home_item), SearchView.O
         if (note.isNotEmpty()) {
             binding.recyclerView.visibility = View.VISIBLE
             binding.tvNoNotesAvailable.visibility = View.GONE
+            binding.cardView.visibility = View.GONE
         } else {
             binding.recyclerView.visibility = View.GONE
             binding.tvNoNotesAvailable.visibility = View.VISIBLE
+            binding.cardView.visibility = View.VISIBLE
         }
     }
 
