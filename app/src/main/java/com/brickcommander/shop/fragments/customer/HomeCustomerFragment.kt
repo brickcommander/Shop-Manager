@@ -13,6 +13,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.brickcommander.shop.MainActivity
 import com.brickcommander.shop.R
+import com.brickcommander.shop.adapter.BaseAdapter
 import com.brickcommander.shop.adapter.CustomerAdapter
 import com.brickcommander.shop.viewModel.CustomerViewModel
 import com.brickcommander.shop.databinding.FragmentHomeItemBinding
@@ -32,7 +33,7 @@ class HomeCustomerFragment : Fragment(R.layout.fragment_home_item), SearchView.O
     private val binding get() = _binding!!
 
     private lateinit var customerViewModel: CustomerViewModel
-    private lateinit var customerAdapter: CustomerAdapter
+    private lateinit var customerAdapter: BaseAdapter<Customer, CustomerAdapter.CustomerViewHolder>
 
     private var animationJob: Job? = null
 
@@ -78,11 +79,13 @@ class HomeCustomerFragment : Fragment(R.layout.fragment_home_item), SearchView.O
             adapter = customerAdapter
         }
 
+
         activity?.let {
             customerViewModel.getAll().observe(viewLifecycleOwner) { customer ->
                 Log.d(TAG, "Customers: $customer")
                 customerAdapter.differ.submitList(customer)
                 updateUI(customer)
+                Log.d(TAG, "setUpRecyclerView: ${customerAdapter.itemCount}")
             }
         }
     }

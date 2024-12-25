@@ -11,22 +11,9 @@ import com.brickcommander.shop.R
 import com.brickcommander.shop.databinding.ItemLayoutListBinding
 import com.brickcommander.shop.model.Item
 
-class ItemAdapter : RecyclerView.Adapter<ItemAdapter.ItemViewHolder>() {
+class ItemAdapter : BaseAdapter<Item, ItemAdapter.ItemViewHolder>() {
     class ItemViewHolder(val itemBinding: ItemLayoutListBinding) :
         RecyclerView.ViewHolder(itemBinding.root)
-
-    private val differCallback =
-        object : DiffUtil.ItemCallback<Item>() {
-            override fun areItemsTheSame(oldItem: Item, newItem: Item): Boolean {
-                return oldItem.itemId == newItem.itemId
-            }
-
-            override fun areContentsTheSame(oldItem: Item, newItem: Item): Boolean {
-                return oldItem == newItem
-            }
-        }
-
-    val differ = AsyncListDiffer(this, differCallback)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         return ItemViewHolder(
@@ -54,5 +41,7 @@ class ItemAdapter : RecyclerView.Adapter<ItemAdapter.ItemViewHolder>() {
         }
     }
 
-    override fun getItemCount() = differ.currentList.size
+    override fun isSameItem(oldItem: Item, newItem: Item): Boolean {
+        return oldItem.itemId == newItem.itemId
+    }
 }

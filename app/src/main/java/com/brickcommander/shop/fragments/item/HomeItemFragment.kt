@@ -13,6 +13,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.brickcommander.shop.MainActivity
 import com.brickcommander.shop.R
+import com.brickcommander.shop.adapter.BaseAdapter
 import com.brickcommander.shop.adapter.ItemAdapter
 import com.brickcommander.shop.model.Item
 import com.brickcommander.shop.viewModel.ItemViewModel
@@ -22,7 +23,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.lang.Thread.sleep
 
 class HomeItemFragment : Fragment(R.layout.fragment_home_item), SearchView.OnQueryTextListener {
     companion object {
@@ -33,7 +33,7 @@ class HomeItemFragment : Fragment(R.layout.fragment_home_item), SearchView.OnQue
     private val binding get() = _binding!!
 
     private lateinit var itemViewModel: ItemViewModel
-    private lateinit var itemAdapter: ItemAdapter
+    private lateinit var itemAdapter: BaseAdapter<Item, ItemAdapter.ItemViewHolder>
 
     private var animationJob: Job? = null
 
@@ -85,8 +85,10 @@ class HomeItemFragment : Fragment(R.layout.fragment_home_item), SearchView.OnQue
                 Log.d(TAG, "Items: $item")
                 itemAdapter.differ.submitList(item)
                 updateUI(item)
+                Log.d(TAG, "setUpRecyclerView: ${itemAdapter.itemCount}")
             }
         }
+
     }
 
     private fun updateUI(note: List<Item>) {
