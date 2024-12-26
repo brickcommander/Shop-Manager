@@ -18,10 +18,9 @@ import com.brickcommander.shop.MainActivity
 import com.brickcommander.shop.R
 import com.brickcommander.shop.databinding.FragmentAddEditCustomerBinding
 import com.brickcommander.shop.model.Customer
-import com.brickcommander.shop.model.Item
 import com.brickcommander.shop.shared.CONSTANTS
 import com.brickcommander.shop.util.toast
-import com.brickcommander.shop.viewModel.CustomerViewModel
+import com.brickcommander.shop.viewModel.MyViewModel
 import com.google.android.material.snackbar.Snackbar
 
 class AddEditCustomerFragment : Fragment(R.layout.fragment_add_edit_customer) {
@@ -33,7 +32,7 @@ class AddEditCustomerFragment : Fragment(R.layout.fragment_add_edit_customer) {
     private val binding get() = _binding!!
 
     private var currCustomer: Customer? = null
-    private lateinit var customerViewModel: CustomerViewModel
+    private lateinit var customerViewModel: MyViewModel<Customer>
     private lateinit var mView: View
 
     private lateinit var nameEditText: EditText

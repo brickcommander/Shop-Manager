@@ -16,15 +16,15 @@ import com.brickcommander.shop.R
 import com.brickcommander.shop.adapter.BaseAdapter
 import com.brickcommander.shop.adapter.ItemAdapter
 import com.brickcommander.shop.model.Item
-import com.brickcommander.shop.viewModel.ItemViewModel
 import com.brickcommander.shop.databinding.FragmentHomeItemBinding
+import com.brickcommander.shop.viewModel.MyViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class HomeItemFragment : Fragment(R.layout.fragment_home_item), SearchView.OnQueryTextListener {
+class                              HomeItemFragment : Fragment(R.layout.fragment_home_item), SearchView.OnQueryTextListener {
     companion object {
         const val TAG = "HomeItemFragment"
     }
@@ -32,8 +32,8 @@ class HomeItemFragment : Fragment(R.layout.fragment_home_item), SearchView.OnQue
     private var _binding: FragmentHomeItemBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var itemViewModel: ItemViewModel
-    private lateinit var itemAdapter: BaseAdapter<Item, ItemAdapter.ItemViewHolder>
+    private lateinit var myViewModel: MyViewModel<Item>
+    private lateinit var myAdapter: BaseAdapter<Item, ItemAdapter.ItemViewHolder>
 
     private var animationJob: Job? = null
 
@@ -57,7 +57,7 @@ class HomeItemFragment : Fragment(R.layout.fragment_home_item), SearchView.OnQue
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        itemViewModel = (activity as MainActivity).itemViewModel
+        myViewModel = (activity as MainActivity).itemViewModel
         setUpRecyclerView()
 
         (requireActivity() as MainActivity).supportActionBar?.title = "SHOP"
@@ -73,19 +73,20 @@ class HomeItemFragment : Fragment(R.layout.fragment_home_item), SearchView.OnQue
 
 
     private fun setUpRecyclerView() {
-        itemAdapter = ItemAdapter()
+        myAdapter = ItemAdapter()
 
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
-            adapter = itemAdapter
+            adapter = myAdapter
         }
 
+
         activity?.let {
-            itemViewModel.getAll().observe(viewLifecycleOwner) { item ->
+            myViewModel.getAll().observe(viewLifecycleOwner) { item ->
                 Log.d(TAG, "Items: $item")
-                itemAdapter.differ.submitList(item)
+                myAdapter.differ.submitList(item)
                 updateUI(item)
-                Log.d(TAG, "setUpRecyclerView: ${itemAdapter.itemCount}")
+                Log.d(TAG, "setUpRecyclerView: ${myAdapter.itemCount}")
             }
         }
 
@@ -134,8 +135,8 @@ class HomeItemFragment : Fragment(R.layout.fragment_home_item), SearchView.OnQue
 
     private fun searchItem(query: String?) {
         val searchQuery = "%$query%"
-        itemViewModel.search(searchQuery).observe(this) { list ->
-            itemAdapter.differ.submitList(list)
+        myViewModel.search(searchQuery).observe(this) { list ->
+            myAdapter.differ.submitList(list)
         }
     }
 

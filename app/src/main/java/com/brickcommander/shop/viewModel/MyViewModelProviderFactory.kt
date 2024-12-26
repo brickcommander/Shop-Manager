@@ -4,17 +4,17 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.brickcommander.shop.repository.CustomerRepository
+import com.brickcommander.shop.repository.Repository
 
-class CustomerViewModelProviderFactory(
+class MyViewModelProviderFactory<X>(
     val app: Application,
-    private val customerRepository: CustomerRepository
+    private val repository: Repository<X>
 ) : ViewModelProvider.Factory {
     init {
-        Log.d("CustomerViewModelProviderFactory", "CustomerViewModelProviderFactory created")
+        Log.d("MyViewModelProviderFactory", "MyViewModelProviderFactory created")
     }
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return CustomerViewModel(app, customerRepository) as T
+        return MyViewModel(app, repository) as T
     }
 }

@@ -18,7 +18,7 @@ import com.brickcommander.shop.databinding.FragmentDetailsItemBinding
 import com.brickcommander.shop.model.Item
 import com.brickcommander.shop.shared.CONSTANTS
 import com.brickcommander.shop.util.toast
-import com.brickcommander.shop.viewModel.ItemViewModel
+import com.brickcommander.shop.viewModel.MyViewModel
 
 class DetailItemFragment : Fragment(R.layout.fragment_details_item) {
     companion object {
@@ -29,7 +29,7 @@ class DetailItemFragment : Fragment(R.layout.fragment_details_item) {
     private val binding get() = _binding!!
 
     private var currItem: Item? = null
-    private lateinit var itemViewModel: ItemViewModel
+    private lateinit var itemViewModel: MyViewModel<Item>
     private lateinit var mView: View
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -20,7 +20,7 @@ import com.brickcommander.shop.databinding.FragmentAddEditItemBinding
 import com.brickcommander.shop.model.Item
 import com.brickcommander.shop.shared.CONSTANTS
 import com.brickcommander.shop.util.toast
-import com.brickcommander.shop.viewModel.ItemViewModel
+import com.brickcommander.shop.viewModel.MyViewModel
 import com.google.android.material.snackbar.Snackbar
 
 class AddEditItemFragment : Fragment(R.layout.fragment_add_edit_item) {
@@ -32,7 +32,7 @@ class AddEditItemFragment : Fragment(R.layout.fragment_add_edit_item) {
     private val binding get() = _binding!!
 
     private var currItem: Item? = null
-    private lateinit var itemViewModel: ItemViewModel
+    private lateinit var itemViewModel: MyViewModel<Item>
     private lateinit var mView: View
 
     private lateinit var nameEditText: EditText

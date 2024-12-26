@@ -18,7 +18,7 @@ import com.brickcommander.shop.databinding.FragmentDetailsCustomerBinding
 import com.brickcommander.shop.model.Customer
 import com.brickcommander.shop.shared.CONSTANTS
 import com.brickcommander.shop.util.toast
-import com.brickcommander.shop.viewModel.CustomerViewModel
+import com.brickcommander.shop.viewModel.MyViewModel
 
 class DetailCustomerFragment : Fragment(R.layout.fragment_details_customer) {
     companion object {
@@ -29,7 +29,7 @@ class DetailCustomerFragment : Fragment(R.layout.fragment_details_customer) {
     private val binding get() = _binding!!
 
     private var currCustomer: Customer? = null
-    private lateinit var customerViewModel: CustomerViewModel
+    private lateinit var customerViewModel: MyViewModel<Customer>
     private lateinit var mView: View
 
     override fun onCreate(savedInstanceState: Bundle?) {

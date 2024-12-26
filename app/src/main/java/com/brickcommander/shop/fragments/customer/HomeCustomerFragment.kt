@@ -15,9 +15,9 @@ import com.brickcommander.shop.MainActivity
 import com.brickcommander.shop.R
 import com.brickcommander.shop.adapter.BaseAdapter
 import com.brickcommander.shop.adapter.CustomerAdapter
-import com.brickcommander.shop.viewModel.CustomerViewModel
-import com.brickcommander.shop.databinding.FragmentHomeItemBinding
 import com.brickcommander.shop.model.Customer
+import com.brickcommander.shop.databinding.FragmentHomeItemBinding
+import com.brickcommander.shop.viewModel.MyViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -32,8 +32,8 @@ class HomeCustomerFragment : Fragment(R.layout.fragment_home_item), SearchView.O
     private var _binding: FragmentHomeItemBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var customerViewModel: CustomerViewModel
-    private lateinit var customerAdapter: BaseAdapter<Customer, CustomerAdapter.CustomerViewHolder>
+    private lateinit var myViewModel: MyViewModel<Customer>
+    private lateinit var myAdapter: BaseAdapter<Customer, CustomerAdapter.CustomerViewHolder>
 
     private var animationJob: Job? = null
 
@@ -57,7 +57,7 @@ class HomeCustomerFragment : Fragment(R.layout.fragment_home_item), SearchView.O
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        customerViewModel = (activity as MainActivity).customerViewModel
+        myViewModel = (activity as MainActivity).customerViewModel
         setUpRecyclerView()
 
         (requireActivity() as MainActivity).supportActionBar?.title = "Customers"
@@ -71,23 +71,25 @@ class HomeCustomerFragment : Fragment(R.layout.fragment_home_item), SearchView.O
         }
     }
 
+
     private fun setUpRecyclerView() {
-        customerAdapter = CustomerAdapter()
+        myAdapter = CustomerAdapter()
 
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
-            adapter = customerAdapter
+            adapter = myAdapter
         }
 
 
         activity?.let {
-            customerViewModel.getAll().observe(viewLifecycleOwner) { customer ->
+            myViewModel.getAll().observe(viewLifecycleOwner) { customer ->
                 Log.d(TAG, "Customers: $customer")
-                customerAdapter.differ.submitList(customer)
+                myAdapter.differ.submitList(customer)
                 updateUI(customer)
-                Log.d(TAG, "setUpRecyclerView: ${customerAdapter.itemCount}")
+                Log.d(TAG, "setUpRecyclerView: ${myAdapter.itemCount}")
             }
         }
+
     }
 
     private fun updateUI(note: List<Customer>) {
@@ -133,8 +135,8 @@ class HomeCustomerFragment : Fragment(R.layout.fragment_home_item), SearchView.O
 
     private fun searchItem(query: String?) {
         val searchQuery = "%$query%"
-        customerViewModel.search(searchQuery).observe(this) { list ->
-            customerAdapter.differ.submitList(list)
+        myViewModel.search(searchQuery).observe(this) { list ->
+            myAdapter.differ.submitList(list)
         }
     }
 
