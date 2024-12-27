@@ -24,7 +24,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class                              HomeItemFragment : Fragment(R.layout.fragment_home_item), SearchView.OnQueryTextListener {
+class HomeItemFragment : Fragment(R.layout.fragment_home_item), SearchView.OnQueryTextListener {
     companion object {
         const val TAG = "HomeItemFragment"
     }
