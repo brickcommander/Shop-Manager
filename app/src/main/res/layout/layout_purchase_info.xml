@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Name"
+        android:text="Customer Name"
         android:textSize="16sp"
         android:textStyle="bold" />
 
@@ -26,7 +26,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Total Amount  "
+                android:text="Amount  "
                 android:textSize="16sp" />
 
             <TextView
@@ -35,42 +35,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="TotalAmount"
-                android:textStyle="bold"
-                android:textSize="16sp" />
-        </TableRow>
-
-        <TableRow>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Paid Amount  "
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/paidAmountId"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="PaidAmount"
-                android:textStyle="bold"
-                android:textSize="16sp" />
-        </TableRow>
-
-        <TableRow>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Due Amount  "
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/dueAmountId"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="DueAmount"
                 android:textStyle="bold"
                 android:textSize="16sp" />
         </TableRow>
@@ -89,6 +53,24 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Total Items"
+                android:textStyle="bold"
+                android:textSize="16sp" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Date  "
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/purchaseDateId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Purchase Date"
                 android:textStyle="bold"
                 android:textSize="16sp" />
         </TableRow>

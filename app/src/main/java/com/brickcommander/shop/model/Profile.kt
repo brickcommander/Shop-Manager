@@ -17,7 +17,7 @@ data class Profile(
     var gstin: String = ""
 ) : Parcelable {
 
-    var createdDate: LocalDateTime? = LocalDateTime.now()
+    var createdDate: Long = 0
 
     @PrimaryKey(autoGenerate = true)
     var shopId: Long = System.currentTimeMillis()

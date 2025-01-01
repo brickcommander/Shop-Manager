@@ -51,7 +51,11 @@ dependencies {
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
     implementation("androidx.room:room-runtime:2.5.0")
+    implementation(libs.protolite.well.known.types)
+    implementation(libs.androidx.lifecycle.viewmodel.android)
     kapt("androidx.room:room-compiler:2.5.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
+    implementation("com.google.android.material:material:1.9.0") // Use the latest stable version
     implementation(libs.androidx.room.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

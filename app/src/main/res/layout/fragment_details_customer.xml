@@ -7,7 +7,7 @@
 
     <!-- Include the item layout for item details -->
     <include
-        layout="@layout/customer_layout"
+        layout="@layout/layout_customer_info"
         android:id="@+id/customerDetailsLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

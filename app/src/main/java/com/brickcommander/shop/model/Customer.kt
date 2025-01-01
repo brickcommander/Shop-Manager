@@ -16,13 +16,14 @@ data class Customer(
     var customerNameQ: Int = 0
 ) : Parcelable {
 
-    var createdDate: LocalDateTime? = LocalDateTime.now()
+    var createdDate: Long = 0
     var dueAmount: Double = 0.0
+    var totalAmount: Double = 0.0
 
     @PrimaryKey(autoGenerate = true)
-    var customerId: Long = System.currentTimeMillis()
+    var customerId: Long = 0
 
     override fun toString(): String {
-        return "Customer(customerId=$customerId, name=$name, mobile=$mobile, email=$email, address=$address, customerNameQ=$customerNameQ, dueAmount=$dueAmount)"
+        return "Customer(customerId=$customerId, name=$name, mobile=$mobile, email=$email, address=$address, customerNameQ=$customerNameQ, dueAmount=$dueAmount, totalAmount=$totalAmount)"
     }
 }

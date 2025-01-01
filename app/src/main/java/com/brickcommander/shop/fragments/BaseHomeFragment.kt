@@ -11,15 +11,15 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.brickcommander.shop.R
 import com.brickcommander.shop.adapter.BaseAdapter
-import com.brickcommander.shop.databinding.FragmentHomeItemBinding
+import com.brickcommander.shop.databinding.FragmentHomeBinding
 import com.brickcommander.shop.viewModel.MyViewModel
 
-abstract class BaseHomeFragment<T : Any, VH : RecyclerView.ViewHolder> : Fragment(R.layout.fragment_home_item), SearchView.OnQueryTextListener {
+abstract class BaseHomeFragment<T : Any, VH : RecyclerView.ViewHolder> : Fragment(R.layout.fragment_home), SearchView.OnQueryTextListener {
     companion object {
         const val TAG = "BaseHomeFragment"
     }
 
-    private var _binding: FragmentHomeItemBinding? = null
+    private var _binding: FragmentHomeBinding? = null
     protected val binding get() = _binding!!
 
     protected lateinit var myViewModel: MyViewModel<T>
@@ -35,7 +35,7 @@ abstract class BaseHomeFragment<T : Any, VH : RecyclerView.ViewHolder> : Fragmen
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentHomeItemBinding.inflate(
+        _binding = FragmentHomeBinding.inflate(
             inflater,
             container,
             false

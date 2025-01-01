@@ -7,26 +7,24 @@ import android.view.ViewGroup
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.brickcommander.shop.R
-import com.brickcommander.shop.databinding.CustomerLayoutListBinding
+import com.brickcommander.shop.databinding.LayoutCustomerListBinding
 import com.brickcommander.shop.model.Customer
 import com.brickcommander.shop.shared.CONSTANTS
 
 class CustomerAdapter : BaseAdapter<Customer, CustomerAdapter.CustomerViewHolder>() {
 
-    class CustomerViewHolder(val customerBinding: CustomerLayoutListBinding) : RecyclerView.ViewHolder(customerBinding.root)
+    class CustomerViewHolder(val customerBinding: LayoutCustomerListBinding) : RecyclerView.ViewHolder(customerBinding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomerViewHolder {
         return CustomerViewHolder(
-            CustomerLayoutListBinding.inflate(
+            LayoutCustomerListBinding.inflate(
                 LayoutInflater.from(parent.context), parent, false
             )
         )
     }
 
     override fun onBindViewHolder(holder: CustomerViewHolder, position: Int) {
-        Log.d("CustomerAdapter", "onBindViewHolder: $position")
         val currentCustomer = differ.currentList[position]
-        Log.d("CustomerAdapter", "**onBindViewHolder: $position")
 
         if(currentCustomer.customerNameQ > 0) {
             holder.customerBinding.nameId.text = CONSTANTS.NAME[currentCustomer.customerNameQ] + " " + currentCustomer.name

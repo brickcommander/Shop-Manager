@@ -111,10 +111,10 @@ class AddEditCustomerFragment : Fragment(R.layout.fragment_add_edit_customer) {
             currCustomer = Customer()
         }
 
-        if (nameEditText.text.toString() != "") currCustomer!!.name = nameEditText.text.toString()
-        if (mobileEditText.text.toString() != "") currCustomer!!.mobile = mobileEditText.text.toString()
-        if (emailEditText.text.toString() != "") currCustomer!!.email = emailEditText.text.toString()
-        if (addressEditText.text.toString() != "") currCustomer!!.address = addressEditText.text.toString()
+        if (nameEditText.text.toString() != "") currCustomer!!.name = nameEditText.text.toString().trim()
+        if (mobileEditText.text.toString() != "") currCustomer!!.mobile = mobileEditText.text.toString().trim()
+        if (emailEditText.text.toString() != "") currCustomer!!.email = emailEditText.text.toString().trim()
+        if (addressEditText.text.toString() != "") currCustomer!!.address = addressEditText.text.toString().trim()
         if (dueAmountEditText.text.toString() != "") currCustomer!!.dueAmount = dueAmountEditText.text.toString().trim().toDouble()
         if (customerNameSpinner.selectedItemPosition != 0) currCustomer!!.customerNameQ = customerNameSpinner.selectedItemPosition
 

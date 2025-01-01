@@ -127,11 +127,11 @@ class AddEditItemFragment : Fragment(R.layout.fragment_add_edit_item) {
             currItem = Item()
         }
 
-        if (nameEditText.text.toString() != "") currItem!!.name = nameEditText.text.toString()
-        if (buyEditText.text.toString() != "") currItem!!.buyingPrice = buyEditText.text.toString().toDouble()
-        if (sellEditText.text.toString() != "") currItem!!.sellingPrice = sellEditText.text.toString().toDouble()
-        if (totalEditText.text.toString() != "") currItem!!.totalCount = totalEditText.text.toString().toInt()
-        if (remainingEditText.text.toString() != "") currItem!!.remainingCount = remainingEditText.text.toString().toInt()
+        if (nameEditText.text.toString() != "") currItem!!.name = nameEditText.text.toString().trim()
+        if (buyEditText.text.toString() != "") currItem!!.buyingPrice = buyEditText.text.toString().trim().toDouble()
+        if (sellEditText.text.toString() != "") currItem!!.sellingPrice = sellEditText.text.toString().trim().toDouble()
+        if (totalEditText.text.toString() != "") currItem!!.totalCount = totalEditText.text.toString().trim().toDouble()
+        if (remainingEditText.text.toString() != "") currItem!!.remainingCount = remainingEditText.text.toString().trim().toDouble()
         if (itemTotalSpinner.selectedItemPosition != 0) currItem!!.totalQ = itemTotalSpinner.selectedItemPosition
         if (itemRemSpinner.selectedItemPosition != 0) currItem!!.remainingQ = itemRemSpinner.selectedItemPosition
 

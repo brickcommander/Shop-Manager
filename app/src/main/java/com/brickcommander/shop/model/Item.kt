@@ -4,7 +4,6 @@ import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
-import java.time.LocalDateTime
 
 @Entity(tableName = "ItemMaster")
 @Parcelize
@@ -12,16 +11,16 @@ data class Item(
     var name: String = "NotDefined",
     var buyingPrice: Double = 0.0,
     var sellingPrice: Double = 0.0,
-    var totalCount: Int = 0,
-    var remainingCount: Int = 0,
+    var totalCount: Double = 0.0,
+    var remainingCount: Double = 0.0,
     var totalQ: Int = 0,
     var remainingQ: Int = 0
 ) : Parcelable {
 
-    var createdDate: LocalDateTime? = LocalDateTime.now()
+    var createdDate: Long = 0
 
     @PrimaryKey(autoGenerate = true)
-    var itemId: Long = System.currentTimeMillis()
+    var itemId: Long = 0
 
     // Optional methods or computed properties if needed
     fun getProfit(): Double {

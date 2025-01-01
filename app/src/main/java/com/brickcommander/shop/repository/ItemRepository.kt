@@ -14,7 +14,6 @@ class ItemRepository(private val db: AppDatabase) : Repository<Item> {
     override fun delete(item: Item) = coroutineAspect {
         db.getItemDao().deleteItem(item)
     }
-
     override fun getAll() = db.getItemDao().getAllItems()
     override fun search(query: String?) = db.getItemDao().searchItem(query)
 }
