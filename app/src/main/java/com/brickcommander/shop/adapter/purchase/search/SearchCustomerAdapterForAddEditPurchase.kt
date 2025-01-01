@@ -1,4 +1,4 @@
-package com.brickcommander.shop.adapter.purchase
+package com.brickcommander.shop.adapter.purchase.search
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

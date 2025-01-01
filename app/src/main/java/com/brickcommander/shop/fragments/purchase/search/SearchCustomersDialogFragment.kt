@@ -9,7 +9,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.brickcommander.shop.MainActivity
-import com.brickcommander.shop.adapter.purchase.SearchCustomerAdapterForAddEditPurchase
+import com.brickcommander.shop.adapter.purchase.search.SearchCustomerAdapterForAddEditPurchase
 import com.brickcommander.shop.databinding.PopupSearchItemsBinding
 import com.brickcommander.shop.model.Customer
 import com.brickcommander.shop.viewModel.MyViewModel
