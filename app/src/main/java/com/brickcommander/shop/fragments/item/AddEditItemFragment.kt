@@ -21,7 +21,6 @@ import com.brickcommander.shop.model.Item
 import com.brickcommander.shop.shared.CONSTANTS
 import com.brickcommander.shop.util.toast
 import com.brickcommander.shop.viewModel.MyViewModel
-import com.google.android.material.snackbar.Snackbar
 
 class AddEditItemFragment : Fragment(R.layout.fragment_add_edit_item) {
     companion object {
@@ -138,11 +137,7 @@ class AddEditItemFragment : Fragment(R.layout.fragment_add_edit_item) {
         if (isNewItem) itemViewModel.add(currItem!!)
         else itemViewModel.update(currItem!!)
 
-        Snackbar.make(
-            view,
-            "Note Saved successfully",
-            Snackbar.LENGTH_SHORT
-        ).show()
+        activity?.toast("Item Saved successfully")
 
         if (isNewItem) view.findNavController().navigate(R.id.action_addEditItemFragment_to_homeFragment)
         else {

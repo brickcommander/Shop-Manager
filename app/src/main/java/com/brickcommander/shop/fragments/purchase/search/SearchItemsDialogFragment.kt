@@ -21,18 +21,7 @@ class SearchItemsDialogFragment(private val onItemSelected: (Item) -> Unit) : Di
     private val binding get() = _binding!!
     private lateinit var myViewModel: MyViewModel<Item>
 
-    private val items = listOf(
-        Item("Item 1", 10.0),
-        Item("Item 2", 20.0),
-        Item("Item 3", 30.0),
-        Item("Item 4", 30.0),
-        Item("Item 5", 30.0),
-        Item("Item 6", 30.0),
-        Item("Item 7", 30.0),
-        Item("Item 8", 30.0),
-        Item("Item 9", 30.0),
-        Item("Item 10", 30.0)
-    )
+    private val items: List<Item> = listOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -80,19 +69,23 @@ class SearchItemsDialogFragment(private val onItemSelected: (Item) -> Unit) : Di
 
             if (keyboardHeight > screenHeight * 0.10) {
                 // Keyboard is visible
-                binding.recyclerViewSearch.setPadding(0, 0, 0, keyboardHeight+120)
+                binding.recyclerViewSearch.setPadding(0, 0, 0, keyboardHeight)
             } else {
                 // Keyboard is hidden
-                binding.recyclerViewSearch.setPadding(0, 0, 0, 120)
+                binding.recyclerViewSearch.setPadding(0, 0, 0, 0)
             }
         }
     }
 
 
     private fun filterItems(query: String?, adapter: SearchItemAdapterForAddEditPurchase) {
+        if (query.isNullOrEmpty()) {
+            adapter.submitList(items)
+            return
+        }
         val searchQuery = "%$query%"
         myViewModel.search(searchQuery).observe(this) { list ->
-            adapter.submitList(items)
+            adapter.submitList(list)
         }
     }
 

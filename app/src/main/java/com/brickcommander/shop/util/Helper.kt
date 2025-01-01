@@ -1,8 +1,10 @@
 package com.brickcommander.shop.util
 
 import com.brickcommander.shop.model.helperModel.ItemDetail
+import com.brickcommander.shop.shared.CONSTANTS
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 // val QUANTITY: List<String> = listOf("None", "pcs", "KG", "g", "L", "ml")
 fun calculateRemainingQuantity(currQuantity: Double, currQuantityQ: Int, sellQuantity: Double, sellQuantityQ: Int): Double {
@@ -65,4 +67,12 @@ fun convertLongToFormattedDate(timestamp: Long): String {
     val date = Date(timestamp)
     val formatter = SimpleDateFormat("HH:mm dd/MM/yy", Locale.getDefault())
     return formatter.format(date)
+}
+
+fun getSpinnerListByCurrentQuantityType(itemQ: Int): List<String> {
+    if(itemQ == 0) return CONSTANTS.QUANTITY
+    if(itemQ == 1) return listOf(CONSTANTS.QUANTITY[1])
+    if(itemQ <= 3) return listOf(CONSTANTS.QUANTITY[2], CONSTANTS.QUANTITY[3])
+    if(itemQ <= 5) return listOf(CONSTANTS.QUANTITY[4], CONSTANTS.QUANTITY[5])
+    return listOf(CONSTANTS.QUANTITY[0])
 }
