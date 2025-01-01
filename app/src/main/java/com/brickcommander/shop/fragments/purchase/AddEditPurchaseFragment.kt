@@ -4,6 +4,9 @@ package com.example.app
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -18,30 +21,37 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.brickcommander.shop.R
 import com.brickcommander.shop.adapter.purchase.ItemAdapterForAddEditPurchase
 import com.brickcommander.shop.databinding.FragmentAddEditPurchaseBinding
-import com.brickcommander.shop.fragments.item.AddEditItemFragment.Companion.TAG
 import com.brickcommander.shop.fragments.purchase.search.SearchCustomersDialogFragment
 import com.brickcommander.shop.fragments.purchase.search.SearchItemsDialogFragment
 import com.brickcommander.shop.model.Customer
+import com.brickcommander.shop.model.Purchase
 import com.brickcommander.shop.util.SpinnerHelper
 import com.brickcommander.shop.util.getSpinnerListByCurrentQuantityType
 
-class AddEditPurchaseFragment : Fragment() {
-
+class AddEditPurchaseFragment : Fragment(R.layout.fragment_add_edit_purchase) {
+    companion object {
+        const val TAG = "AddEditPurchaseFragment"
+    }
     private var _binding: FragmentAddEditPurchaseBinding? = null
     private val binding get() = _binding!!
+    private lateinit var mView: View
+
     private val selectedItems = mutableListOf<Item>()
     private var selectedCustomer: Customer? = null
+    private var purchase: Purchase? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentAddEditPurchaseBinding.inflate(inflater, container, false)
+        setHasOptionsMenu(true)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        mView = view
 
         setupRecyclerView()
 
@@ -115,8 +125,58 @@ class AddEditPurchaseFragment : Fragment() {
         alertDialog.show()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
+    private fun saveItem() {
+//        if (nameEditText.text.toString().isEmpty()) {
+//            activity?.toast("Please Enter Item Name")
+//            return
+//        }
+//
+//        var isNewItem = false
+//        if (currItem == null) {
+//            isNewItem = true
+//            currItem = Item()
+//        }
+//
+//        if (nameEditText.text.toString() != "") currItem!!.name = nameEditText.text.toString().trim()
+//        if (buyEditText.text.toString() != "") currItem!!.buyingPrice = buyEditText.text.toString().trim().toDouble()
+//        if (sellEditText.text.toString() != "") currItem!!.sellingPrice = sellEditText.text.toString().trim().toDouble()
+//        if (totalEditText.text.toString() != "") currItem!!.totalCount = totalEditText.text.toString().trim().toDouble()
+//        if (remainingEditText.text.toString() != "") currItem!!.remainingCount = remainingEditText.text.toString().trim().toDouble()
+//        if (itemTotalSpinner.selectedItemPosition != 0) currItem!!.totalQ = itemTotalSpinner.selectedItemPosition
+//        if (itemRemSpinner.selectedItemPosition != 0) currItem!!.remainingQ = itemRemSpinner.selectedItemPosition
+//
+//        if (isNewItem) itemViewModel.add(currItem!!)
+//        else itemViewModel.update(currItem!!)
+//
+//        activity?.toast("Item Saved successfully")
+//
+//        if (isNewItem) view.findNavController().navigate(R.id.action_addEditItemFragment_to_homeFragment)
+//        else {
+//            val bundle = Bundle().apply {
+//                putParcelable("item", currItem)
+//            }
+//            view.findNavController().navigate(R.id.action_addEditItemFragment_to_detailFragment, bundle)
+//        }
+    }
+
+    override fun onOptionsItemSelected(menuItem: MenuItem): Boolean {
+        when (menuItem.itemId) {
+            R.id.save_menu -> {
+                saveItem()
+            }
+        }
+        return super.onOptionsItemSelected(menuItem)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        Log.d(TAG, "onCreateOptionsMenu: ")
+        super.onCreateOptionsMenu(menu, inflater)
+        menu.clear()
+        inflater.inflate(R.menu.new_note_menu, menu)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
         _binding = null
     }
 }
