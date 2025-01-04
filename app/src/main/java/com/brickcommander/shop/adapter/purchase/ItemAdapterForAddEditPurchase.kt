@@ -9,7 +9,8 @@ import com.brickcommander.shop.model.Item
 
 class ItemAdapterForAddEditPurchase(
     private var items: List<Item>,
-    private val onItemClick: (Item) -> Unit
+    private val removeItem: (Item) -> Unit,
+    private val updateItem: (Item) -> Unit,
 ) : RecyclerView.Adapter<ItemAdapterForAddEditPurchase.ItemViewHolder>() {
 
     inner class ItemViewHolder(private val binding: LayoutPurchaseAddEditItemBinding) :
@@ -19,8 +20,12 @@ class ItemAdapterForAddEditPurchase(
             binding.itemPriceTextView.text = item.sellingPrice.toString()
             binding.itemQuantityTextView.text = item.remainingCount.toString()
 
-            itemView.setOnClickListener {
-                onItemClick(item)
+            binding.editButton.setOnClickListener {
+                updateItem(item)
+            }
+
+            binding.deleteButton.setOnClickListener {
+                removeItem(item)
             }
         }
     }

@@ -31,6 +31,13 @@ data class Item(
         return remainingCount > 0
     }
 
+    fun copy(): Item {
+        val item = Item(name, buyingPrice, sellingPrice, totalCount, remainingCount, totalQ, remainingQ)
+        item.createdDate = createdDate
+        item.itemId = itemId
+        return item
+    }
+
     override fun toString(): String {
         return "Name: $name, Buying Price: $buyingPrice, Selling Price: $sellingPrice, Available: $remainingCount, Total Count: $totalCount, Created Date: $createdDate"
     }
