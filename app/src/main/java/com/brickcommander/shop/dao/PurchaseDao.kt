@@ -1,5 +1,6 @@
 package com.brickcommander.shop.dao
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
@@ -20,6 +21,9 @@ import com.brickcommander.shop.util.calculateRemainingQuantity
 
 @Dao
 interface PurchaseDao {
+    companion object {
+        val TAG = "PurchaseDao"
+    }
 
     // ItemMaster
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -96,8 +100,11 @@ interface PurchaseDao {
     @Transaction
     fun addPurchase(purchase: Purchase) {
         // Check, purchase should not be active
-        val purchaseMaster: PurchaseMaster = findPurchaseMasterByPurchaseId(purchase.purchaseId)
-            ?: throw Exception("Purchase is not active. Can only update active purchases.")
+        findPurchaseMasterByPurchaseId(purchase.purchaseId)?.let {
+            if (it.active == false) {
+                throw Exception("Purchase is not active. Can only update active purchases.")
+            }
+        }
 
         val currentDate = System.currentTimeMillis()
         val amount = calculateAmount(purchase.items)
@@ -149,12 +156,13 @@ interface PurchaseDao {
             purchase.customer.totalAmount += amount
             updateCustomer(purchase.customer)
         }
+
+        Log.d(TAG, "Purchase added successfully ${purchase}")
     }
 
     @Transaction
     fun findPurchaseByPurchaseId(purchaseId: Long): Purchase? {
-        val purchaseMaster: PurchaseMaster = findPurchaseMasterByPurchaseId(purchaseId)
-            ?: return null
+        val purchaseMaster: PurchaseMaster = findPurchaseMasterByPurchaseId(purchaseId) ?: return null
 
         val customer = findCustomerByCustomerId(purchaseMaster.customer_customerId)?: Customer()
 
@@ -168,6 +176,7 @@ interface PurchaseDao {
             )
         }
 
+        Log.d(TAG, "findPurchaseByPurchaseId : ${customer} : ${itemDetailList}")
         return Purchase(
             itemDetailList,
             customer,
@@ -194,6 +203,8 @@ interface PurchaseDao {
             deletePurchaseDetailMasterByPurchaseId(purchaseMaster.purchaseId)
             deletePurchaseMaster(purchaseMaster)
         }
+
+        Log.d(TAG, "Purchase deleted successfully ${purchase}")
     }
 
 

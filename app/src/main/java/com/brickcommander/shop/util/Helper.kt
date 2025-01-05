@@ -76,3 +76,10 @@ fun getSpinnerListByCurrentQuantityType(itemQ: Int): List<String> {
     if(itemQ <= 5) return listOf(CONSTANTS.QUANTITY[4], CONSTANTS.QUANTITY[5])
     return listOf(CONSTANTS.QUANTITY[0])
 }
+
+fun getItemQFromItemQString(itemQString: String): Int {
+    for(element in CONSTANTS.QUANTITY) {
+        if(element == itemQString) return CONSTANTS.QUANTITY.indexOf(element)
+    }
+    return 0
+}
