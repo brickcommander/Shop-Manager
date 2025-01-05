@@ -12,9 +12,9 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
-import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.brickcommander.shop.model.Item
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.brickcommander.shop.R
@@ -27,6 +27,9 @@ import com.brickcommander.shop.model.Purchase
 import com.brickcommander.shop.util.SpinnerHelper
 import com.brickcommander.shop.util.getSpinnerListByCurrentQuantityType
 import com.brickcommander.shop.util.toast
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlin.coroutines.resume
 
 class AddEditPurchaseFragment : Fragment(R.layout.fragment_add_edit_purchase) {
     companion object {
@@ -56,7 +59,13 @@ class AddEditPurchaseFragment : Fragment(R.layout.fragment_add_edit_purchase) {
         setupRecyclerView()
 
         binding.buttonAddItem.setOnClickListener {
-            showItemSearchPopup()
+            showItemSearchPopup { selectedItem ->
+                lifecycleScope.launch {
+                    val (quantity, quantityType) = showPopupAndWait(selectedItem.remainingQ)?: return@launch
+                    handleSelectedItem(selectedItem, quantity, quantityType)
+                    binding.recyclerViewItems.adapter?.notifyDataSetChanged()
+                }
+            }
         }
 
         binding.buttonAddCustomer.setOnClickListener {
@@ -83,13 +92,12 @@ class AddEditPurchaseFragment : Fragment(R.layout.fragment_add_edit_purchase) {
     }
 
     private fun updateItem(itemToUpdate: Item) {
-        for (i in selectedItems.indices) {
-            if (selectedItems[i].itemId == itemToUpdate.itemId) {
-                selectedItems[i] = itemToUpdate
-            }
+        lifecycleScope.launch {
+            val (quantity, quantityType) = showPopupAndWait(itemToUpdate.remainingQ) ?: return@launch
+            handleSelectedItem(itemToUpdate, quantity, quantityType)
+            binding.recyclerViewItems.adapter?.notifyDataSetChanged() // Notify adapter to refresh
+            activity?.toast("${itemToUpdate.name} update")
         }
-        binding.recyclerViewItems.adapter?.notifyDataSetChanged() // Notify adapter to refresh
-        activity?.toast("${itemToUpdate.name} update")
     }
 
     private fun removeItem(itemToDelete: Item) {
@@ -98,15 +106,17 @@ class AddEditPurchaseFragment : Fragment(R.layout.fragment_add_edit_purchase) {
         activity?.toast("${itemToDelete.name} removed")
     }
 
-    private fun showItemSearchPopup() {
-        Log.d(TAG, "showItemSearchPopup: ")
-        var selectedItemC: Item? = null
+    private fun showItemSearchPopup(onItemSelected: (Item) -> Unit) {
         val dialog = SearchItemsDialogFragment { selectedItem ->
-            selectedItems.add(selectedItem)
-            binding.recyclerViewItems.adapter?.notifyDataSetChanged()
-            Log.d(TAG, "showItemSearchPopup: $selectedItemC")
+            onItemSelected(selectedItem)
         }
         dialog.show(parentFragmentManager, "SearchItemsDialog")
+    }
+
+    private fun handleSelectedItem(selectedItem: Item, quantity: Double, quantityType: String) {
+        Log.d(TAG, "Selected Item: $selectedItem, Quantity: $quantity, Quantity Type: $quantityType")
+        selectedItem.remainingCount = quantity
+        selectedItems.add(selectedItem)
     }
 
     private fun showCustomerSearchPopup() {
@@ -117,39 +127,49 @@ class AddEditPurchaseFragment : Fragment(R.layout.fragment_add_edit_purchase) {
         dialog.show(parentFragmentManager, "SearchCustomersDialog")
     }
 
-    private fun showPopup(selectedItemQ: Int): Pair<Double, String> {
-        val dialogView =
-            LayoutInflater.from(requireContext()).inflate(R.layout.popup_select_item_quantity, null)
+    private suspend fun showPopupAndWait(selectedItemQ: Int): Pair<Double, String>? = suspendCancellableCoroutine { continuation ->
+        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.popup_select_item_quantity, null)
         val alertDialog = AlertDialog.Builder(requireContext())
             .setView(dialogView)
             .create()
 
-        val textView = dialogView.findViewById<TextView>(R.id.textView)
         val editText = dialogView.findViewById<EditText>(R.id.quantityEditText)
         val spinner = dialogView.findViewById<Spinner>(R.id.itemQuantitySpinner)
         val okButton = dialogView.findViewById<Button>(R.id.okButton)
 
-        var itemQString: String = "None"
-        var itemQuantity: Double = 0.0
+        var itemQString = "None"
+        var itemQuantity = 0.0
 
         SpinnerHelper.setupSpinner(
             context = requireContext(),
             spinner = spinner,
             items = getSpinnerListByCurrentQuantityType(selectedItemQ).toTypedArray(),
             defaultPosition = 0
-        ) { position, selectedItem ->
+        ) { _, selectedItem ->
             itemQString = selectedItem
         }
 
         okButton.setOnClickListener {
             val enteredText = editText.text.toString()
             itemQuantity = enteredText.toDoubleOrNull() ?: 0.0
-            Log.d("AddEditPurchaseFragment", "Entered Text: $enteredText")
             alertDialog.dismiss()
+
+            // Resume coroutine with the result
+            continuation.resume(Pair(itemQuantity, itemQString))
+        }
+
+        alertDialog.setOnDismissListener {
+            // If dialog is dismissed without action, resume with default values
+            if (continuation.isActive) continuation.resume(null)
         }
 
         alertDialog.show()
-        return Pair(itemQuantity, itemQString)
+    }
+
+    private fun addItemToList(selectedItem: Item, quantity: Double, quantityType: String) {
+        selectedItems.add(selectedItem)
+        binding.recyclerViewItems.adapter?.notifyDataSetChanged()
+        Log.d(TAG, "addItemToList: Item added - $selectedItem")
     }
 
     private fun saveItem(view: View) {
