@@ -1,5 +1,6 @@
 package com.brickcommander.shop.repository
 
+import androidx.lifecycle.LiveData
 import com.brickcommander.shop.db.AppDatabase
 import com.brickcommander.shop.model.Customer
 import com.brickcommander.shop.util.coroutineAspect
@@ -15,5 +16,9 @@ class CustomerRepository(private val db: AppDatabase) : Repository<Customer> {
         db.getCustomerDao().deleteCustomer(customer)
     }
     override fun getAll() = db.getCustomerDao().getAllCustomers()
+    override fun getAllActive(): LiveData<List<Customer>> {
+        TODO("Not yet implemented")
+    }
+
     override fun search(query: String?) = db.getCustomerDao().searchCustomer(query)
 }

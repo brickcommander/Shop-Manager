@@ -10,9 +10,9 @@ import com.brickcommander.shop.fragments.BaseHomeFragment
 import com.brickcommander.shop.model.helperModel.PurchaseLite
 import com.brickcommander.shop.viewModel.MyViewModel
 
-class HomePurchaseFragment : BaseHomeFragment<PurchaseLite, PurchaseLiteAdapter.PurchaseLiteViewHolder>() {
+class CartFragment : BaseHomeFragment<PurchaseLite, PurchaseLiteAdapter.PurchaseLiteViewHolder>() {
     companion object {
-        const val TAG = "PurchaseItemFragment"
+        const val TAG = "CartFragment"
     }
 
     override fun getViewModel(): MyViewModel<PurchaseLite> {
@@ -23,19 +23,19 @@ class HomePurchaseFragment : BaseHomeFragment<PurchaseLite, PurchaseLiteAdapter.
         (requireActivity() as MainActivity).supportActionBar?.title = "Purchase History"
 
         binding.fbAddItem.setOnClickListener { mView ->
-            mView.findNavController().navigate(R.id.action_homePurchaseFragment_to_addEditPurchaseFragment)
+            mView.findNavController().navigate(R.id.action_cartFragment_to_addEditPurchaseFragment)
         }
 
         binding.buttonCustomers.setOnClickListener { mView ->
-            mView.findNavController().navigate(R.id.action_homePurchaseFragment_to_homeCustomerFragment)
+            mView.findNavController().navigate(R.id.action_cartFragment_to_homeCustomerFragment)
         }
 
         binding.buttonItems.setOnClickListener { mView ->
-            mView.findNavController().navigate(R.id.action_homePurchaseFragment_to_homeFragment)
+            mView.findNavController().navigate(R.id.action_cartFragment_to_homeFragment)
         }
 
-        binding.buttonCart.setOnClickListener { mView ->
-            mView.findNavController().navigate(R.id.action_homePurchaseFragment_to_cartFragment)
+        binding.buttonPurchases.setOnClickListener { mView ->
+            mView.findNavController().navigate(R.id.action_cartFragment_to_homePurchaseFragment)
         }
     }
 
@@ -48,7 +48,7 @@ class HomePurchaseFragment : BaseHomeFragment<PurchaseLite, PurchaseLiteAdapter.
         }
 
         activity?.let {
-            myViewModel.getAll().observe(viewLifecycleOwner) { item ->
+            myViewModel.getAllActive().observe(viewLifecycleOwner) { item ->
                 Log.d(TAG, "Purchases: $item")
                 myAdapter.differ.submitList(item)
                 updateUI(item)

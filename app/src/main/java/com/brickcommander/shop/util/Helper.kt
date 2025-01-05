@@ -65,8 +65,8 @@ fun calculateAmount(itemsDetail: List<ItemDetail>): Double {
 
 fun convertLongToFormattedDate(timestamp: Long): String {
     val date = Date(timestamp)
-    val formatter = SimpleDateFormat("HH:mm dd/MM/yy", Locale.getDefault())
-    return formatter.format(date)
+    val formatter = SimpleDateFormat("hh:mm a dd/MM/yy", Locale.getDefault())
+    return formatter.format(date).uppercase()
 }
 
 fun getSpinnerListByCurrentQuantityType(itemQ: Int): List<String> {

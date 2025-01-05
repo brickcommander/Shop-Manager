@@ -29,6 +29,14 @@ class HomeItemFragment : BaseHomeFragment<Item, ItemAdapter.ItemViewHolder>() {
         binding.buttonCustomers.setOnClickListener { mView ->
             mView.findNavController().navigate(R.id.action_homeFragment_to_homeCustomerFragment)
         }
+
+        binding.buttonPurchases.setOnClickListener { mView ->
+            mView.findNavController().navigate(R.id.action_homeFragment_to_homePurchaseFragment)
+        }
+
+        binding.buttonCart.setOnClickListener { mView ->
+            mView.findNavController().navigate(R.id.action_homeFragment_to_cartFragment)
+        }
     }
 
     override fun setUpRecyclerView() {

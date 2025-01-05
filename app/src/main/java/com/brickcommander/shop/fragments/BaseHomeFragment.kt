@@ -51,7 +51,6 @@ abstract class BaseHomeFragment<T : Any, VH : RecyclerView.ViewHolder> : Fragmen
         super.onViewCreated(view, savedInstanceState)
         myViewModel = getViewModel()
         setUpRecyclerView()
-
         setUpNavigation()
     }
 

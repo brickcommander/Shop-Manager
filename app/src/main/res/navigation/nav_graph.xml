@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph.xml"
-    app:startDestination="@id/addEditPurchaseFragment">
+    app:startDestination="@id/homeFragment">
 
     <fragment
         android:id="@+id/homeFragment"
@@ -24,6 +24,10 @@
             android:id="@+id/action_homeFragment_to_homePurchaseFragment"
             app:destination="@id/homePurchaseFragment"
             app:popUpTo="@id/nav_graph.xml" />
+        <action
+            android:id="@+id/action_homeFragment_to_cartFragment"
+            app:destination="@id/cartFragment"
+            app:popUpTo="@id/nav_graph.xml"/>
     </fragment>
     <fragment
         android:id="@+id/addEditItemFragment"
@@ -111,6 +115,10 @@
             android:id="@+id/action_homeCustomerFragment_to_homePurchaseFragment"
             app:destination="@id/homePurchaseFragment"
             app:popUpTo="@id/nav_graph.xml" />
+        <action
+            android:id="@+id/action_homeCustomerFragment_to_cartFragment"
+            app:destination="@id/cartFragment"
+            app:popUpTo="@id/nav_graph.xml" />
     </fragment>
     <fragment
         android:id="@+id/homePurchaseFragment"
@@ -130,6 +138,10 @@
         <action
             android:id="@+id/action_homePurchaseFragment_to_addEditPurchaseFragment"
             app:destination="@id/addEditPurchaseFragment" />
+        <action
+            android:id="@+id/action_homePurchaseFragment_to_cartFragment"
+            app:destination="@id/cartFragment"
+            app:popUpTo="@id/nav_graph.xml"/>
     </fragment>
     <fragment
         android:id="@+id/detailPurchaseFragment"
@@ -145,6 +157,31 @@
         android:label="AddEditPurchaseFragment" >
         <action
             android:id="@+id/action_addEditPurchaseFragment_to_homePurchaseFragment"
-            app:destination="@id/homePurchaseFragment" />
+            app:destination="@id/homePurchaseFragment"
+            app:popUpTo="@id/nav_graph.xml"/>
+        <action
+            android:id="@+id/action_addEditPurchaseFragment_to_cartFragment"
+            app:destination="@id/cartFragment"
+            app:popUpTo="@id/nav_graph.xml"/>
+    </fragment>
+    <fragment
+        android:id="@+id/cartFragment"
+        android:name="com.brickcommander.shop.fragments.purchase.CartFragment"
+        android:label="CartFragment" >
+        <action
+            android:id="@+id/action_cartFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/nav_graph.xml"/>
+        <action
+            android:id="@+id/action_cartFragment_to_homeCustomerFragment"
+            app:destination="@id/homeCustomerFragment"
+            app:popUpTo="@id/nav_graph.xml"/>
+        <action
+            android:id="@+id/action_cartFragment_to_homePurchaseFragment"
+            app:destination="@id/homePurchaseFragment"
+            app:popUpTo="@id/nav_graph.xml"/>
+        <action
+            android:id="@+id/action_cartFragment_to_addEditPurchaseFragment"
+            app:destination="@id/addEditPurchaseFragment" />
     </fragment>
 </navigation>

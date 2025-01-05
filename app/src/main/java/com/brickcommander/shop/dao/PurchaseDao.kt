@@ -210,10 +210,19 @@ interface PurchaseDao {
 
     // PurchaseLite
     @Query("""
-        SELECT purchaseId, purchaseDate, P.totalAmount as totalAmount, C.name as customerName 
+        SELECT purchaseId, purchaseDate, P.totalAmount as totalAmount, C.name as customerName, P.active as active
         FROM PurchaseMaster P 
         JOIN CustomerMaster C ON P.customer_customerId = C.customerId 
+        WHERE P.active = :active
         ORDER BY purchaseDate DESC
     """)
-    fun getAllPurchases(): LiveData<List<PurchaseLite>>
+    fun getAllPurchases(active: Boolean): LiveData<List<PurchaseLite>>
+
+    fun getAllInActivePurchases(): LiveData<List<PurchaseLite>> {
+        return getAllPurchases(false)
+    }
+
+    fun getAllActivePurchases(): LiveData<List<PurchaseLite>> {
+        return getAllPurchases(true)
+    }
 }

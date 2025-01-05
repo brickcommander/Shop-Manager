@@ -30,5 +30,7 @@ class MyViewModel<T>(
 
     fun getAll() = repository.getAll()
 
+    fun getAllActive() = repository.getAllActive()
+
     fun search(query: String?) = repository.search(query)
 }

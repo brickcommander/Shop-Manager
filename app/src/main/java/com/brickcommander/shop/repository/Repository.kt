@@ -7,5 +7,6 @@ interface Repository<T>{
     fun update(item: T)
     fun delete(item: T)
     fun getAll(): LiveData<List<T>>
+    fun getAllActive(): LiveData<List<T>>
     fun search(query: String?): LiveData<List<T>>
 }

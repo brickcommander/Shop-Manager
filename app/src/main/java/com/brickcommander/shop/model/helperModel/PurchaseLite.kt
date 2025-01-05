@@ -8,5 +8,6 @@ data class PurchaseLite(
     val purchaseId: Long,
     val purchaseDate: Long,
     val totalAmount: Double,
-    val customerName: String
+    val customerName: String,
+    val active: Boolean
 ) : Parcelable

@@ -3,6 +3,8 @@ package com.brickcommander.shop.repository
 import com.brickcommander.shop.db.AppDatabase
 import com.brickcommander.shop.model.Purchase
 import com.brickcommander.shop.util.coroutineAspect
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 class PurchaseRepository(private val db: AppDatabase) {
     fun add(purchase: Purchase) = coroutineAspect {
@@ -15,6 +17,9 @@ class PurchaseRepository(private val db: AppDatabase) {
         db.getPurchaseDao().deletePurchase(purchase)
     }
     fun findPurchaseByPurchaseId(purchaseId: Long): Purchase? = coroutineAspect {
-        return@coroutineAspect db.getPurchaseDao().findPurchaseByPurchaseId(purchaseId)
+        suspendCoroutine { continuation ->
+            val purchase = db.getPurchaseDao().findPurchaseByPurchaseId(purchaseId)
+            continuation.resume(purchase)
+        }
     }
 }

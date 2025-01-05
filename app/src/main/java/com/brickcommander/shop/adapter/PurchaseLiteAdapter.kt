@@ -33,10 +33,17 @@ class PurchaseLiteAdapter : BaseAdapter<PurchaseLite, PurchaseLiteAdapter.Purcha
             putParcelable("purchaseLite", currentItem)
         }
         holder.itemView.setOnClickListener { mView ->
-            mView.findNavController().navigate(
-                R.id.action_homeFragment_to_detailFragment,
-                bundle
-            )
+            if (currentItem.active) {
+                mView.findNavController().navigate(
+                    R.id.action_cartFragment_to_addEditPurchaseFragment,
+                    bundle
+                )
+            } else {
+                mView.findNavController().navigate(
+                    R.id.action_homePurchaseFragment_to_detailPurchaseFragment,
+                    bundle
+                )
+            }
         }
     }
 

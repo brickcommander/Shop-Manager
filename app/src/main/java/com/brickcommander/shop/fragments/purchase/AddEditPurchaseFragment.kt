@@ -15,6 +15,7 @@ import android.widget.Spinner
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import com.brickcommander.shop.model.Item
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.brickcommander.shop.MainActivity
@@ -26,6 +27,7 @@ import com.brickcommander.shop.fragments.purchase.search.SearchItemsDialogFragme
 import com.brickcommander.shop.model.Customer
 import com.brickcommander.shop.model.Purchase
 import com.brickcommander.shop.model.helperModel.ItemDetail
+import com.brickcommander.shop.model.helperModel.PurchaseLite
 import com.brickcommander.shop.util.SpinnerHelper
 import com.brickcommander.shop.util.getItemQFromItemQString
 import com.brickcommander.shop.util.getSpinnerListByCurrentQuantityType
@@ -44,9 +46,10 @@ class AddEditPurchaseFragment : Fragment(R.layout.fragment_add_edit_purchase) {
     private lateinit var mView: View
     private lateinit var purchaseViewModel: PurchaseViewModel
 
-    private val selectedItems = mutableListOf<ItemDetail>()
+    private var selectedItems = mutableListOf<ItemDetail>()
     private var selectedCustomer: Customer? = null
     private var purchase: Purchase? = null
+    private var purchaseLite: PurchaseLite? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,6 +64,14 @@ class AddEditPurchaseFragment : Fragment(R.layout.fragment_add_edit_purchase) {
         super.onViewCreated(view, savedInstanceState)
         purchaseViewModel = (activity as MainActivity).purchaseViewModel
         mView = view
+
+        purchaseLite = arguments?.getParcelable("purchaseLite")
+        if(purchaseLite != null) {
+            purchase = purchaseViewModel.findPurchaseByPurchaseId(purchaseLite!!.purchaseId)
+            selectedItems = purchase!!.items.toMutableList()
+            selectedCustomer = purchase!!.customer
+            updateCustomer(selectedCustomer!!)
+        }
 
         setupRecyclerView()
 
@@ -210,7 +221,7 @@ class AddEditPurchaseFragment : Fragment(R.layout.fragment_add_edit_purchase) {
             )
             purchaseViewModel.add(purchase!!)
             activity?.toast("Purchase Saved successfully")
-//            view.findNavController().navigate(R.id.action_addEditPurchaseFragment_to_homeFragment)
+            view.findNavController().navigate(R.id.action_addEditPurchaseFragment_to_homePurchaseFragment)
         } else {
             purchase!!.items = selectedItems
             purchase!!.customer = selectedCustomer!!
@@ -218,22 +229,14 @@ class AddEditPurchaseFragment : Fragment(R.layout.fragment_add_edit_purchase) {
             purchase!!.active = activePurchase
             purchaseViewModel.update(purchase!!)
             activity?.toast("Purchase Updated successfully")
+            view.findNavController().navigate(R.id.action_addEditPurchaseFragment_to_homePurchaseFragment)
         }
-
-//
-//        if (isNewItem) view.findNavController().navigate(R.id.action_addEditItemFragment_to_homeFragment)
-//        else {
-//            val bundle = Bundle().apply {
-//                putParcelable("item", currItem)
-//            }
-//            view.findNavController().navigate(R.id.action_addEditItemFragment_to_detailFragment, bundle)
-//        }
     }
 
     override fun onOptionsItemSelected(menuItem: MenuItem): Boolean {
         when (menuItem.itemId) {
             R.id.save_menu -> {
-                saveItem(mView)
+                saveItem(mView, activePurchase = false)
             }
         }
         return super.onOptionsItemSelected(menuItem)
@@ -249,6 +252,5 @@ class AddEditPurchaseFragment : Fragment(R.layout.fragment_add_edit_purchase) {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
-        saveItem(mView, true)
     }
 }
