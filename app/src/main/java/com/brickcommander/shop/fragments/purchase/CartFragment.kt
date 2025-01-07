@@ -20,7 +20,7 @@ class CartFragment : BaseHomeFragment<PurchaseLite, PurchaseLiteAdapter.Purchase
     }
 
     override fun setUpNavigation() {
-        (requireActivity() as MainActivity).supportActionBar?.title = "Purchase History"
+        (requireActivity() as MainActivity).supportActionBar?.title = "Active Purchases"
 
         binding.fbAddItem.setOnClickListener { mView ->
             mView.findNavController().navigate(R.id.action_cartFragment_to_addEditPurchaseFragment)

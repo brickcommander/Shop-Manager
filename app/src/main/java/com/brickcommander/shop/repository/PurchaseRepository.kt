@@ -10,12 +10,22 @@ class PurchaseRepository(private val db: AppDatabase) {
     fun add(purchase: Purchase) = coroutineAspect {
         db.getPurchaseDao().addPurchase(purchase)
     }
+
     fun update(purchase: Purchase) = coroutineAspect {
         db.getPurchaseDao().updatePurchase(purchase)
     }
+
     fun delete(purchase: Purchase) = coroutineAspect {
         db.getPurchaseDao().deletePurchase(purchase)
     }
+
+    fun getPurchaseId(): Long = coroutineAspect {
+        suspendCoroutine { continuation ->
+            val purchaseId = db.getPurchaseDao().getPurchaseId()
+            continuation.resume(purchaseId)
+        }
+    }
+
     fun findPurchaseByPurchaseId(purchaseId: Long): Purchase? = coroutineAspect {
         suspendCoroutine { continuation ->
             val purchase = db.getPurchaseDao().findPurchaseByPurchaseId(purchaseId)

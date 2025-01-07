@@ -106,31 +106,42 @@ interface PurchaseDao {
             }
         }
 
+        if(purchase.items.size == 0) {
+            Log.d(TAG, "Purchase has no items. Deleting Purchase.")
+            deletePurchase(purchase)
+            return
+        }
+
+        if((purchase.customer == null || purchase.items.size == 0) && purchase.active == false) {
+            throw Exception("Complete Purchase should have customer and items.")
+        }
+
         val currentDate = System.currentTimeMillis()
         val amount = calculateAmount(purchase.items)
 
         // Update PurchaseMaster
-        val purchaseId = addPurchaseMaster(
+        updatePurchaseMaster(
             PurchaseMaster(
+                purchaseId = purchase.purchaseId,
                 currentDate,
                 amount,
-                purchase.customer.customerId,
-                purchase.active
+                purchase.customer!!.customerId,
+                purchase.active,
             )
         )
 
         // Update PurchaseDetailMaster
         val purchaseDetailMasterList = purchase.items.map { itemDetail ->
             PurchaseDetailMaster(
-                purchaseId,
-                purchase.customer.customerId,
+                purchase.purchaseId,
+                purchase.customer!!.customerId,
                 itemDetail.item.itemId,
                 itemDetail.item.sellingPrice,
                 itemDetail.quantity,
                 itemDetail.quantityQ
             )
         }
-        deletePurchaseDetailMasterByPurchaseId(purchaseId) // delete all older items associated with this purchase
+        deletePurchaseDetailMasterByPurchaseId(purchase.purchaseId) // delete all older items associated with this purchase
         purchaseDetailMasterList.forEach {
             addPurchaseDetailMaster(it)
         }
@@ -153,8 +164,8 @@ interface PurchaseDao {
             }
 
             // Update CustomerMaster
-            purchase.customer.totalAmount += amount
-            updateCustomer(purchase.customer)
+            purchase.customer!!.totalAmount += amount
+            updateCustomer(purchase.customer!!)
         }
 
         Log.d(TAG, "Purchase added successfully ${purchase}")
@@ -164,7 +175,7 @@ interface PurchaseDao {
     fun findPurchaseByPurchaseId(purchaseId: Long): Purchase? {
         val purchaseMaster: PurchaseMaster = findPurchaseMasterByPurchaseId(purchaseId) ?: return null
 
-        val customer = findCustomerByCustomerId(purchaseMaster.customer_customerId)?: Customer()
+        val customer = findCustomerByCustomerId(purchaseMaster.customer_customerId)
 
         val purchaseDetailMasterList = findPurchaseDetailMasterByPurchaseId(purchaseId)
         val itemDetailList = purchaseDetailMasterList.map { purchaseDetailMaster ->
@@ -194,6 +205,7 @@ interface PurchaseDao {
     @Transaction
     fun deletePurchase(purchase: Purchase) {
         // Check, purchase should not be active
+        Log.d(TAG, "DeletePurchase called $purchase")
         val purchaseMaster: PurchaseMaster? = findPurchaseMasterByPurchaseId(purchase.purchaseId)
         if(purchaseMaster?.active == false) {
             throw Exception("Purchase is not active. Can only Delete active purchases.")
@@ -202,9 +214,15 @@ interface PurchaseDao {
         if (purchaseMaster != null) {
             deletePurchaseDetailMasterByPurchaseId(purchaseMaster.purchaseId)
             deletePurchaseMaster(purchaseMaster)
+            Log.d(TAG, "purchasemaster deleted $purchaseMaster")
         }
 
         Log.d(TAG, "Purchase deleted successfully ${purchase}")
+    }
+
+    @Transaction
+    fun getPurchaseId(): Long {
+        return addPurchaseMaster(PurchaseMaster(0, System.currentTimeMillis(), 0.0, -1, true))
     }
 
 

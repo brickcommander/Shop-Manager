@@ -72,7 +72,7 @@ class DetailPurchaseFragment : Fragment(R.layout.fragment_details_purchase) {
             view.findNavController().navigate(R.id.action_detailFragment_to_homeFragment)
         }
 
-        binding.customerDetailsLayout.customerNameId.text = currPurchase!!.customer.name
+        binding.customerDetailsLayout.customerNameId.text = currPurchase!!.customer!!.name
         binding.customerDetailsLayout.totalAmountId.text = currPurchase!!.totalAmount.toString()
         binding.customerDetailsLayout.purchaseDateId.text = convertLongToFormattedDate(currPurchase!!.purchaseDate)
 

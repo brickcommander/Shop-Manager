@@ -4,7 +4,7 @@ import com.brickcommander.shop.model.helperModel.ItemDetail
 
 data class Purchase(
     var items: List<ItemDetail>,
-    var customer: Customer,
+    var customer: Customer?,
     var active: Boolean,
     var purchaseDate: Long,
     var totalAmount: Double,

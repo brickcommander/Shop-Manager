@@ -49,6 +49,7 @@ class AddEditPurchaseFragment : Fragment(R.layout.fragment_add_edit_purchase) {
     private var selectedItems = mutableListOf<ItemDetail>()
     private var selectedCustomer: Customer? = null
     private var purchase: Purchase? = null
+    private var purchaseId: Long?= null
     private var purchaseLite: PurchaseLite? = null
 
     override fun onCreateView(
@@ -69,9 +70,16 @@ class AddEditPurchaseFragment : Fragment(R.layout.fragment_add_edit_purchase) {
         if(purchaseLite != null) {
             purchase = purchaseViewModel.findPurchaseByPurchaseId(purchaseLite!!.purchaseId)
             selectedItems = purchase!!.items.toMutableList()
-            selectedCustomer = purchase!!.customer
-            updateCustomer(selectedCustomer!!)
+            if(purchase!!.customer != null) {
+                selectedCustomer = purchase!!.customer
+                updateCustomer(selectedCustomer!!)
+            }
+            purchaseId = purchase!!.purchaseId
+        } else {
+            showCustomerSearchPopup()
+            purchaseId = purchaseViewModel.getPurchaseId()
         }
+        Log.d(TAG, "purchaseId: $purchaseId")
 
         setupRecyclerView()
 
@@ -82,12 +90,9 @@ class AddEditPurchaseFragment : Fragment(R.layout.fragment_add_edit_purchase) {
                     var itemDetail = ItemDetail(selectedItem, quantity, quantityQ)
                     handleSelectedItem(itemDetail)
                     binding.recyclerViewItems.adapter?.notifyDataSetChanged()
+                    saveItem(mView)
                 }
             }
-        }
-
-        binding.buttonAddCustomer.setOnClickListener {
-            showCustomerSearchPopup()
         }
     }
 
@@ -115,15 +120,17 @@ class AddEditPurchaseFragment : Fragment(R.layout.fragment_add_edit_purchase) {
             itemDetail.quantity = quantity
             itemDetail.quantityQ = quantityQ
             handleSelectedItem(itemDetail)
-            activity?.toast("${itemDetail.item.name} updated")
             binding.recyclerViewItems.adapter?.notifyDataSetChanged() // Notify adapter to refresh
+            saveItem(mView)
+            activity?.toast("${itemDetail.item.name} updated")
         }
     }
 
     private fun removeItem(itemDetail: ItemDetail) {
         selectedItems.removeIf { it.item.itemId == itemDetail.item.itemId }
-        activity?.toast("${itemDetail.item.name} removed")
         binding.recyclerViewItems.adapter?.notifyDataSetChanged() // Notify adapter to refresh
+        saveItem(mView)
+        activity?.toast("${itemDetail.item.name} removed")
     }
 
     private fun showItemSearchPopup(onItemSelected: (Item) -> Unit) {
@@ -140,8 +147,12 @@ class AddEditPurchaseFragment : Fragment(R.layout.fragment_add_edit_purchase) {
 
     private fun showCustomerSearchPopup() {
         val dialog = SearchCustomersDialogFragment { selectedCustomer ->
-            this.selectedCustomer = selectedCustomer
-            updateCustomer(selectedCustomer)
+            if(selectedCustomer == null) {
+                requireActivity().supportFragmentManager.popBackStack()
+                return@SearchCustomersDialogFragment
+            }
+            this.selectedCustomer = selectedCustomer!!
+            updateCustomer(selectedCustomer!!)
         }
         dialog.show(parentFragmentManager, "SearchCustomersDialog")
     }
@@ -169,7 +180,7 @@ class AddEditPurchaseFragment : Fragment(R.layout.fragment_add_edit_purchase) {
         }
 
         okButton.setOnClickListener {
-            val enteredText = editText.text.toString()
+            val enteredText = editText.text.toString().trim()
             itemQuantity = enteredText.toDoubleOrNull() ?: 0.0
             alertDialog.dismiss()
 
@@ -189,54 +200,42 @@ class AddEditPurchaseFragment : Fragment(R.layout.fragment_add_edit_purchase) {
         alertDialog.show()
     }
 
-    private fun addItemToList(itemDetail: ItemDetail) {
-        selectedItems.add(itemDetail)
-        binding.recyclerViewItems.adapter?.notifyDataSetChanged()
-        Log.d(TAG, "addItemToList: Item added - $itemDetail")
-    }
-
-    private fun saveItem(view: View, activePurchase: Boolean = false) {
-        if(selectedCustomer == null) {
-            if(activePurchase) {
-                return
-            } else {
-                activity?.toast("Please Select Customer")
-                return
-            }
-        } else if(selectedItems.size == 0) {
-            if(activePurchase) {
-                return
-            } else {
-                activity?.toast("Please Select Items")
-                return
-            }
-        } else if(purchase == null) {
+    private fun saveItem(view: View, activePurchase: Boolean = true) {
+        Log.d(TAG, "saveItem called.")
+        if (selectedItems.size == 0 && activePurchase == false) {
+            activity?.toast("Please Select Items")
+            return
+        } else if (purchase == null) {
             purchase = Purchase(
                 items = selectedItems,
                 customer = selectedCustomer!!,
                 active = activePurchase,
                 purchaseDate = System.currentTimeMillis(),
                 totalAmount = 0.0,
-                purchaseId = 0
+                purchaseId = purchaseId!!
             )
             purchaseViewModel.add(purchase!!)
-            activity?.toast("Purchase Saved successfully")
-            view.findNavController().navigate(R.id.action_addEditPurchaseFragment_to_homePurchaseFragment)
         } else {
             purchase!!.items = selectedItems
             purchase!!.customer = selectedCustomer!!
             purchase!!.purchaseDate = System.currentTimeMillis()
             purchase!!.active = activePurchase
             purchaseViewModel.update(purchase!!)
-            activity?.toast("Purchase Updated successfully")
-            view.findNavController().navigate(R.id.action_addEditPurchaseFragment_to_homePurchaseFragment)
+        }
+
+        Log.d(TAG, "saveItem: $purchase")
+        if (activePurchase == false) {
+            activity?.toast("Purchase Saved successfully")
+            mView.findNavController()
+                .navigate(R.id.action_addEditPurchaseFragment_to_homePurchaseFragment)
         }
     }
 
     override fun onOptionsItemSelected(menuItem: MenuItem): Boolean {
         when (menuItem.itemId) {
             R.id.save_menu -> {
-                saveItem(mView, activePurchase = false)
+                // complete this purchase
+                saveItem(mView, false)
             }
         }
         return super.onOptionsItemSelected(menuItem)

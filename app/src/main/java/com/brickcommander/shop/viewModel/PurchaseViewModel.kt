@@ -30,6 +30,10 @@ class PurchaseViewModel(
         repository.update(purchase)
     }
 
+    fun getPurchaseId(): Long {
+        return repository.getPurchaseId()
+    }
+
     fun findPurchaseByPurchaseId(purchaseId: Long): Purchase? {
         return repository.findPurchaseByPurchaseId(purchaseId)
     }

@@ -1,5 +1,6 @@
 package com.brickcommander.shop.fragments.purchase.search
 
+import android.content.DialogInterface
 import android.graphics.Rect
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,11 +16,12 @@ import com.brickcommander.shop.model.Customer
 import com.brickcommander.shop.viewModel.MyViewModel
 
 
-class SearchCustomersDialogFragment(private val onItemSelected: (Customer) -> Unit) : DialogFragment() {
+class SearchCustomersDialogFragment(private val onItemSelected: (Customer?) -> Unit) : DialogFragment() {
 
     private var _binding: PopupSearchItemsBinding? = null
     private val binding get() = _binding!!
     private lateinit var myViewModel: MyViewModel<Customer>
+    private var isCustomerSelected = false // Flag to track selection
 
     private val items: List<Customer> = listOf()
 
@@ -37,6 +39,7 @@ class SearchCustomersDialogFragment(private val onItemSelected: (Customer) -> Un
 
         binding.recyclerViewSearch.layoutManager = LinearLayoutManager(requireContext())
         val adapter = SearchCustomerAdapterForAddEditPurchase(items) {
+            isCustomerSelected = true
             onItemSelected(it)
             dismiss()
         }
@@ -87,6 +90,11 @@ class SearchCustomersDialogFragment(private val onItemSelected: (Customer) -> Un
         myViewModel.search(searchQuery).observe(this) { list ->
             adapter.submitList(list)
         }
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        if(!isCustomerSelected) onItemSelected(null) // Notify that no customer was selected
     }
 
     override fun onDestroyView() {

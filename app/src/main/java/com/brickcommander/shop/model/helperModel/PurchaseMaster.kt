@@ -9,11 +9,10 @@ import androidx.room.Index
     indices = [Index(value = ["purchaseDate"]), Index(value = ["active"])]
 )
 data class PurchaseMaster(
+    @PrimaryKey(autoGenerate = true)
+    var purchaseId: Long = 0,
     val purchaseDate: Long,
     val totalAmount: Double,
     val customer_customerId: Long,
     val active: Boolean
-) {
-    @PrimaryKey(autoGenerate = true)
-    var purchaseId: Long = 0
-}
+)
