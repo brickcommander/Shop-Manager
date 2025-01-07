@@ -30,6 +30,7 @@ import com.brickcommander.shop.model.helperModel.ItemDetail
 import com.brickcommander.shop.model.helperModel.PurchaseLite
 import com.brickcommander.shop.shared.CONSTANTS
 import com.brickcommander.shop.util.SpinnerHelper
+import com.brickcommander.shop.util.calculateAmount
 import com.brickcommander.shop.util.getItemQFromItemQString
 import com.brickcommander.shop.util.getSpinnerListByCurrentQuantityType
 import com.brickcommander.shop.util.toast
@@ -102,6 +103,7 @@ class AddEditPurchaseFragment : Fragment(R.layout.fragment_add_edit_purchase) {
     }
 
     private fun setupRecyclerView() {
+        binding.totamAmountTextView.text = "Amount: 0 Rs"
         binding.recyclerViewItems.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewItems.adapter = ItemAdapterForAddEditPurchase(
             selectedItems,
@@ -112,6 +114,13 @@ class AddEditPurchaseFragment : Fragment(R.layout.fragment_add_edit_purchase) {
                 updateItem(itemDetailToUpdate)
             }
         )
+    }
+
+    private fun showItemSearchPopup(onItemSelected: (Item) -> Unit) {
+        val dialog = SearchItemsDialogFragment { selectedItem ->
+            onItemSelected(selectedItem)
+        }
+        dialog.show(parentFragmentManager, "SearchItemsDialog")
     }
 
     private fun updateItem(itemDetail: ItemDetail) {
@@ -132,13 +141,6 @@ class AddEditPurchaseFragment : Fragment(R.layout.fragment_add_edit_purchase) {
         binding.recyclerViewItems.adapter?.notifyDataSetChanged() // Notify adapter to refresh
         saveItem(mView)
         activity?.toast("${itemDetail.item.name} removed")
-    }
-
-    private fun showItemSearchPopup(onItemSelected: (Item) -> Unit) {
-        val dialog = SearchItemsDialogFragment { selectedItem ->
-            onItemSelected(selectedItem)
-        }
-        dialog.show(parentFragmentManager, "SearchItemsDialog")
     }
 
     private fun handleSelectedItem(itemDetail: ItemDetail, selectedItemIndex: Int) {
@@ -225,6 +227,10 @@ class AddEditPurchaseFragment : Fragment(R.layout.fragment_add_edit_purchase) {
 
     private fun saveItem(view: View, activePurchase: Boolean = true) {
         Log.d(TAG, "saveItem called.")
+
+        // Updating Amount
+        binding.totamAmountTextView.text = "Amount: ${calculateAmount(selectedItems)} Rs"
+
         if (selectedItems.size == 0 && activePurchase == false) {
             activity?.toast("Please Select Items")
             return

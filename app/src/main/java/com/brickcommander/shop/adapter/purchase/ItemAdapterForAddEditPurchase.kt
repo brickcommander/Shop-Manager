@@ -18,8 +18,10 @@ class ItemAdapterForAddEditPurchase(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(itemDetail: ItemDetail) {
             binding.itemNameTextView.text = itemDetail.item.name
-            binding.itemPriceTextView.text = itemDetail.quantity.toString()
-            binding.itemQuantityTextView.text = CONSTANTS.QUANTITY[itemDetail.quantityQ]
+            binding.itemPriceTextView.text = itemDetail.item.sellingPrice.toString() + " Rs/" + CONSTANTS.QUANTITY[itemDetail.item.remainingQ]
+            binding.itemQuantityTextView.text = itemDetail.quantity.toString() + " " + CONSTANTS.QUANTITY[itemDetail.quantityQ]
+//            binding.oneLinerDetail.text =
+//                itemDetail.quantity.toString() + " " + CONSTANTS.QUANTITY[itemDetail.quantityQ] + " at " + itemDetail.item.sellingPrice.toString() + " Rs/" + CONSTANTS.QUANTITY[itemDetail.item.remainingQ]
 
             binding.editButton.setOnClickListener {
                 updateItem(itemDetail)
