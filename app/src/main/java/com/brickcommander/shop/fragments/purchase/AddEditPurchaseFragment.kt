@@ -28,6 +28,7 @@ import com.brickcommander.shop.model.Customer
 import com.brickcommander.shop.model.Purchase
 import com.brickcommander.shop.model.helperModel.ItemDetail
 import com.brickcommander.shop.model.helperModel.PurchaseLite
+import com.brickcommander.shop.shared.CONSTANTS
 import com.brickcommander.shop.util.SpinnerHelper
 import com.brickcommander.shop.util.getItemQFromItemQString
 import com.brickcommander.shop.util.getSpinnerListByCurrentQuantityType
@@ -77,7 +78,6 @@ class AddEditPurchaseFragment : Fragment(R.layout.fragment_add_edit_purchase) {
             purchaseId = purchase!!.purchaseId
         } else {
             showCustomerSearchPopup()
-            purchaseId = purchaseViewModel.getPurchaseId()
         }
         Log.d(TAG, "purchaseId: $purchaseId")
 
@@ -86,9 +86,9 @@ class AddEditPurchaseFragment : Fragment(R.layout.fragment_add_edit_purchase) {
         binding.buttonAddItem.setOnClickListener {
             showItemSearchPopup { selectedItem ->
                 lifecycleScope.launch {
-                    val (quantity, quantityQ) = showPopupAndWait(selectedItem.remainingQ)?: return@launch
+                    val (quantity, quantityQ) = showPopupAndWait(selectedItem.remainingQ, -1)?: return@launch
                     var itemDetail = ItemDetail(selectedItem, quantity, quantityQ)
-                    handleSelectedItem(itemDetail)
+                    handleSelectedItem(itemDetail, -1)
                     binding.recyclerViewItems.adapter?.notifyDataSetChanged()
                     saveItem(mView)
                 }
@@ -116,10 +116,11 @@ class AddEditPurchaseFragment : Fragment(R.layout.fragment_add_edit_purchase) {
 
     private fun updateItem(itemDetail: ItemDetail) {
         lifecycleScope.launch {
-            val (quantity, quantityQ) = showPopupAndWait(itemDetail.quantityQ) ?: return@launch
+            val selectedItemIndex = selectedItems.indexOfFirst { it.item.itemId == itemDetail.item.itemId }
+            val (quantity, quantityQ) = showPopupAndWait(itemDetail.quantityQ, selectedItemIndex) ?: return@launch
             itemDetail.quantity = quantity
             itemDetail.quantityQ = quantityQ
-            handleSelectedItem(itemDetail)
+            handleSelectedItem(itemDetail, selectedItemIndex)
             binding.recyclerViewItems.adapter?.notifyDataSetChanged() // Notify adapter to refresh
             saveItem(mView)
             activity?.toast("${itemDetail.item.name} updated")
@@ -140,9 +141,19 @@ class AddEditPurchaseFragment : Fragment(R.layout.fragment_add_edit_purchase) {
         dialog.show(parentFragmentManager, "SearchItemsDialog")
     }
 
-    private fun handleSelectedItem(itemDetail: ItemDetail) {
+    private fun handleSelectedItem(itemDetail: ItemDetail, selectedItemIndex: Int) {
         Log.d(TAG, "Selected Item: ${itemDetail.item}, Quantity: ${itemDetail.quantity}, Quantity Type: ${itemDetail.quantityQ}")
-        selectedItems.add(itemDetail)
+
+        // adding first item
+        if(selectedItems.size == 0) {
+            purchaseId = purchaseViewModel.getPurchaseId()
+        }
+
+        if (selectedItemIndex == -1) {
+            selectedItems.add(itemDetail)
+        } else {
+            selectedItems[selectedItemIndex] = itemDetail
+        }
     }
 
     private fun showCustomerSearchPopup() {
@@ -157,7 +168,7 @@ class AddEditPurchaseFragment : Fragment(R.layout.fragment_add_edit_purchase) {
         dialog.show(parentFragmentManager, "SearchCustomersDialog")
     }
 
-    private suspend fun showPopupAndWait(selectedItemDetailQ: Int): Pair<Double, Int>? = suspendCancellableCoroutine { continuation ->
+    private suspend fun showPopupAndWait(selectedItemDetailQ: Int, selectedItemIndex: Int): Pair<Double, Int>? = suspendCancellableCoroutine { continuation ->
         val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.popup_select_item_quantity, null)
         val alertDialog = AlertDialog.Builder(requireContext())
             .setView(dialogView)
@@ -167,14 +178,26 @@ class AddEditPurchaseFragment : Fragment(R.layout.fragment_add_edit_purchase) {
         val spinner = dialogView.findViewById<Spinner>(R.id.itemQuantitySpinner)
         val okButton = dialogView.findViewById<Button>(R.id.okButton)
 
+        val spinnerArray = getSpinnerListByCurrentQuantityType(selectedItemDetailQ).toTypedArray()
+        var spinnerArrayDefaultPosition = 0
+        if(selectedItemIndex != -1 && selectedItems[selectedItemIndex].quantity != 0.0) {
+            editText.setText(selectedItems[selectedItemIndex].quantity.toString())
+            spinnerArray.forEachIndexed { index, QString ->
+                if(QString == CONSTANTS.QUANTITY[selectedItems[selectedItemIndex].quantityQ]) {
+                    spinnerArrayDefaultPosition = index
+                    return@forEachIndexed
+                }
+            }
+        }
+
         var itemQ = 0
         var itemQuantity = 0.0
 
         SpinnerHelper.setupSpinner(
             context = requireContext(),
             spinner = spinner,
-            items = getSpinnerListByCurrentQuantityType(selectedItemDetailQ).toTypedArray(),
-            defaultPosition = 0
+            items = spinnerArray,
+            defaultPosition = spinnerArrayDefaultPosition
         ) { _, selectedItem ->
             itemQ = getItemQFromItemQString(selectedItem)
         }
@@ -216,6 +239,7 @@ class AddEditPurchaseFragment : Fragment(R.layout.fragment_add_edit_purchase) {
             )
             purchaseViewModel.add(purchase!!)
         } else {
+            purchase!!.purchaseId = purchaseId!!
             purchase!!.items = selectedItems
             purchase!!.customer = selectedCustomer!!
             purchase!!.purchaseDate = System.currentTimeMillis()
@@ -226,9 +250,14 @@ class AddEditPurchaseFragment : Fragment(R.layout.fragment_add_edit_purchase) {
         Log.d(TAG, "saveItem: $purchase")
         if (activePurchase == false) {
             activity?.toast("Purchase Saved successfully")
-            mView.findNavController()
-                .navigate(R.id.action_addEditPurchaseFragment_to_homePurchaseFragment)
+            view.findNavController().navigate(R.id.action_addEditPurchaseFragment_to_homePurchaseFragment)
         }
+    }
+
+    private fun deleteItem(view: View) {
+        purchaseViewModel.delete(purchase!!)
+        activity?.toast("Purchase Deleted successfully")
+        view.findNavController().navigate(R.id.action_addEditPurchaseFragment_to_cartFragment)
     }
 
     override fun onOptionsItemSelected(menuItem: MenuItem): Boolean {
@@ -236,6 +265,10 @@ class AddEditPurchaseFragment : Fragment(R.layout.fragment_add_edit_purchase) {
             R.id.save_menu -> {
                 // complete this purchase
                 saveItem(mView, false)
+            }
+            R.id.delete_menu -> {
+                // delete this purchase
+                deleteItem(mView)
             }
         }
         return super.onOptionsItemSelected(menuItem)
@@ -245,7 +278,7 @@ class AddEditPurchaseFragment : Fragment(R.layout.fragment_add_edit_purchase) {
         Log.d(TAG, "onCreateOptionsMenu: ")
         super.onCreateOptionsMenu(menu, inflater)
         menu.clear()
-        inflater.inflate(R.menu.new_note_menu, menu)
+        inflater.inflate(R.menu.save_delete_menu, menu)
     }
 
     override fun onDestroy() {

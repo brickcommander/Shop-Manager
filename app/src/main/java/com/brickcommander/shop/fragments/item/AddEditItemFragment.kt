@@ -160,7 +160,7 @@ class AddEditItemFragment : Fragment(R.layout.fragment_add_edit_item) {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         Log.d(TAG, "onCreateOptionsMenu: ")
         super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.new_note_menu, menu)
+        inflater.inflate(R.menu.save_menu, menu)
     }
 
     override fun onDestroy() {

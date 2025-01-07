@@ -243,4 +243,21 @@ interface PurchaseDao {
     fun getAllActivePurchases(): LiveData<List<PurchaseLite>> {
         return getAllPurchases(true)
     }
+
+    // Below methods should only be used in testing for clean purposes
+    @Query("DELETE FROM PurchaseMaster WHERE active = :active")
+    fun deleteRowsFromPurchaseMaster(active: Boolean)
+
+    @Query("DELETE FROM PurchaseDetailMaster WHERE purchase_purchaseId NOT IN (SELECT purchaseId FROM PurchaseMaster)")
+    fun deleteAllOrpharRowsFromPurchaseDetailMaster()
+
+    fun cleanUpActivePurchases() {
+        deleteRowsFromPurchaseMaster(true)
+        deleteAllOrpharRowsFromPurchaseDetailMaster()
+    }
+
+    fun cleanUpInctivePurchases() {
+        deleteRowsFromPurchaseMaster(false)
+        deleteAllOrpharRowsFromPurchaseDetailMaster()
+    }
 }

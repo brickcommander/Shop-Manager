@@ -71,7 +71,7 @@ abstract class BaseHomeFragment<T : Any, VH : RecyclerView.ViewHolder> : Fragmen
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         menu.clear()
-        inflater.inflate(R.menu.home_menu, menu)
+        inflater.inflate(R.menu.search_menu, menu)
 
         val mMenuSearch = menu.findItem(R.id.menu_search).actionView as SearchView
         mMenuSearch.isSubmitButtonEnabled = false

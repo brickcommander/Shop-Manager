@@ -6,12 +6,6 @@
     android:orientation="vertical"
     android:padding="10dp">
 
-    <Button
-        android:id="@+id/buttonAddCustomer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Add Customer" />
-
     <include
         layout="@layout/layout_purchase_info_customer"
         android:id="@+id/customerDetailsLayout"

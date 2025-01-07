@@ -8,7 +8,7 @@ data class Purchase(
     var active: Boolean,
     var purchaseDate: Long,
     var totalAmount: Double,
-    val purchaseId: Long
+    var purchaseId: Long
 ) {
     val paidAmount: Double = 0.0
 }

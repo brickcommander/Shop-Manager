@@ -116,7 +116,7 @@ class DetailItemFragment : Fragment(R.layout.fragment_details_item) {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.update_note, menu)
+        inflater.inflate(R.menu.update_delete_menu, menu)
     }
 
     override fun onDestroy() {

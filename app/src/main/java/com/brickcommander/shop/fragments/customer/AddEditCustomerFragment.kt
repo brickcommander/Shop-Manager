@@ -142,7 +142,7 @@ class AddEditCustomerFragment : Fragment(R.layout.fragment_add_edit_customer) {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.new_note_menu, menu)
+        inflater.inflate(R.menu.save_menu, menu)
     }
 
     override fun onDestroy() {
