@@ -259,9 +259,14 @@ class AddEditPurchaseFragment : Fragment(R.layout.fragment_add_edit_purchase) {
 
         Log.d(TAG, "saveItem: $purchase")
         if (activePurchase == false) {
+            notifyCustomer(purchase)
             activity?.toast("Purchase Saved successfully")
             view.findNavController().navigate(R.id.action_addEditPurchaseFragment_to_homePurchaseFragment)
         }
+    }
+
+    private fun notifyCustomer(purchase: Purchase?) {
+        Log.d(TAG, "Notifying Customer $purchase")
     }
 
     private fun deleteItem(view: View) {
