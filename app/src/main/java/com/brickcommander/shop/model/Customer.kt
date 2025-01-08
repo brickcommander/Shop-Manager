@@ -16,7 +16,7 @@ data class Customer(
     var customerNameQ: Int = 0
 ) : Parcelable {
 
-    var createdDate: Long = 0
+    var createdDate: Long = System.currentTimeMillis()
     var dueAmount: Double = 0.0
     var totalAmount: Double = 0.0
 

@@ -28,6 +28,9 @@
             android:id="@+id/action_homeFragment_to_cartFragment"
             app:destination="@id/cartFragment"
             app:popUpTo="@id/nav_graph.xml"/>
+        <action
+            android:id="@+id/action_homeFragment_to_detailProfileFragment2"
+            app:destination="@id/detailProfileFragment2" />
     </fragment>
     <fragment
         android:id="@+id/addEditItemFragment"
@@ -119,6 +122,9 @@
             android:id="@+id/action_homeCustomerFragment_to_cartFragment"
             app:destination="@id/cartFragment"
             app:popUpTo="@id/nav_graph.xml" />
+        <action
+            android:id="@+id/action_homeCustomerFragment_to_detailProfileFragment2"
+            app:destination="@id/detailProfileFragment2" />
     </fragment>
     <fragment
         android:id="@+id/homePurchaseFragment"
@@ -142,6 +148,9 @@
             android:id="@+id/action_homePurchaseFragment_to_cartFragment"
             app:destination="@id/cartFragment"
             app:popUpTo="@id/nav_graph.xml"/>
+        <action
+            android:id="@+id/action_homePurchaseFragment_to_detailProfileFragment2"
+            app:destination="@id/detailProfileFragment2" />
     </fragment>
     <fragment
         android:id="@+id/detailPurchaseFragment"
@@ -183,5 +192,29 @@
         <action
             android:id="@+id/action_cartFragment_to_addEditPurchaseFragment"
             app:destination="@id/addEditPurchaseFragment" />
+        <action
+            android:id="@+id/action_cartFragment_to_detailProfileFragment2"
+            app:destination="@id/detailProfileFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/addEditProfileFragment2"
+        android:name="com.brickcommander.shop.fragments.profile.AddEditProfileFragment"
+        android:label="AddEditProfileFragment" >
+        <action
+            android:id="@+id/action_addEditProfileFragment2_to_detailProfileFragment2"
+            app:destination="@id/detailProfileFragment2"
+            app:popUpTo="@id/detailProfileFragment2"/>
+        <action
+            android:id="@+id/action_addEditProfileFragment2_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/nav_graph.xml"/>
+    </fragment>
+    <fragment
+        android:id="@+id/detailProfileFragment2"
+        android:name="com.brickcommander.shop.fragments.profile.DetailProfileFragment"
+        android:label="DetailProfileFragment" >
+        <action
+            android:id="@+id/action_detailProfileFragment2_to_addEditProfileFragment2"
+            app:destination="@id/addEditProfileFragment2" />
     </fragment>
 </navigation>

@@ -65,6 +65,9 @@ class AddEditCustomerFragment : Fragment(R.layout.fragment_add_edit_customer) {
         customerViewModel = (activity as MainActivity).customerViewModel
         mView = view
 
+        if (currCustomer == null) (requireActivity() as MainActivity).supportActionBar?.title = "Add Customer"
+        else (requireActivity() as MainActivity).supportActionBar?.title = "Update Customer"
+
         nameEditText = binding.nameEditText
         mobileEditText = binding.mobileEditText
         emailEditText = binding.emailEditText

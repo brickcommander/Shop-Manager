@@ -1,6 +1,8 @@
 package com.brickcommander.shop.fragments.customer
 
 import android.util.Log
+import android.view.Menu
+import android.view.View
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.brickcommander.shop.MainActivity
@@ -57,5 +59,9 @@ class HomeCustomerFragment : BaseHomeFragment<Customer, CustomerAdapter.Customer
             }
         }
 
+    }
+
+    override fun navigateToProfile(mView: View) {
+        mView.findNavController().navigate(R.id.action_homeCustomerFragment_to_detailProfileFragment2)
     }
 }

@@ -1,6 +1,7 @@
 package com.brickcommander.shop.fragments.item
 
 import android.util.Log
+import android.view.View
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.brickcommander.shop.MainActivity
@@ -55,5 +56,9 @@ class HomeItemFragment : BaseHomeFragment<Item, ItemAdapter.ItemViewHolder>() {
                 Log.d(TAG, "setUpRecyclerView: ${myAdapter.itemCount}")
             }
         }
+    }
+
+    override fun navigateToProfile(mView: View) {
+        mView.findNavController().navigate(R.id.action_homeFragment_to_detailProfileFragment2)
     }
 }

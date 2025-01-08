@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.brickcommander.shop.db.AppDatabase
 import com.brickcommander.shop.repository.ItemRepository
 import com.brickcommander.shop.databinding.ActivityMainBinding
+import com.brickcommander.shop.fragments.profile.AddEditProfileFragment
 import com.brickcommander.shop.model.Customer
 import com.brickcommander.shop.model.Item
 import com.brickcommander.shop.model.helperModel.PurchaseLite
@@ -17,6 +18,7 @@ import com.brickcommander.shop.viewModel.MyViewModel
 import com.brickcommander.shop.viewModel.MyViewModelProviderFactory
 import com.brickcommander.shop.viewModel.PurchaseViewModel
 import com.brickcommander.shop.viewModel.PurchaseViewModelProviderFactory
+import getObjectFromPreferences
 
 class MainActivity : AppCompatActivity() {
 
@@ -35,6 +37,15 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
 
         setUpViewModel()
+
+        checkProfileIsAvailable()
+    }
+
+    private fun checkProfileIsAvailable() {
+        val profile = getObjectFromPreferences(this)
+        if(profile == null) {
+            supportFragmentManager.beginTransaction().replace(R.id.fragmentContainer, AddEditProfileFragment()).commit()
+        }
     }
 
     private fun setUpViewModel() {

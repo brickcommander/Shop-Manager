@@ -8,4 +8,9 @@
         android:title="Search"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/profile_menu"
+        android:title="Profile"
+        app:showAsAction="never" />
 </menu>

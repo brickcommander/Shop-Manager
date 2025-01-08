@@ -13,11 +13,12 @@ data class Item(
     var sellingPrice: Double = 0.0,
     var totalCount: Double = 0.0,
     var remainingCount: Double = 0.0,
+    var rateQ: Int = 0,
     var totalQ: Int = 0,
     var remainingQ: Int = 0
 ) : Parcelable {
 
-    var createdDate: Long = 0
+    var createdDate: Long = System.currentTimeMillis()
 
     @PrimaryKey(autoGenerate = true)
     var itemId: Long = 0
@@ -32,7 +33,7 @@ data class Item(
     }
 
     fun copy(): Item {
-        val item = Item(name, buyingPrice, sellingPrice, totalCount, remainingCount, totalQ, remainingQ)
+        val item = Item(name, buyingPrice, sellingPrice, totalCount, remainingCount, rateQ, totalQ, remainingQ)
         item.createdDate = createdDate
         item.itemId = itemId
         return item

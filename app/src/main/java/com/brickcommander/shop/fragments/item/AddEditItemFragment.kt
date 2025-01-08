@@ -66,6 +66,9 @@ class AddEditItemFragment : Fragment(R.layout.fragment_add_edit_item) {
         itemViewModel = (activity as MainActivity).itemViewModel
         mView = view
 
+        if (currItem == null) (requireActivity() as MainActivity).supportActionBar?.title = "Add Item"
+        else (requireActivity() as MainActivity).supportActionBar?.title = "Update Item"
+
         nameEditText = binding.nameEditText
         buyEditText = binding.buyEditText
         sellEditText = binding.sellEditText

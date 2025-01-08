@@ -13,16 +13,18 @@ data class Profile(
     var owner: String = "",
     var mobile: String = "",
     var email: String = "",
-    var location: String = "",
-    var gstin: String = ""
+    var address: String = "",
+    var pincode: String = "",
+    var upi: String = "",
+    var gstin: String = "",
 ) : Parcelable {
 
-    var createdDate: Long = 0
+    var createdDate: Long = System.currentTimeMillis()
 
     @PrimaryKey(autoGenerate = true)
     var shopId: Long = System.currentTimeMillis()
 
     override fun toString(): String {
-        return "Profile(shopId=$shopId, shopName=$shopName, owner=$owner, mobile=$mobile, email=$email, gstin=$gstin, location=$location)"
+        return "Profile(shopId=$shopId, shopName=$shopName, owner=$owner, mobile=$mobile, email=$email, gstin=$gstin, address=$address, pincode=$pincode, upi=$upi)"
     }
 }

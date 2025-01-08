@@ -21,13 +21,13 @@ abstract class BaseHomeFragment<T : Any, VH : RecyclerView.ViewHolder> : Fragmen
 
     private var _binding: FragmentHomeBinding? = null
     protected val binding get() = _binding!!
+    protected lateinit var mView: View
 
     protected lateinit var myViewModel: MyViewModel<T>
     protected lateinit var myAdapter: BaseAdapter<T, VH>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setHasOptionsMenu(true)
     }
 
@@ -49,6 +49,7 @@ abstract class BaseHomeFragment<T : Any, VH : RecyclerView.ViewHolder> : Fragmen
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        mView = view
         myViewModel = getViewModel()
         setUpRecyclerView()
         setUpNavigation()
@@ -71,12 +72,20 @@ abstract class BaseHomeFragment<T : Any, VH : RecyclerView.ViewHolder> : Fragmen
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         menu.clear()
-        inflater.inflate(R.menu.search_menu, menu)
+        inflater.inflate(R.menu.menu, menu)
 
         val mMenuSearch = menu.findItem(R.id.menu_search).actionView as SearchView
         mMenuSearch.isSubmitButtonEnabled = false
         mMenuSearch.setOnQueryTextListener(this)
+
+        val mProfileMenu = menu.findItem(R.id.profile_menu)
+        mProfileMenu.setOnMenuItemClickListener {
+            navigateToProfile(mView)
+            true
+        }
     }
+
+    abstract fun navigateToProfile(mView: View)
 
     override fun onDestroy() {
         super.onDestroy()

@@ -53,6 +53,7 @@ dependencies {
     implementation("androidx.room:room-runtime:2.5.0")
     implementation(libs.protolite.well.known.types)
     implementation(libs.androidx.lifecycle.viewmodel.android)
+    implementation("com.google.code.gson:gson:2.9.0")
     kapt("androidx.room:room-compiler:2.5.0")
     implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
     implementation("com.google.android.material:material:1.9.0") // Use the latest stable version

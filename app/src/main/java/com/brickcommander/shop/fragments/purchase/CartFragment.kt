@@ -1,6 +1,7 @@
 package com.brickcommander.shop.fragments.purchase
 
 import android.util.Log
+import android.view.View
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.brickcommander.shop.MainActivity
@@ -55,5 +56,9 @@ class CartFragment : BaseHomeFragment<PurchaseLite, PurchaseLiteAdapter.Purchase
                 Log.d(TAG, "setUpRecyclerView: ${myAdapter.itemCount}")
             }
         }
+    }
+
+    override fun navigateToProfile(mView: View) {
+        mView.findNavController().navigate(R.id.action_cartFragment_to_detailProfileFragment2)
     }
 }

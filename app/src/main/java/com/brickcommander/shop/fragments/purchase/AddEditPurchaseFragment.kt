@@ -69,6 +69,10 @@ class AddEditPurchaseFragment : Fragment(R.layout.fragment_add_edit_purchase) {
         mView = view
 
         purchaseLite = arguments?.getParcelable("purchaseLite")
+
+        if (purchaseLite == null) (requireActivity() as MainActivity).supportActionBar?.title = "Add Purchase"
+        else (requireActivity() as MainActivity).supportActionBar?.title = "Update Purchase"
+
         if(purchaseLite != null) {
             purchase = purchaseViewModel.findPurchaseByPurchaseId(purchaseLite!!.purchaseId)
             selectedItems = purchase!!.items.toMutableList()
