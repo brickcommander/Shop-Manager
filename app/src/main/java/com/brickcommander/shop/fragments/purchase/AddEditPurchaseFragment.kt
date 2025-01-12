@@ -91,7 +91,7 @@ class AddEditPurchaseFragment : Fragment(R.layout.fragment_add_edit_purchase) {
             showItemSearchPopup { selectedItem ->
                 lifecycleScope.launch {
                     val (quantity, quantityQ) = showPopupAndWait(selectedItem.remainingQ, -1)?: return@launch
-                    var itemDetail = ItemDetail(selectedItem, quantity, quantityQ)
+                    var itemDetail = ItemDetail(selectedItem, quantity, quantityQ, selectedItem.sellingPrice)
                     val selectedItemIndex = selectedItems.indexOfFirst { it.item.itemId == itemDetail.item.itemId }
                     handleSelectedItem(itemDetail, selectedItemIndex)
                     binding.recyclerViewItems.adapter?.notifyDataSetChanged()

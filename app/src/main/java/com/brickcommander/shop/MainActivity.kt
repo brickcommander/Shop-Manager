@@ -128,8 +128,16 @@ class MainActivity : AppCompatActivity() {
             requestSmsPermission()
         } else {
             try {
+                val message = generateReceiptMessage(profile!!, purchase)
                 val smsManager = SmsManager.getDefault()
-                smsManager.sendTextMessage(purchase.customer!!.mobile, null, generateReceiptMessage(profile!!, purchase), null, null)
+
+                if (message.length > 140) {
+                    val parts = smsManager.divideMessage(message)
+                    smsManager.sendMultipartTextMessage(purchase.customer!!.mobile, null, parts, null, null)
+                } else {
+                    smsManager.sendTextMessage(purchase.customer!!.mobile, null, message, null, null)
+                }
+
                 toast("Receipt Sent")
             } catch (e: Exception) {
                 e.printStackTrace()

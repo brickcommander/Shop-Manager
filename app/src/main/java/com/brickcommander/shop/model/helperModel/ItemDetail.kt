@@ -8,7 +8,6 @@ import kotlinx.android.parcel.Parcelize
 data class ItemDetail(
     val item: Item,
     var quantity: Double,
-    var quantityQ: Int
-) : Parcelable {
+    var quantityQ: Int,
     var sellingPrice: Double = 0.0
-}
+) : Parcelable

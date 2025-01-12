@@ -70,7 +70,9 @@ class DetailPurchaseFragment : Fragment(R.layout.fragment_details_purchase) {
         if(currPurchase == null) {
             activity?.toast("Error Occured!")
             view.findNavController().navigate(R.id.action_detailFragment_to_homeFragment)
+            return
         }
+        Log.d(TAG, "onViewCreated: $currPurchase")
 
         binding.customerDetailsLayout.customerNameId.text = currPurchase!!.customer!!.name
         binding.customerDetailsLayout.totalAmountId.text = currPurchase!!.totalAmount.toString()

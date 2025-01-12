@@ -183,7 +183,8 @@ interface PurchaseDao {
             ItemDetail(
                 item,
                 purchaseDetailMaster.quantity,
-                purchaseDetailMaster.quantityQ
+                purchaseDetailMaster.quantityQ,
+                purchaseDetailMaster.itemSellingPrice
             )
         }
 
