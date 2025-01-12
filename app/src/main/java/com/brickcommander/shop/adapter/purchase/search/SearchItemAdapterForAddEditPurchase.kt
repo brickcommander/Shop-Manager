@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.brickcommander.shop.databinding.LayoutPurchaseAddEditItemAdapterBinding
 import com.brickcommander.shop.model.Item
+import com.brickcommander.shop.util.UnitsManager
 
 
 class SearchItemAdapterForAddEditPurchase(
@@ -17,7 +18,7 @@ class SearchItemAdapterForAddEditPurchase(
         fun bind(item: Item) {
             binding.itemNameTextView.text = item.name
             binding.itemPriceTextView.text = item.sellingPrice.toString()
-            binding.itemRemainingTextView.text = item.remainingCount.toString()
+            binding.itemRemainingTextView.text = item.remainingCount.toString() + " " + UnitsManager.getNameById(item.remainingQ)
 
             itemView.setOnClickListener {
                 onItemClick(item)
