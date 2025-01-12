@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.brickcommander.shop.R
 import com.brickcommander.shop.databinding.ItemLayoutListBinding
 import com.brickcommander.shop.model.Item
-import com.brickcommander.shop.shared.CONSTANTS
+import com.brickcommander.shop.util.UnitsManager
 
 class ItemAdapter : BaseAdapter<Item, ItemAdapter.ItemViewHolder>() {
 
@@ -26,13 +26,8 @@ class ItemAdapter : BaseAdapter<Item, ItemAdapter.ItemViewHolder>() {
         val currentItem = differ.currentList[position]
 
         holder.itemBinding.nameId.text = currentItem.name
-        holder.itemBinding.sellingPriceId.text = currentItem.sellingPrice.toString()
-
-        if(currentItem.remainingQ > 0) {
-            holder.itemBinding.remainingCountId.text = currentItem.remainingCount.toString() + CONSTANTS.QUANTITY[currentItem.remainingQ]
-        } else {
-            holder.itemBinding.remainingCountId.text = currentItem.remainingCount.toString()
-        }
+        holder.itemBinding.sellingPriceId.text = currentItem.sellingPrice.toString() + " Rs/" + UnitsManager.getNameById(currentItem.sellingQ)
+        holder.itemBinding.remainingCountId.text = currentItem.remainingCount.toString() + " " + UnitsManager.getNameById(currentItem.remainingQ)
 
         val bundle = Bundle().apply {
             putParcelable("item", currentItem)

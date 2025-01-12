@@ -10,11 +10,10 @@ import kotlinx.android.parcel.Parcelize
 data class Item(
     var name: String = "NotDefined",
     var buyingPrice: Double = 0.0,
+    var buyingQ: Int = 0, // Id of unit from UnitsManager
     var sellingPrice: Double = 0.0,
-    var totalCount: Double = 0.0,
+    var sellingQ: Int = 0,
     var remainingCount: Double = 0.0,
-    var rateQ: Int = 0,
-    var totalQ: Int = 0,
     var remainingQ: Int = 0
 ) : Parcelable {
 
@@ -33,13 +32,13 @@ data class Item(
     }
 
     fun copy(): Item {
-        val item = Item(name, buyingPrice, sellingPrice, totalCount, remainingCount, rateQ, totalQ, remainingQ)
+        val item = Item(name, buyingPrice, buyingQ, sellingPrice, sellingQ, remainingCount, remainingQ)
         item.createdDate = createdDate
         item.itemId = itemId
         return item
     }
 
     override fun toString(): String {
-        return "Item(Name: $name, Buying Price: $buyingPrice, Selling Price: $sellingPrice, Available: $remainingCount, Total Count: $totalCount, Created Date: $createdDate)"
+        return "Item(Name: $name, Buying Price: $buyingPrice, Selling Price: $sellingPrice, Available: $remainingCount, Created Date: $createdDate)"
     }
 }

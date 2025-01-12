@@ -28,11 +28,10 @@ import com.brickcommander.shop.model.Customer
 import com.brickcommander.shop.model.Purchase
 import com.brickcommander.shop.model.helperModel.ItemDetail
 import com.brickcommander.shop.model.helperModel.PurchaseLite
-import com.brickcommander.shop.shared.CONSTANTS
 import com.brickcommander.shop.util.SpinnerHelper
+import com.brickcommander.shop.util.UnitsManager
 import com.brickcommander.shop.util.calculateAmount
-import com.brickcommander.shop.util.getItemQFromItemQString
-import com.brickcommander.shop.util.getSpinnerListByCurrentQuantityType
+import com.brickcommander.shop.util.findPositionFromUnitId
 import com.brickcommander.shop.util.toast
 import com.brickcommander.shop.viewModel.PurchaseViewModel
 import kotlinx.coroutines.launch
@@ -174,7 +173,7 @@ class AddEditPurchaseFragment : Fragment(R.layout.fragment_add_edit_purchase) {
         dialog.show(parentFragmentManager, "SearchCustomersDialog")
     }
 
-    private suspend fun showPopupAndWait(selectedItemDetailQ: Int, selectedItemIndex: Int): Pair<Double, Int>? = suspendCancellableCoroutine { continuation ->
+    private suspend fun showPopupAndWait(itemUnitId: Int, selectedItemIndex: Int): Pair<Double, Int>? = suspendCancellableCoroutine { continuation ->
         val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.popup_select_item_quantity, null)
         val alertDialog = AlertDialog.Builder(requireContext())
             .setView(dialogView)
@@ -184,28 +183,22 @@ class AddEditPurchaseFragment : Fragment(R.layout.fragment_add_edit_purchase) {
         val spinner = dialogView.findViewById<Spinner>(R.id.itemQuantitySpinner)
         val okButton = dialogView.findViewById<Button>(R.id.okButton)
 
-        val spinnerArray = getSpinnerListByCurrentQuantityType(selectedItemDetailQ).toTypedArray()
-        var spinnerArrayDefaultPosition = 0
+        val spinnerArray = UnitsManager.getUnitNamesByUnitType(itemUnitId)
+        var spinnerArrayDefaultPosition = findPositionFromUnitId(spinnerArray, itemUnitId)
+
         if(selectedItemIndex != -1 && selectedItems[selectedItemIndex].quantity != 0.0) {
             editText.setText(selectedItems[selectedItemIndex].quantity.toString())
-            spinnerArray.forEachIndexed { index, QString ->
-                if(QString == CONSTANTS.QUANTITY[selectedItems[selectedItemIndex].quantityQ]) {
-                    spinnerArrayDefaultPosition = index
-                    return@forEachIndexed
-                }
-            }
         }
 
-        var itemQ = 0
+        var itemUnitId = 0
         var itemQuantity = 0.0
 
-        SpinnerHelper.setupSpinner(
-            context = requireContext(),
+        SpinnerHelper.setupItemSpinner(
             spinner = spinner,
             items = spinnerArray,
-            defaultPosition = spinnerArrayDefaultPosition
-        ) { _, selectedItem ->
-            itemQ = getItemQFromItemQString(selectedItem)
+            defaultPos = spinnerArrayDefaultPosition
+        ) { selectedUnitId ->
+            itemUnitId = selectedUnitId
         }
 
         okButton.setOnClickListener {
@@ -217,7 +210,7 @@ class AddEditPurchaseFragment : Fragment(R.layout.fragment_add_edit_purchase) {
             if(itemQuantity == 0.0) {
                 context?.toast("Quantity not valid.")
             } else {
-                continuation.resume(Pair(itemQuantity, itemQ))
+                continuation.resume(Pair(itemQuantity, itemUnitId))
             }
         }
 

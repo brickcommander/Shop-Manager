@@ -16,7 +16,7 @@ import com.brickcommander.shop.MainActivity
 import com.brickcommander.shop.R
 import com.brickcommander.shop.databinding.FragmentDetailsItemBinding
 import com.brickcommander.shop.model.Item
-import com.brickcommander.shop.shared.CONSTANTS
+import com.brickcommander.shop.util.UnitsManager
 import com.brickcommander.shop.util.toast
 import com.brickcommander.shop.viewModel.MyViewModel
 
@@ -68,18 +68,9 @@ class DetailItemFragment : Fragment(R.layout.fragment_details_item) {
         }
 
         binding.itemDetailsLayout2.nameId.text = currItem!!.name
-        binding.itemDetailsLayout2.buyingPriceId.text = currItem!!.buyingPrice.toString() + " Rs"
-        binding.itemDetailsLayout2.sellingPriceId.text = currItem!!.sellingPrice.toString() + " Rs"
-        if(currItem!!.totalQ > 0) {
-            binding.itemDetailsLayout2.totalCountId.text = currItem!!.totalCount.toString() + CONSTANTS.QUANTITY[currItem!!.totalQ]
-        } else {
-            binding.itemDetailsLayout2.totalCountId.text = currItem!!.totalCount.toString()
-        }
-        if(currItem!!.remainingQ > 0) {
-            binding.itemDetailsLayout2.remainingCountId.text = currItem!!.remainingCount.toString() + CONSTANTS.QUANTITY[currItem!!.remainingQ]
-        } else {
-            binding.itemDetailsLayout2.remainingCountId.text = currItem!!.remainingCount.toString()
-        }
+        binding.itemDetailsLayout2.buyingPriceId.text = currItem!!.buyingPrice.toString() + " Rs/" + UnitsManager.getNameById(currItem!!.buyingQ)
+        binding.itemDetailsLayout2.sellingPriceId.text = currItem!!.sellingPrice.toString() + " Rs/" + UnitsManager.getNameById(currItem!!.sellingQ)
+        binding.itemDetailsLayout2.remainingCountId.text = currItem!!.remainingCount.toString() + " " + UnitsManager.getNameById(currItem!!.remainingQ)
     }
 
     private fun editItem(view: View) {

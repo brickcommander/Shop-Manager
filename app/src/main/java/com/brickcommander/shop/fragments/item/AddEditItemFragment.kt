@@ -8,39 +8,40 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Spinner
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.brickcommander.shop.MainActivity
 import com.brickcommander.shop.R
-import com.brickcommander.shop.databinding.FragmentAddEditItemBinding
+import com.brickcommander.shop.databinding.FragmentAddEditItemTempBinding
 import com.brickcommander.shop.model.Item
-import com.brickcommander.shop.shared.CONSTANTS
+import com.brickcommander.shop.util.SpinnerHelper
+import com.brickcommander.shop.util.UnitsManager
+import com.brickcommander.shop.util.findPositionFromUnitId
 import com.brickcommander.shop.util.toast
 import com.brickcommander.shop.viewModel.MyViewModel
 
-class AddEditItemFragment : Fragment(R.layout.fragment_add_edit_item) {
+class AddEditItemFragment : Fragment(R.layout.fragment_add_edit_item_temp) {
     companion object {
         const val TAG = "AddEditItemFragment"
     }
 
-    private var _binding: FragmentAddEditItemBinding? = null
+    private var _binding: FragmentAddEditItemTempBinding? = null
     private val binding get() = _binding!!
 
-    private var currItem: Item? = null
+    private var isNewItem: Boolean = false
+    private lateinit var currItem: Item
     private lateinit var itemViewModel: MyViewModel<Item>
     private lateinit var mView: View
 
     private lateinit var nameEditText: EditText
     private lateinit var buyEditText: EditText
+    private lateinit var buyingUnitSpinner: Spinner
     private lateinit var sellEditText: EditText
-    private lateinit var totalEditText: EditText
+    private lateinit var sellingUnitSpinner: Spinner
     private lateinit var remainingEditText: EditText
-    private lateinit var itemTotalSpinner: Spinner
-    private lateinit var itemRemSpinner: Spinner
+    private lateinit var remUnitSpinner: Spinner
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +52,7 @@ class AddEditItemFragment : Fragment(R.layout.fragment_add_edit_item) {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentAddEditItemBinding.inflate(
+        _binding = FragmentAddEditItemTempBinding.inflate(
             inflater,
             container,
             false
@@ -61,59 +62,64 @@ class AddEditItemFragment : Fragment(R.layout.fragment_add_edit_item) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        currItem = arguments?.getParcelable("item")
-        Log.d(TAG, "onViewCreated: $currItem")
         itemViewModel = (activity as MainActivity).itemViewModel
         mView = view
 
-        if (currItem == null) (requireActivity() as MainActivity).supportActionBar?.title = "Add Item"
-        else (requireActivity() as MainActivity).supportActionBar?.title = "Update Item"
-
         nameEditText = binding.nameEditText
         buyEditText = binding.buyEditText
+        buyingUnitSpinner = binding.itemBuyingUnitSpinner
         sellEditText = binding.sellEditText
-        totalEditText = binding.totalEditText
+        sellingUnitSpinner = binding.itemSellingUnitSpinner
         remainingEditText = binding.remainingEditText
-        itemTotalSpinner = binding.itemTotalSpinner
-        itemRemSpinner = binding.itemRemSpinner
+        remUnitSpinner = binding.remUnitSpinner
 
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, CONSTANTS.QUANTITY.toTypedArray())
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        itemTotalSpinner.adapter = adapter
-        itemRemSpinner.adapter = adapter
+        val argItem: Item? = arguments?.getParcelable("item")
+        if (argItem == null) {
+            (requireActivity() as MainActivity).supportActionBar?.title = "Add Item"
 
-        currItem?.let {
-            nameEditText.setText(it.name)
-            buyEditText.setText(it.buyingPrice.toString())
-            sellEditText.setText(it.sellingPrice.toString())
-            totalEditText.setText(it.totalCount.toString())
-            remainingEditText.setText(it.remainingCount.toString())
-            itemTotalSpinner.setSelection(it.totalQ)
-            itemRemSpinner.setSelection(it.remainingQ)
-        }
+            isNewItem = true
+            currItem = Item()
+            val unitNames = UnitsManager.getUnitNamesByUnitType(-1)
 
-        itemTotalSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                val selectedItem = parent.getItemAtPosition(position).toString()
-                Log.d(TAG, "itemTotalSpinner Selected item: $selectedItem")
-                currItem?.totalQ = position
+            SpinnerHelper.setupItemSpinner(buyingUnitSpinner, unitNames, 0) { selectedUnitId ->
+                Log.d(TAG, "onViewCreated: buyingUnitSpinner: $selectedUnitId")
+                currItem.buyingQ = selectedUnitId
             }
 
-            override fun onNothingSelected(parent: AdapterView<*>) {
-                Log.d(TAG, "itemTotalSpinner None Selected")
-            }
-        }
-
-        itemRemSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                val selectedItem = parent.getItemAtPosition(position).toString()
-                Log.d(TAG, "itemRemSpinner Selected item: $selectedItem")
-                currItem?.remainingQ = position
+            SpinnerHelper.setupItemSpinner(sellingUnitSpinner, unitNames, 0) { selectedUnitId ->
+                Log.d(TAG, "onViewCreated: sellingUnitSpinner: $selectedUnitId")
+                currItem.sellingQ = selectedUnitId
             }
 
-            override fun onNothingSelected(parent: AdapterView<*>) {
-                Log.d(TAG, "itemRemSpinner None Selected")
+            SpinnerHelper.setupItemSpinner(remUnitSpinner, unitNames, 0) { selectedUnitId ->
+                Log.d(TAG, "onViewCreated: itemRemSpinner: $selectedUnitId")
+                currItem.remainingQ = selectedUnitId
             }
+        } else {
+            (requireActivity() as MainActivity).supportActionBar?.title = "Update Item"
+
+            currItem = argItem
+            val unitNames = UnitsManager.getUnitNamesByUnitType(currItem.sellingQ)
+
+            SpinnerHelper.setupItemSpinner(buyingUnitSpinner, unitNames, findPositionFromUnitId(unitNames, currItem.buyingQ)) { selectedUnitId ->
+                Log.d(TAG, "onViewCreated: buyingUnitSpinner: $selectedUnitId")
+                currItem.buyingQ = selectedUnitId
+            }
+
+            SpinnerHelper.setupItemSpinner(sellingUnitSpinner, unitNames, findPositionFromUnitId(unitNames, currItem.sellingQ)) { selectedUnitId ->
+                Log.d(TAG, "onViewCreated: sellingUnitSpinner: $selectedUnitId")
+                currItem.sellingQ = selectedUnitId
+            }
+
+            SpinnerHelper.setupItemSpinner(remUnitSpinner, unitNames, findPositionFromUnitId(unitNames, currItem.remainingQ)) { selectedUnitId ->
+                Log.d(TAG, "onViewCreated: itemRemSpinner: $selectedUnitId")
+                currItem.remainingQ = selectedUnitId
+            }
+
+            nameEditText.setText(currItem!!.name)
+            buyEditText.setText(currItem!!.buyingPrice.toString())
+            sellEditText.setText(currItem!!.sellingPrice.toString())
+            remainingEditText.setText(currItem!!.remainingCount.toString())
         }
     }
 
@@ -122,20 +128,24 @@ class AddEditItemFragment : Fragment(R.layout.fragment_add_edit_item) {
             activity?.toast("Please Enter Item Name")
             return
         }
-
-        var isNewItem = false
-        if (currItem == null) {
-            isNewItem = true
-            currItem = Item()
+        if (sellEditText.text.toString().isEmpty() || sellEditText.text.toString().trim().toDouble() <= 0.0) {
+            activity?.toast("Please Select Valid Selling Price")
+            return
+        }
+        if (buyEditText.text.toString().isEmpty() || buyEditText.text.toString().trim().toDouble() <= 0.0) {
+            activity?.toast("Please Select Valid Buying Price")
+            return
+        }
+        if (!UnitsManager.hasSameUnitType(currItem.buyingQ, currItem.sellingQ, currItem.remainingQ)) {
+            activity?.toast("Please Select Valid Units")
+            return
         }
 
-        if (nameEditText.text.toString() != "") currItem!!.name = nameEditText.text.toString().trim()
-        if (buyEditText.text.toString() != "") currItem!!.buyingPrice = buyEditText.text.toString().trim().toDouble()
-        if (sellEditText.text.toString() != "") currItem!!.sellingPrice = sellEditText.text.toString().trim().toDouble()
-        if (totalEditText.text.toString() != "") currItem!!.totalCount = totalEditText.text.toString().trim().toDouble()
+        currItem!!.name = nameEditText.text.toString().trim()
+        currItem!!.buyingPrice = buyEditText.text.toString().trim().toDouble()
+        currItem!!.sellingPrice = sellEditText.text.toString().trim().toDouble()
         if (remainingEditText.text.toString() != "") currItem!!.remainingCount = remainingEditText.text.toString().trim().toDouble()
-        if (itemTotalSpinner.selectedItemPosition != 0) currItem!!.totalQ = itemTotalSpinner.selectedItemPosition
-        if (itemRemSpinner.selectedItemPosition != 0) currItem!!.remainingQ = itemRemSpinner.selectedItemPosition
+//        if (itemTotalSpinner.selectedItemPosition != 0) currItem!!.totalQ = itemTotalSpinner.selectedItemPosition
 
         if (isNewItem) itemViewModel.add(currItem!!)
         else itemViewModel.update(currItem!!)

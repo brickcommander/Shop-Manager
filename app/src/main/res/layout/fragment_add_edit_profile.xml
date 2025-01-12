@@ -28,7 +28,7 @@
             android:background="@drawable/edit_text_background"
             android:textColor="@color/black"
             android:hint="Enter Shop Name"
-            android:inputType="text"
+            android:inputType="textCapWords"
             android:padding="12dp" />
 
 
@@ -48,7 +48,7 @@
             android:textColor="@color/black"
             android:background="@drawable/edit_text_background"
             android:hint="Enter Owner Name"
-            android:inputType="text"
+            android:inputType="textCapWords"
             android:padding="12dp" />
 
 
@@ -108,7 +108,7 @@
             android:textColor="@color/black"
             android:background="@drawable/edit_text_background"
             android:hint="Enter Email"
-            android:inputType="text"
+            android:inputType="textEmailAddress"
             android:padding="12dp" />
 
 
@@ -148,7 +148,7 @@
             android:textColor="@color/black"
             android:background="@drawable/edit_text_background"
             android:hint="Enter Shop Address"
-            android:inputType="text"
+            android:inputType="textCapWords"
             android:padding="12dp" />
 
 

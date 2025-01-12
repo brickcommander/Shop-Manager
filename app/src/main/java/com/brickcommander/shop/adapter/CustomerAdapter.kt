@@ -32,7 +32,7 @@ class CustomerAdapter : BaseAdapter<Customer, CustomerAdapter.CustomerViewHolder
             holder.customerBinding.nameId.text = currentCustomer.name
         }
         holder.customerBinding.contactNumberId.text = currentCustomer.mobile
-        holder.customerBinding.dueAmountId.text = currentCustomer.dueAmount.toString()
+        holder.customerBinding.dueAmountId.text = currentCustomer.dueAmount.toString() + " Rs"
 
         val bundle = Bundle().apply {
             putParcelable("customer", currentCustomer)

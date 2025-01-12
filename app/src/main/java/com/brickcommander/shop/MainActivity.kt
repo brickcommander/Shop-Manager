@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.toolbar)
 
-        sendSms("+919617466846", "Hello, this is a message!")
+//        sendSms("+919617466846", "Hello, this is a message!")
 
         setUpViewModel()
 
