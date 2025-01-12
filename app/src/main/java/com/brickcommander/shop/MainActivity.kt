@@ -8,10 +8,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.NavHostFragment
 import com.brickcommander.shop.db.AppDatabase
 import com.brickcommander.shop.repository.ItemRepository
 import com.brickcommander.shop.databinding.ActivityMainBinding
-import com.brickcommander.shop.fragments.profile.AddEditProfileFragment
 import com.brickcommander.shop.model.Customer
 import com.brickcommander.shop.model.Item
 import com.brickcommander.shop.model.Profile
@@ -54,8 +54,13 @@ class MainActivity : AppCompatActivity() {
     private fun checkProfileIsAvailable() {
         profile = getObjectFromPreferences(this)
         if (profile == null) {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainer, AddEditProfileFragment()).commit()
+            val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
+            val navController = navHostFragment.navController
+            val navInflater = navController.navInflater
+            val navGraph = navInflater.inflate(R.navigation.nav_graph) // Replace with your nav_graph ID
+
+            navGraph.setStartDestination(R.id.addEditProfileFragment2) // Set AddEditProfileFragment as start destination
+            navController.graph = navGraph
         }
     }
 
