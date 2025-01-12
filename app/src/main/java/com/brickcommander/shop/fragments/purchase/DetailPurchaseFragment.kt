@@ -77,6 +77,7 @@ class DetailPurchaseFragment : Fragment(R.layout.fragment_details_purchase) {
         binding.customerDetailsLayout.customerNameId.text = currPurchase!!.customer!!.name
         binding.customerDetailsLayout.totalAmountId.text = currPurchase!!.totalAmount.toString()
         binding.customerDetailsLayout.purchaseDateId.text = convertLongToFormattedDate(currPurchase!!.purchaseDate)
+        binding.customerDetailsLayout.totalItemsId.text = currPurchase!!.items.size.toString()
 
         binding.itemListView.adapter = ItemAdapterForPurchaseDetailFragment(requireContext(), currPurchase!!.items)
     }

@@ -5,55 +5,70 @@
     android:orientation="vertical"
     android:paddingVertical="12dp" >
 
-    <TextView
-        android:id="@+id/itemNameTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Item Name"
-        android:textSize="16sp"
-        android:textStyle="bold" />
-
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:stretchColumns="1,3">
+        android:stretchColumns="1">
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/itemNameTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Item Name"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/itemTotalAmountTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Item Total Amount"
+                android:textColor="@color/green"
+                android:layout_gravity="end"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+        </TableRow>
 
         <TableRow>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="SP  "
-                android:textSize="16sp" />
+                android:text="SP"
+                android:textSize="16sp"
+                android:gravity="start"/>
 
             <TextView
                 android:id="@+id/itemPriceTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:text="Amount"
+                android:gravity="start"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Quantity  "
+                android:text="Qty  "
+                android:gravity="end"
                 android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/itemQuantityTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Quantity"
+                android:gravity="end"
+                android:text="Qty"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
         </TableRow>
+
 
     </TableLayout>
 

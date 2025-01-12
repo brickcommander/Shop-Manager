@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.brickcommander.shop.databinding.LayoutPurchaseAddEditItemBinding
 import com.brickcommander.shop.model.helperModel.ItemDetail
 import com.brickcommander.shop.util.UnitsManager
+import com.brickcommander.shop.util.calculateAmount
 
 
 class ItemAdapterForAddEditPurchase(
@@ -20,6 +21,7 @@ class ItemAdapterForAddEditPurchase(
             binding.itemNameTextView.text = itemDetail.item.name
             binding.itemPriceTextView.text = itemDetail.item.sellingPrice.toString() + " Rs/" + UnitsManager.getNameById(itemDetail.item.remainingQ)
             binding.itemQuantityTextView.text = itemDetail.quantity.toString() + " " + UnitsManager.getNameById(itemDetail.quantityQ)
+            binding.itemTotalAmountTextView.text = "+" + calculateAmount(itemDetail).toString() + " Rs"
 
             binding.editButton.setOnClickListener {
                 updateItem(itemDetail)
