@@ -10,5 +10,5 @@ data class ItemDetail(
     var quantity: Double,
     var quantityQ: Int
 ) : Parcelable {
-    val sellingPrice: Double = 0.0
+    var sellingPrice: Double = 0.0
 }

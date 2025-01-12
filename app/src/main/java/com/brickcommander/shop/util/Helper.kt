@@ -58,9 +58,13 @@ fun calculateRemainingQuantity(currQuantity: Double, currQuantityQ: Int, sellQua
 fun calculateAmount(itemsDetail: List<ItemDetail>): Double {
     var amount = 0.0
     for (itemDetail in itemsDetail) {
-        amount += itemDetail.item.sellingPrice * UnitsManager.convert(itemDetail.quantity, itemDetail.item.sellingQ, itemDetail.quantityQ)
+        amount += calculateAmount(itemDetail)
     }
     return amount
+}
+
+fun calculateAmount(itemDetail: ItemDetail): Double {
+    return itemDetail.item.sellingPrice * UnitsManager.convert(itemDetail.quantity, itemDetail.item.sellingQ, itemDetail.quantityQ)
 }
 
 fun convertLongToFormattedDate(timestamp: Long): String {

@@ -92,7 +92,8 @@ class AddEditPurchaseFragment : Fragment(R.layout.fragment_add_edit_purchase) {
                 lifecycleScope.launch {
                     val (quantity, quantityQ) = showPopupAndWait(selectedItem.remainingQ, -1)?: return@launch
                     var itemDetail = ItemDetail(selectedItem, quantity, quantityQ)
-                    handleSelectedItem(itemDetail, -1)
+                    val selectedItemIndex = selectedItems.indexOfFirst { it.item.itemId == itemDetail.item.itemId }
+                    handleSelectedItem(itemDetail, selectedItemIndex)
                     binding.recyclerViewItems.adapter?.notifyDataSetChanged()
                     saveItem(mView)
                 }
@@ -106,7 +107,7 @@ class AddEditPurchaseFragment : Fragment(R.layout.fragment_add_edit_purchase) {
     }
 
     private fun setupRecyclerView() {
-        binding.totamAmountTextView.text = "Amount: 0 Rs"
+        binding.totamAmountTextView.text = "Amount: ${calculateAmount(selectedItems)} Rs"
         binding.recyclerViewItems.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewItems.adapter = ItemAdapterForAddEditPurchase(
             selectedItems,
@@ -132,10 +133,11 @@ class AddEditPurchaseFragment : Fragment(R.layout.fragment_add_edit_purchase) {
             val (quantity, quantityQ) = showPopupAndWait(itemDetail.quantityQ, selectedItemIndex) ?: return@launch
             itemDetail.quantity = quantity
             itemDetail.quantityQ = quantityQ
+            itemDetail.sellingPrice = itemDetail.item.sellingPrice
             handleSelectedItem(itemDetail, selectedItemIndex)
             binding.recyclerViewItems.adapter?.notifyDataSetChanged() // Notify adapter to refresh
             saveItem(mView)
-            activity?.toast("${itemDetail.item.name} updated")
+//            activity?.toast("${itemDetail.item.name} updated")
         }
     }
 
@@ -143,7 +145,7 @@ class AddEditPurchaseFragment : Fragment(R.layout.fragment_add_edit_purchase) {
         selectedItems.removeIf { it.item.itemId == itemDetail.item.itemId }
         binding.recyclerViewItems.adapter?.notifyDataSetChanged() // Notify adapter to refresh
         saveItem(mView)
-        activity?.toast("${itemDetail.item.name} removed")
+//        activity?.toast("${itemDetail.item.name} removed")
     }
 
     private fun handleSelectedItem(itemDetail: ItemDetail, selectedItemIndex: Int) {
@@ -253,18 +255,19 @@ class AddEditPurchaseFragment : Fragment(R.layout.fragment_add_edit_purchase) {
         Log.d(TAG, "saveItem: $purchase")
         if (activePurchase == false) {
             notifyCustomer(purchase)
-            activity?.toast("Purchase Saved successfully")
+//            activity?.toast("Purchase Saved successfully")
             view.findNavController().navigate(R.id.action_addEditPurchaseFragment_to_homePurchaseFragment)
         }
     }
 
     private fun notifyCustomer(purchase: Purchase?) {
         Log.d(TAG, "Notifying Customer $purchase")
+        if(purchase!!.customer != null && purchase!!.customer!!.mobile != null) (requireActivity() as MainActivity).sendSms(purchase!!)
     }
 
     private fun deleteItem(view: View) {
         purchaseViewModel.delete(purchase!!)
-        activity?.toast("Purchase Deleted successfully")
+//        activity?.toast("Purchase Deleted successfully")
         view.findNavController().navigate(R.id.action_addEditPurchaseFragment_to_cartFragment)
     }
 

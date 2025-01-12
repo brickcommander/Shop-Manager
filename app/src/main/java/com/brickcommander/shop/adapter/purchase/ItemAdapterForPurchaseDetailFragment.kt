@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import com.brickcommander.shop.R
 import com.brickcommander.shop.model.helperModel.ItemDetail
+import com.brickcommander.shop.util.UnitsManager
 
 class ItemAdapterForPurchaseDetailFragment(context: Context, private val items: List<ItemDetail>) : ArrayAdapter<ItemDetail>(context, 0, items) {
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -20,8 +21,8 @@ class ItemAdapterForPurchaseDetailFragment(context: Context, private val items: 
         val itemQuantityTextView = view.findViewById<TextView>(R.id.itemQuantityTextView)
 
         itemNameTextView.text = itemDetail.item.name
-        itemPriceTextView.text = itemDetail.sellingPrice.toString()
-        itemQuantityTextView.text = itemDetail.quantity.toString()
+        itemPriceTextView.text = itemDetail.sellingPrice.toString() + " Rs/" + UnitsManager.getNameById(itemDetail.item.sellingQ)
+        itemQuantityTextView.text = itemDetail.quantity.toString() + " " + UnitsManager.getNameById(itemDetail.quantityQ)
 
         return view
     }

@@ -91,7 +91,7 @@ class AddEditProfileFragment : Fragment(R.layout.fragment_add_edit_profile) {
             activity?.toast("Please Enter SHOP Name")
             return
         }
-        else if (mobileEditText.text.toString().length != 10) {
+        else if (mobileEditText.text.toString().length != 10 && mobileEditText.text.toString().length != 12) {
             activity?.toast("Please Enter Valid Mobile Number")
             return
         }

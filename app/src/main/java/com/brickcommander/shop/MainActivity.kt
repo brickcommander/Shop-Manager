@@ -14,11 +14,14 @@ import com.brickcommander.shop.databinding.ActivityMainBinding
 import com.brickcommander.shop.fragments.profile.AddEditProfileFragment
 import com.brickcommander.shop.model.Customer
 import com.brickcommander.shop.model.Item
+import com.brickcommander.shop.model.Profile
+import com.brickcommander.shop.model.Purchase
 import com.brickcommander.shop.model.helperModel.PurchaseLite
 import com.brickcommander.shop.repository.CustomerRepository
 import com.brickcommander.shop.repository.PurchaseLiteRepository
 import com.brickcommander.shop.repository.PurchaseRepository
 import com.brickcommander.shop.repository.Repository
+import com.brickcommander.shop.util.generateReceiptMessage
 import com.brickcommander.shop.util.toast
 import com.brickcommander.shop.viewModel.MyViewModel
 import com.brickcommander.shop.viewModel.MyViewModelProviderFactory
@@ -34,6 +37,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var customerViewModel: MyViewModel<Customer>
     lateinit var purchaseLiteViewModel: MyViewModel<PurchaseLite>
     lateinit var purchaseViewModel: PurchaseViewModel
+    var profile: Profile? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,15 +46,13 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.toolbar)
 
-//        sendSms("+919617466846", "Hello, this is a message!")
-
         setUpViewModel()
 
         checkProfileIsAvailable()
     }
 
     private fun checkProfileIsAvailable() {
-        val profile = getObjectFromPreferences(this)
+        profile = getObjectFromPreferences(this)
         if (profile == null) {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragmentContainer, AddEditProfileFragment()).commit()
@@ -116,14 +118,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun sendSms(phoneNumber: String, message: String) {
+    fun sendSms(purchase: Purchase) {
         if (!hasSmsPermission()) {
             requestSmsPermission()
         } else {
             try {
                 val smsManager = SmsManager.getDefault()
-                smsManager.sendTextMessage(phoneNumber, null, message, null, null)
-                toast("Message Sent")
+                smsManager.sendTextMessage(purchase.customer!!.mobile, null, generateReceiptMessage(profile!!, purchase), null, null)
+                toast("Receipt Sent")
             } catch (e: Exception) {
                 e.printStackTrace()
                 toast("Failed to send message")

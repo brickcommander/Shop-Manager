@@ -106,6 +106,10 @@ class AddEditCustomerFragment : Fragment(R.layout.fragment_add_edit_customer) {
             activity?.toast("Please Enter Item Name")
             return
         }
+        if (mobileEditText.text.toString().length != 10 && mobileEditText.text.toString().length != 12) {
+            activity?.toast("Please Enter Valid Mobile Number")
+            return
+        }
 
         var isNewItem = false
         if (currCustomer == null) {
