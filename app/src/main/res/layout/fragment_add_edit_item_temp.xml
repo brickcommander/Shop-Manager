@@ -86,7 +86,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
-                android:entries="@array/unit_options"
                 android:background="@drawable/spinner_background" />
         </LinearLayout>
 
@@ -138,7 +137,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:entries="@array/unit_options"
                 android:background="@drawable/spinner_background" />
         </LinearLayout>
 
@@ -178,7 +176,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="8dp"
-                android:entries="@array/unit_options"
                 android:background="@drawable/spinner_background" />
         </LinearLayout>
 
