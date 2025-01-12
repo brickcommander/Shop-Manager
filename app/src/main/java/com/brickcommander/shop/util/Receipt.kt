@@ -45,7 +45,7 @@ fun generateReceiptMessage(profile: Profile, purchase: Purchase): String {
         .replace("[HH:MM AM/PM]", formattedTime)
         .replace("[Name]", purchase.customer!!.name)
         .replace("[Items]", itemsDetails)
-        .replace("[Total]", purchase.totalAmount.toString())
+        .replace("[Total]", calculateAmount(purchase.items).toString())
         .replace("[Store]", profile.shopName)
         .replace("[ShopMobile]", profile.mobile)
         .replace("[GSTIN]", profile.gstin)

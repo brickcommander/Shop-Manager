@@ -224,7 +224,7 @@ class AddEditPurchaseFragment : Fragment(R.layout.fragment_add_edit_purchase) {
         alertDialog.show()
     }
 
-    private fun saveItem(view: View, activePurchase: Boolean = true) {
+    private fun saveItem(view: View, activePurchase: Boolean = true, sendSMS: Boolean = false) {
         Log.d(TAG, "saveItem called.")
 
         // Updating Amount
@@ -254,7 +254,7 @@ class AddEditPurchaseFragment : Fragment(R.layout.fragment_add_edit_purchase) {
 
         Log.d(TAG, "saveItem: $purchase")
         if (activePurchase == false) {
-            notifyCustomer(purchase)
+            if(sendSMS) notifyCustomer(purchase)
 //            activity?.toast("Purchase Saved successfully")
             view.findNavController().navigate(R.id.action_addEditPurchaseFragment_to_homePurchaseFragment)
         }
@@ -271,11 +271,28 @@ class AddEditPurchaseFragment : Fragment(R.layout.fragment_add_edit_purchase) {
         view.findNavController().navigate(R.id.action_addEditPurchaseFragment_to_cartFragment)
     }
 
+    fun showSaveOptionsPopup() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Confirm?")
+
+        val options = arrayOf("Save and Send Receipt", "Save", "Cancel")
+        builder.setItems(options) { dialog, which ->
+            when (which) {
+                0 -> saveItem(mView, false, true)
+                1 -> saveItem(mView, false, false)
+                2 -> dialog.dismiss() // Cancel
+            }
+        }
+
+        val dialog = builder.create()
+        dialog.show()
+    }
+
     override fun onOptionsItemSelected(menuItem: MenuItem): Boolean {
         when (menuItem.itemId) {
             R.id.save_menu -> {
                 // complete this purchase
-                saveItem(mView, false)
+                showSaveOptionsPopup()
             }
             R.id.delete_menu -> {
                 // delete this purchase
