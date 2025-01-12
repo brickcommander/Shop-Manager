@@ -15,8 +15,10 @@ fun getDefaultTemplate(): String {
         Items:
         [Items]
         Total: ₹[Total]
-        Thank you! 
-        - [Store]
+        Thank you!
+        [Store]
+        Mobile Number: [ShopMobile]
+        GSTIN: [GSTIN]
     """.trimIndent()
 }
 
@@ -24,8 +26,10 @@ fun generateReceiptMessage(profile: Profile, purchase: Purchase): String {
     val template = getDefaultTemplate()
 
     // Generate the "Items" section dynamically
+    var idx = 0
     val itemsDetails = purchase.items.joinToString(separator = "\n") { itemDetail ->
-        "${itemDetail.item.name} ${itemDetail.quantity} x ₹${itemDetail.sellingPrice}/${UnitsManager.getNameById(itemDetail.item.sellingQ)} = ₹${calculateAmount(itemDetail)}"
+        idx++
+        "${idx}. ${itemDetail.item.name} ${itemDetail.quantity} x ₹${itemDetail.sellingPrice}/${UnitsManager.getNameById(itemDetail.item.sellingQ)} = ₹${calculateAmount(itemDetail)}"
     }
 
     val dateFormatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
@@ -43,6 +47,8 @@ fun generateReceiptMessage(profile: Profile, purchase: Purchase): String {
         .replace("[Items]", itemsDetails)
         .replace("[Total]", purchase.totalAmount.toString())
         .replace("[Store]", profile.shopName)
+        .replace("[ShopMobile]", profile.mobile)
+        .replace("[GSTIN]", profile.gstin)
 
     Log.d("ReceiptMessage", "Message: $message")
 
