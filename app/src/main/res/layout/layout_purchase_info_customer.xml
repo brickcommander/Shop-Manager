@@ -3,23 +3,23 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:layout_margin="10dp"
-    android:background="@drawable/work_border"
-    android:padding="12dp" >
+    android:padding="12dp">
 
     <TextView
         android:id="@+id/customerNameTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:text="Customer Name"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/customerMobileTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Mobile"
+        android:layout_weight="1"
+        android:text="Mobile Number"
         android:textSize="14sp"
         android:textStyle="bold" />
 

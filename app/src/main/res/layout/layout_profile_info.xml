@@ -2,17 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp"
-    android:background="@drawable/work_border"
     android:orientation="vertical"
-    android:padding="10dp">
+    android:padding="12dp">
 
     <TextView
         android:id="@+id/shopNameId"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Shop Name"
         android:layout_weight="1"
+        android:text="Shop Name"
         android:textSize="16sp"
         android:textStyle="bold" />
 
@@ -36,8 +34,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Owner"
-                android:textStyle="bold"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
         </TableRow>
 
@@ -56,8 +54,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Total"
-                android:textStyle="bold"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
         </TableRow>
 
@@ -76,8 +74,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Total"
-                android:textStyle="bold"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
         </TableRow>
 
@@ -96,8 +94,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Email"
-                android:textStyle="bold"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
         </TableRow>
 
@@ -116,8 +114,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="UPI"
-                android:textStyle="bold"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
         </TableRow>
 
@@ -136,8 +134,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Address"
-                android:textStyle="bold"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
         </TableRow>
 
@@ -156,8 +154,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="PINCODE"
-                android:textStyle="bold"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
         </TableRow>
 

@@ -1,8 +1,15 @@
-<!-- res/drawable/item_border.xml -->
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="#0000" /> <!-- Background color, can be transparent or any color -->
-    <stroke
-        android:width="2dp"
-        android:color="#615D5D" /> <!-- Border color and width -->
-    <corners android:radius="5dp" /> <!-- Optional rounded corners -->
-</shape>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#0000" /> <!-- Transparent background -->
+            <stroke
+                android:width="2dp"
+                android:color="#615D5D" /> <!-- Border color and width -->
+        </shape>
+    </item>
+    <item android:top="2dp"> <!-- Shift the content up by the border width -->
+        <shape android:shape="rectangle">
+            <solid android:color="#0000" /> <!-- Transparent background -->
+        </shape>
+    </item>
+</layer-list>

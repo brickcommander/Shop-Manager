@@ -3,14 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:layout_margin="10dp"
-    android:background="@drawable/work_border"
-    android:padding="12dp" >
+    android:paddingVertical="12dp" >
 
     <TextView
         android:id="@+id/itemNameTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:text="Item Name"
         android:textSize="16sp"
         android:textStyle="bold" />
@@ -18,7 +17,7 @@
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:stretchColumns="1,2">
+        android:stretchColumns="1,3">
 
         <TableRow>
 
@@ -37,6 +36,13 @@
                 android:text="Amount"
                 android:textSize="16sp"
                 android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Quantity  "
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/itemQuantityTextView"

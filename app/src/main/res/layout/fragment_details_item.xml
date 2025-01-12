@@ -2,15 +2,20 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:orientation="vertical">
 
     <!-- Include the item layout for item details -->
     <include
         layout="@layout/layout_item_info"
         android:id="@+id/itemDetailsLayout2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1.5dp"
+        android:background="@color/off_white" />
 
     <!-- ListView for Recent Customers -->
 <!--    <TextView-->

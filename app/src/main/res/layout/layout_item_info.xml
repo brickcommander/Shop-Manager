@@ -2,24 +2,22 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp"
-    android:background="@drawable/work_border"
     android:orientation="vertical"
-    android:padding="10dp">
+    android:padding="12dp">
 
     <TextView
         android:id="@+id/nameId"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Item Name"
         android:layout_weight="1"
+        android:text="Item Name"
         android:textSize="16sp"
         android:textStyle="bold" />
 
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:stretchColumns="1,3">
+        android:stretchColumns="1">
 
         <TableRow>
 
@@ -27,7 +25,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Buy  "
+                android:text="Buying Price  "
                 android:textSize="16sp" />
 
             <TextView
@@ -36,24 +34,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Buy"
-                android:textStyle="bold"
-                android:textSize="16sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Sell  "
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/sellingPriceId"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Sell"
-                android:textStyle="bold"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
         </TableRow>
 
@@ -63,23 +45,27 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Total  "
+                android:text="Selling Price  "
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/totalCountId"
+                android:id="@+id/sellingPriceId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Total"
-                android:textStyle="bold"
-                android:textSize="16sp" />
+                android:text="Sell"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+        </TableRow>
+
+        <TableRow>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Rem  "
+                android:text="Remaining Items  "
                 android:textSize="16sp" />
 
             <TextView
@@ -87,9 +73,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Remaining"
-                android:textStyle="bold"
-                android:textSize="16sp" />
+                android:text="Remaining Items"
+                android:textSize="16sp"
+                android:textStyle="bold" />
         </TableRow>
 
     </TableLayout>
