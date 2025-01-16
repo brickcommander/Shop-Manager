@@ -75,6 +75,8 @@ class DetailPurchaseFragment : Fragment(R.layout.fragment_details_purchase) {
         Log.d(TAG, "onViewCreated: $currPurchase")
 
         binding.customerDetailsLayout.customerNameId.text = currPurchase!!.customer!!.name
+        binding.customerDetailsLayout.mobileId.text = currPurchase!!.customer!!.mobile
+        binding.customerDetailsLayout.emailId.text = currPurchase!!.customer!!.email
         binding.customerDetailsLayout.totalAmountId.text = currPurchase!!.totalAmount.toString()
         binding.customerDetailsLayout.purchaseDateId.text = convertLongToFormattedDate(currPurchase!!.purchaseDate)
         binding.customerDetailsLayout.totalItemsId.text = currPurchase!!.items.size.toString()
