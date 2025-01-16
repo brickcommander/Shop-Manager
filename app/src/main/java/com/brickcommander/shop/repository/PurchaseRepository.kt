@@ -8,27 +8,27 @@ import kotlin.coroutines.suspendCoroutine
 
 class PurchaseRepository(private val db: AppDatabase) {
     fun add(purchase: Purchase) = coroutineAspect {
-        db.getPurchaseDao().addPurchase(purchase)
+        db.getDao().addPurchase(purchase)
     }
 
     fun update(purchase: Purchase) = coroutineAspect {
-        db.getPurchaseDao().updatePurchase(purchase)
+        db.getDao().updatePurchase(purchase)
     }
 
     fun delete(purchase: Purchase) = coroutineAspect {
-        db.getPurchaseDao().deletePurchase(purchase)
+        db.getDao().deletePurchase(purchase)
     }
 
     fun getPurchaseId(): Long = coroutineAspect {
         suspendCoroutine { continuation ->
-            val purchaseId = db.getPurchaseDao().getPurchaseId()
+            val purchaseId = db.getDao().getPurchaseId()
             continuation.resume(purchaseId)
         }
     }
 
     fun findPurchaseByPurchaseId(purchaseId: Long): Purchase? = coroutineAspect {
         suspendCoroutine { continuation ->
-            val purchase = db.getPurchaseDao().findPurchaseByPurchaseId(purchaseId)
+            val purchase = db.getDao().findPurchaseByPurchaseId(purchaseId)
             continuation.resume(purchase)
         }
     }

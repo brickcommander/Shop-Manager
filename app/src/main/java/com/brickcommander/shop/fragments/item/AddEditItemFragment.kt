@@ -120,6 +120,8 @@ class AddEditItemFragment : Fragment(R.layout.fragment_add_edit_item_temp) {
             buyEditText.setText(currItem!!.buyingPrice.toString())
             sellEditText.setText(currItem!!.sellingPrice.toString())
             remainingEditText.setText(currItem!!.remainingCount.toString())
+
+            nameEditText.isEnabled = false // Name should not be edited
         }
     }
 

@@ -20,7 +20,7 @@ import com.brickcommander.shop.util.calculateAmount
 import com.brickcommander.shop.util.calculateRemainingQuantity
 
 @Dao
-interface PurchaseDao {
+interface AppDao {
     companion object {
         val TAG = "PurchaseDao"
     }
@@ -32,13 +32,14 @@ interface PurchaseDao {
     @Update
     fun updateItem(item: Item)
 
-    @Delete
-    fun deleteItem(item: Item)
+    // Never deleting the item to fix old purchases showing wrong data in case the item gets deleted
+    @Query("UPDATE ItemMaster SET isActive = 0 WHERE itemId = :itemId")
+    fun deleteItem(itemId: Long)
 
-    @Query("SELECT * FROM ItemMaster ORDER BY itemId DESC")
+    @Query("SELECT * FROM ItemMaster WHERE isActive = 1 ORDER BY itemId DESC")
     fun getAllItems(): LiveData<List<Item>>
 
-    @Query("SELECT * FROM ItemMaster WHERE name LIKE :query")
+    @Query("SELECT * FROM ItemMaster WHERE isActive = 1 AND name LIKE :query")
     fun searchItem(query: String?): LiveData<List<Item>>
 
     @Query("SELECT * FROM ItemMaster WHERE itemId = :itemId")
@@ -52,13 +53,14 @@ interface PurchaseDao {
     @Update
     fun updateCustomer(customer: Customer)
 
-    @Delete
-    fun deleteCustomer(customer: Customer)
+    // Never deleting the customer to fix old purchases showing wrong data in case the customer gets deleted
+    @Query("UPDATE CustomerMaster SET isActive = 0 WHERE customerId = :customerId")
+    fun deleteCustomer(customerId: Long)
 
-    @Query("SELECT * FROM CustomerMaster ORDER BY customerId DESC")
+    @Query("SELECT * FROM CustomerMaster WHERE isActive = 1 ORDER BY customerId DESC")
     fun getAllCustomers(): LiveData<List<Customer>>
 
-    @Query("SELECT * FROM CustomerMaster WHERE name LIKE :query")
+    @Query("SELECT * FROM CustomerMaster WHERE isActive = 1 AND name LIKE :query")
     fun searchCustomer(query: String?): LiveData<List<Customer>>
 
     @Query("SELECT * FROM CustomerMaster WHERE customerId = :customerId")

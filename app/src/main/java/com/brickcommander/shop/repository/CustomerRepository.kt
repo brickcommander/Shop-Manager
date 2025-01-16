@@ -7,18 +7,21 @@ import com.brickcommander.shop.util.coroutineAspect
 
 class CustomerRepository(private val db: AppDatabase) : Repository<Customer> {
     override fun add(customer: Customer) = coroutineAspect {
-        db.getCustomerDao().addCustomer(customer)
+        db.getDao().addCustomer(customer)
     }
+
     override fun update(customer: Customer) = coroutineAspect {
-        db.getCustomerDao().updateCustomer(customer)
+        db.getDao().updateCustomer(customer)
     }
+
     override fun delete(customer: Customer) = coroutineAspect {
-        db.getCustomerDao().deleteCustomer(customer)
+        db.getDao().deleteCustomer(customer.customerId)
     }
-    override fun getAll() = db.getCustomerDao().getAllCustomers()
+
+    override fun getAll() = db.getDao().getAllCustomers()
     override fun getAllActive(): LiveData<List<Customer>> {
         TODO("Not yet implemented")
     }
 
-    override fun search(query: String?) = db.getCustomerDao().searchCustomer(query)
+    override fun search(query: String?) = db.getDao().searchCustomer(query)
 }

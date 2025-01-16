@@ -2,7 +2,7 @@ package com.brickcommander.shop.repository
 
 import androidx.lifecycle.LiveData
 
-interface Repository<T>{
+interface Repository<T> {
     fun add(item: T)
     fun update(item: T)
     fun delete(item: T)

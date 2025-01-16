@@ -19,6 +19,8 @@ data class Item(
 
     var createdDate: Long = System.currentTimeMillis()
 
+    var isActive: Boolean = true
+
     @PrimaryKey(autoGenerate = true)
     var itemId: Long = 0
 

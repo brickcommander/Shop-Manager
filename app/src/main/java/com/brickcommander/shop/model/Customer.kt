@@ -19,6 +19,7 @@ data class Customer(
     var createdDate: Long = System.currentTimeMillis()
     var dueAmount: Double = 0.0
     var totalAmount: Double = 0.0
+    var isActive: Boolean = true
 
     @PrimaryKey(autoGenerate = true)
     var customerId: Long = 0

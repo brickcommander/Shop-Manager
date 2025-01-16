@@ -9,15 +9,18 @@ class PurchaseLiteRepository(private val db: AppDatabase) : Repository<PurchaseL
     override fun add(purchase: PurchaseLite) = coroutineAspect {
         throw NotImplementedError("Not yet implemented")
     }
+
     override fun update(purchase: PurchaseLite) = coroutineAspect {
         throw NotImplementedError("Not yet implemented")
     }
+
     override fun delete(purchase: PurchaseLite) = coroutineAspect {
         throw NotImplementedError("Not yet implemented")
     }
-    override fun getAll() = db.getPurchaseDao().getAllInActivePurchases()
 
-    override fun getAllActive() = db.getPurchaseDao().getAllActivePurchases()
+    override fun getAll() = db.getDao().getAllInActivePurchases()
+
+    override fun getAllActive() = db.getDao().getAllActivePurchases()
 
     override fun search(query: String?): LiveData<List<PurchaseLite>> {
         throw NotImplementedError("Not yet implemented")

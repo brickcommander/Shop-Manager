@@ -7,18 +7,21 @@ import com.brickcommander.shop.util.coroutineAspect
 
 class ItemRepository(private val db: AppDatabase) : Repository<Item> {
     override fun add(item: Item) = coroutineAspect {
-        db.getItemDao().addItem(item)
+        db.getDao().addItem(item)
     }
+
     override fun update(item: Item) = coroutineAspect {
-        db.getItemDao().updateItem(item)
+        db.getDao().updateItem(item)
     }
+
     override fun delete(item: Item) = coroutineAspect {
-        db.getItemDao().deleteItem(item)
+        db.getDao().deleteItem(item.itemId)
     }
-    override fun getAll() = db.getItemDao().getAllItems()
+
+    override fun getAll() = db.getDao().getAllItems()
     override fun getAllActive(): LiveData<List<Item>> {
         TODO("Not yet implemented")
     }
 
-    override fun search(query: String?) = db.getItemDao().searchItem(query)
+    override fun search(query: String?) = db.getDao().searchItem(query)
 }
