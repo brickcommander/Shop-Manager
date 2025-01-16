@@ -4,7 +4,8 @@ import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "PurchaseDetailMaster",
+@Entity(
+    tableName = "PurchaseDetailMaster",
     indices = [Index(value = ["purchase_purchaseId", "customer_customerId", "item_itemId"])]
 )
 data class PurchaseDetailMaster(

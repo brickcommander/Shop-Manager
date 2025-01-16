@@ -2,10 +2,14 @@ package com.brickcommander.shop.model
 
 import android.os.Parcelable
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
 
-@Entity(tableName = "ItemMaster")
+@Entity(
+    tableName = "ItemMaster",
+    indices = [Index(value = ["isActive", "name"])]
+)
 @Parcelize
 data class Item(
     var name: String = "NotDefined",

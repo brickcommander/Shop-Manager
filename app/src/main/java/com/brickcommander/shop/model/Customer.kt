@@ -2,11 +2,14 @@ package com.brickcommander.shop.model
 
 import android.os.Parcelable
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
-import java.time.LocalDateTime
 
-@Entity(tableName = "CustomerMaster")
+@Entity(
+    tableName = "CustomerMaster",
+    indices = [Index(value = ["isActive", "name"])]
+)
 @Parcelize
 data class Customer(
     var name: String = "NotDefined",
