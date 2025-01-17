@@ -49,6 +49,8 @@ class DetailPurchaseFragment : Fragment(R.layout.fragment_details_purchase) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        (requireActivity() as MainActivity).supportActionBar?.title = "Purchase Detail"
+
         // using purchase lite to get the actual Purchase object by purchaseLite.purchaseId
         val purchaseLite: PurchaseLite? = arguments?.getParcelable("purchaseLite")
         Log.d(TAG, "onViewCreated: $purchaseLite")

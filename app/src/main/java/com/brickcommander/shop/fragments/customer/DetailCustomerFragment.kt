@@ -55,6 +55,8 @@ class DetailCustomerFragment : Fragment(R.layout.fragment_details_customer) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        (requireActivity() as MainActivity).supportActionBar?.title = "Customer Detail"
+
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             Log.d(TAG, "onBackPressedDispatcher: ")
             view.findNavController().popBackStack(R.id.homeCustomerFragment, false) // Pop up to homeFragment
