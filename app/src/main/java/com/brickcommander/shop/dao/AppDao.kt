@@ -36,10 +36,10 @@ interface AppDao {
     @Query("UPDATE ItemMaster SET isActive = 0 WHERE itemId = :itemId")
     fun deleteItem(itemId: Long)
 
-    @Query("SELECT * FROM ItemMaster WHERE isActive = 1 ORDER BY itemId DESC")
+    @Query("SELECT * FROM ItemMaster WHERE isActive = 1 ORDER BY name DESC")
     fun getAllItems(): LiveData<List<Item>>
 
-    @Query("SELECT * FROM ItemMaster WHERE isActive = 1 AND name LIKE :query")
+    @Query("SELECT * FROM ItemMaster WHERE isActive = 1 AND name LIKE :query ORDER BY name ASC")
     fun searchItem(query: String?): LiveData<List<Item>>
 
     @Query("SELECT * FROM ItemMaster WHERE itemId = :itemId")
@@ -57,10 +57,10 @@ interface AppDao {
     @Query("UPDATE CustomerMaster SET isActive = 0 WHERE customerId = :customerId")
     fun deleteCustomer(customerId: Long)
 
-    @Query("SELECT * FROM CustomerMaster WHERE isActive = 1 ORDER BY customerId DESC")
+    @Query("SELECT * FROM CustomerMaster WHERE isActive = 1 ORDER BY name ASC")
     fun getAllCustomers(): LiveData<List<Customer>>
 
-    @Query("SELECT * FROM CustomerMaster WHERE isActive = 1 AND name LIKE :query")
+    @Query("SELECT * FROM CustomerMaster WHERE isActive = 1 AND name LIKE :query ORDER BY name ASC")
     fun searchCustomer(query: String?): LiveData<List<Customer>>
 
     @Query("SELECT * FROM CustomerMaster WHERE customerId = :customerId")
@@ -108,14 +108,18 @@ interface AppDao {
             }
         }
 
-        if(purchase.items.size == 0) {
+        if (purchase.items.size == 0) {
             Log.d(TAG, "Purchase has no items. Deleting Purchase.")
             deletePurchase(purchase)
             return
         }
 
-        if((purchase.customer == null || purchase.items.size == 0) && purchase.active == false) {
+        if ((purchase.customer == null || purchase.items.size == 0) && purchase.active == false) {
             throw Exception("Complete Purchase should have customer and items.")
+        }
+
+        if (purchase.active) { // clean up older carts
+            cleanUpOlderCarts(40)
         }
 
         val currentDate = System.currentTimeMillis()
@@ -149,7 +153,7 @@ interface AppDao {
         }
 
         // Update CustomerMaster and ItemMaster if purchase is closing
-        if(purchase.active==false) {
+        if (purchase.active == false) {
 
             // Update ItemMaster
             val itemList = purchase.items.map { itemDetail ->
@@ -175,13 +179,14 @@ interface AppDao {
 
     @Transaction
     fun findPurchaseByPurchaseId(purchaseId: Long): Purchase? {
-        val purchaseMaster: PurchaseMaster = findPurchaseMasterByPurchaseId(purchaseId) ?: return null
+        val purchaseMaster: PurchaseMaster =
+            findPurchaseMasterByPurchaseId(purchaseId) ?: return null
 
         val customer = findCustomerByCustomerId(purchaseMaster.customer_customerId)
 
         val purchaseDetailMasterList = findPurchaseDetailMasterByPurchaseId(purchaseId)
         val itemDetailList = purchaseDetailMasterList.map { purchaseDetailMaster ->
-            val item = findItemByItemId(purchaseDetailMaster.item_itemId)?: Item()
+            val item = findItemByItemId(purchaseDetailMaster.item_itemId) ?: Item()
             ItemDetail(
                 item,
                 purchaseDetailMaster.quantity,
@@ -205,12 +210,16 @@ interface AppDao {
         addPurchase(purchase)
     }
 
-    @Transaction
     fun deletePurchase(purchase: Purchase) {
+        deletePurchaseByPurchaseId(purchase.purchaseId)
+    }
+
+    @Transaction
+    fun deletePurchaseByPurchaseId(purchaseId: Long) {
         // Check, purchase should not be active
-        Log.d(TAG, "DeletePurchase called $purchase")
-        val purchaseMaster: PurchaseMaster? = findPurchaseMasterByPurchaseId(purchase.purchaseId)
-        if(purchaseMaster?.active == false) {
+        Log.d(TAG, "DeletePurchase called $purchaseId")
+        val purchaseMaster: PurchaseMaster? = findPurchaseMasterByPurchaseId(purchaseId)
+        if (purchaseMaster?.active == false) {
             throw Exception("Purchase is not active. Can only Delete active purchases.")
         }
 
@@ -220,7 +229,7 @@ interface AppDao {
             Log.d(TAG, "purchasemaster deleted $purchaseMaster")
         }
 
-        Log.d(TAG, "Purchase deleted successfully ${purchase}")
+        Log.d(TAG, "Purchase deleted successfully ${purchaseId}")
     }
 
     @Transaction
@@ -229,23 +238,47 @@ interface AppDao {
     }
 
 
+    // Cleaning Up Stale Active Purchases
+    @Query(
+        """
+        SELECT purchaseId 
+        FROM PurchaseMaster 
+        WHERE active = 1 
+        ORDER BY purchaseDate 
+        DESC LIMIT 100 OFFSET :offset
+    """
+    )
+    fun getAllOlderCarts(offset: Int): List<Long>
+
+    @Transaction
+    fun cleanUpOlderCarts(offset: Int) {
+        getAllOlderCarts(offset).forEach { purchaseId ->
+            deletePurchaseByPurchaseId(purchaseId)
+        }
+    }
+
+
     // PurchaseLite
-    @Query("""
+    @Query(
+        """
         SELECT purchaseId, purchaseDate, P.totalAmount as totalAmount, C.name as customerName, P.active as active
         FROM PurchaseMaster P 
         JOIN CustomerMaster C ON P.customer_customerId = C.customerId 
         WHERE P.active = :active
         ORDER BY purchaseDate DESC
-    """)
+    """
+    )
     fun getAllPurchases(active: Boolean): LiveData<List<PurchaseLite>>
 
-    @Query("""
+    @Query(
+        """
         SELECT purchaseId, purchaseDate, P.totalAmount as totalAmount, C.name as customerName, P.active as active
         FROM PurchaseMaster P 
         JOIN CustomerMaster C ON P.customer_customerId = C.customerId 
         WHERE C.customerId = :customerId AND P.active = 0
         ORDER BY purchaseDate DESC
-    """)
+    """
+    )
     fun getAllPurchasesByCustomerId(customerId: Long): List<PurchaseLite>
 
     fun getAllInActivePurchases(): LiveData<List<PurchaseLite>> {
@@ -255,6 +288,7 @@ interface AppDao {
     fun getAllActivePurchases(): LiveData<List<PurchaseLite>> {
         return getAllPurchases(true)
     }
+
 
     // Below methods should only be used in testing for clean purposes
     @Query("DELETE FROM PurchaseMaster WHERE active = :active")

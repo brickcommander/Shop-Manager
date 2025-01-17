@@ -21,6 +21,7 @@ import com.brickcommander.shop.repository.CustomerRepository
 import com.brickcommander.shop.repository.PurchaseLiteRepository
 import com.brickcommander.shop.repository.PurchaseRepository
 import com.brickcommander.shop.repository.Repository
+import com.brickcommander.shop.test.Test
 import com.brickcommander.shop.util.generateReceiptMessage
 import com.brickcommander.shop.util.toast
 import com.brickcommander.shop.viewModel.MyViewModel
@@ -49,15 +50,25 @@ class MainActivity : AppCompatActivity() {
         setUpViewModel()
 
         checkProfileIsAvailable()
+
+//        Test.generateItems(10000).forEach { item ->
+//            itemViewModel.add(item)
+//        }
+//
+//        Test.generateCustomers(10000).forEach { customer ->
+//            customerViewModel.add(customer)
+//        }
     }
 
     private fun checkProfileIsAvailable() {
         profile = getObjectFromPreferences(this)
         if (profile == null) {
-            val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
+            val navHostFragment =
+                supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
             val navController = navHostFragment.navController
             val navInflater = navController.navInflater
-            val navGraph = navInflater.inflate(R.navigation.nav_graph) // Replace with your nav_graph ID
+            val navGraph =
+                navInflater.inflate(R.navigation.nav_graph) // Replace with your nav_graph ID
 
             navGraph.setStartDestination(R.id.addEditProfileFragment2) // Set AddEditProfileFragment as start destination
             navController.graph = navGraph
@@ -105,14 +116,25 @@ class MainActivity : AppCompatActivity() {
     private val SMS_PERMISSION_CODE = 100
 
     private fun hasSmsPermission(): Boolean {
-        return ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED
+        return ContextCompat.checkSelfPermission(
+            this,
+            Manifest.permission.SEND_SMS
+        ) == PackageManager.PERMISSION_GRANTED
     }
 
     private fun requestSmsPermission() {
-        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.SEND_SMS), SMS_PERMISSION_CODE)
+        ActivityCompat.requestPermissions(
+            this,
+            arrayOf(Manifest.permission.SEND_SMS),
+            SMS_PERMISSION_CODE
+        )
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == SMS_PERMISSION_CODE) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -133,9 +155,21 @@ class MainActivity : AppCompatActivity() {
 
                 if (message.length > 140) {
                     val parts = smsManager.divideMessage(message)
-                    smsManager.sendMultipartTextMessage(purchase.customer!!.mobile, null, parts, null, null)
+                    smsManager.sendMultipartTextMessage(
+                        purchase.customer!!.mobile,
+                        null,
+                        parts,
+                        null,
+                        null
+                    )
                 } else {
-                    smsManager.sendTextMessage(purchase.customer!!.mobile, null, message, null, null)
+                    smsManager.sendTextMessage(
+                        purchase.customer!!.mobile,
+                        null,
+                        message,
+                        null,
+                        null
+                    )
                 }
 
                 toast("Receipt Sent")
