@@ -2,8 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="?android:attr/selectableItemBackground"
     android:orientation="vertical"
-    android:paddingVertical="12dp" >
+    android:paddingVertical="12dp">
 
     <TableLayout
         android:layout_width="match_parent"
@@ -25,9 +26,9 @@
                 android:id="@+id/itemTotalAmountTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="end"
                 android:text="Item Total Amount"
                 android:textColor="@color/green"
-                android:layout_gravity="end"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -38,24 +39,24 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="start"
                 android:text="SP"
-                android:textSize="16sp"
-                android:gravity="start"/>
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/itemPriceTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Amount"
                 android:gravity="start"
+                android:text="Amount"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Qty  "
                 android:gravity="end"
+                android:text="Qty  "
                 android:textSize="16sp" />
 
             <TextView

@@ -1,65 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:orientation="vertical">
-
-<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:paddingHorizontal="15dp"
-    android:paddingVertical="8dp">
+    android:background="?android:attr/selectableItemBackground"
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/customerNameId"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Customer Name"
-        android:textSize="16sp"
-        android:textStyle="bold" />
-
-    <TableLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:stretchColumns="1">
+        android:orientation="vertical"
+        android:paddingHorizontal="15dp"
+        android:paddingVertical="8dp">
 
-        <TableRow>
+        <TextView
+            android:id="@+id/customerNameId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Customer Name"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Amount  "
-                android:textSize="16sp" />
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:stretchColumns="1">
 
-            <TextView
-                android:id="@+id/purchaseAmountId"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Amount"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+            <TableRow>
 
-            <TextView
-                android:id="@+id/purchaseDateId"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_weight="1"
-                android:text="Purchase Date"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Amount  "
+                    android:textSize="16sp" />
 
-        </TableRow>
+                <TextView
+                    android:id="@+id/purchaseAmountId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Amount"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
-    </TableLayout>
-</LinearLayout>
+                <TextView
+                    android:id="@+id/purchaseDateId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_weight="1"
+                    android:text="Purchase Date"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
-<View
-    android:layout_width="match_parent"
-    android:layout_height="1.5dp"
-    android:background="@color/off_white" />
+            </TableRow>
+
+        </TableLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1.5dp"
+        android:background="@color/off_white" />
 
 </LinearLayout>

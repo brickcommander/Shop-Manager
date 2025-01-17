@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="?android:attr/selectableItemBackground"
     android:orientation="vertical">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -26,9 +27,9 @@
                     android:id="@+id/itemNameTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="start"
                     android:layout_weight="1"
                     android:text="Item Name"
-                    android:layout_gravity="start"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -37,8 +38,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
-                    android:textColor="@color/green"
                     android:text="Item Total Amount"
+                    android:textColor="@color/green"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
