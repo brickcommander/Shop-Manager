@@ -162,6 +162,9 @@
         <action
             android:id="@+id/action_detailPurchaseFragment_to_homePurchaseFragment"
             app:destination="@id/homePurchaseFragment" />
+        <action
+            android:id="@+id/action_detailPurchaseFragment_to_detailCustomerFragment"
+            app:destination="@id/detailCustomerFragment" />
     </fragment>
     <fragment
         android:id="@+id/addEditPurchaseFragment"

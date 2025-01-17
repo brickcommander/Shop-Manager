@@ -57,11 +57,6 @@ class DetailCustomerFragment : Fragment(R.layout.fragment_details_customer) {
 
         (requireActivity() as MainActivity).supportActionBar?.title = "Customer Detail"
 
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-            Log.d(TAG, "onBackPressedDispatcher: ")
-            view.findNavController().popBackStack(R.id.homeCustomerFragment, false) // Pop up to homeFragment
-        }
-
         currCustomer = arguments?.getParcelable("customer")
         Log.d(TAG, "onViewCreated: $currCustomer")
         customerViewModel = (activity as MainActivity).customerViewModel

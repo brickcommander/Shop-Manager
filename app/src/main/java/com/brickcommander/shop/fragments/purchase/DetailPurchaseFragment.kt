@@ -79,6 +79,14 @@ class DetailPurchaseFragment : Fragment(R.layout.fragment_details_purchase) {
         binding.customerDetailsLayout.totalItemsId.text = currPurchase!!.items.size.toString()
 
         binding.itemListView.adapter = ItemAdapterForPurchaseDetailFragment(requireContext(), currPurchase!!.items)
+
+        val customerDetailsLayout = view.findViewById<View>(R.id.customerDetailsLayout)
+        customerDetailsLayout.setOnClickListener {
+            val bundle = Bundle().apply {
+                putParcelable("customer", currPurchase!!.customer)
+            }
+            view.findNavController().navigate(R.id.action_detailPurchaseFragment_to_detailCustomerFragment, bundle)
+        }
     }
 
     override fun onDestroy() {

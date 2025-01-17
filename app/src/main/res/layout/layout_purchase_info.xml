@@ -37,7 +37,8 @@
                 android:textSize="16sp" />
         </TableRow>
 
-        <TableRow>
+        <TableRow
+            android:visibility="gone">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

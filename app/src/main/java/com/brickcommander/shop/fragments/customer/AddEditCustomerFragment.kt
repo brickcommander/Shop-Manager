@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Spinner
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import com.brickcommander.shop.MainActivity
 import com.brickcommander.shop.R
@@ -134,7 +135,12 @@ class AddEditCustomerFragment : Fragment(R.layout.fragment_add_edit_customer) {
             val bundle = Bundle().apply {
                 putParcelable("customer", currCustomer)
             }
-            view.findNavController().navigate(R.id.action_addEditCustomerFragment_to_detailCustomerFragment, bundle)
+            view.findNavController().navigate(
+                R.id.action_addEditCustomerFragment_to_detailCustomerFragment, bundle,
+                NavOptions.Builder()
+                    .setPopUpTo(R.id.detailCustomerFragment, true) // Pop up to FragmentX (inclusive)
+                    .build()
+            )
         }
     }
 
