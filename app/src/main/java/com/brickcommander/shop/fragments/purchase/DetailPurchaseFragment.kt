@@ -71,21 +71,25 @@ class DetailPurchaseFragment : Fragment(R.layout.fragment_details_purchase) {
         }
         Log.d(TAG, "onViewCreated: $currPurchase")
 
-        binding.customerDetailsLayout.customerNameId.text = currPurchase!!.customer!!.name
-        binding.customerDetailsLayout.mobileId.text = currPurchase!!.customer!!.mobile
-        binding.customerDetailsLayout.emailId.text = currPurchase!!.customer!!.email
+
         binding.customerDetailsLayout.totalAmountId.text = currPurchase!!.totalAmount.toString()
         binding.customerDetailsLayout.purchaseDateId.text = convertLongToFormattedDate(currPurchase!!.purchaseDate)
         binding.customerDetailsLayout.totalItemsId.text = currPurchase!!.items.size.toString()
 
         binding.itemListView.adapter = ItemAdapterForPurchaseDetailFragment(requireContext(), currPurchase!!.items)
 
-        val customerDetailsLayout = view.findViewById<View>(R.id.customerDetailsLayout)
-        customerDetailsLayout.setOnClickListener {
-            val bundle = Bundle().apply {
-                putParcelable("customer", currPurchase!!.customer)
+        if(currPurchase!!.customer != null) {
+            binding.customerDetailsLayout.customerNameId.text = currPurchase!!.customer!!.name
+            binding.customerDetailsLayout.mobileId.text = currPurchase!!.customer!!.mobile
+            binding.customerDetailsLayout.emailId.text = currPurchase!!.customer!!.email
+
+            val customerDetailsLayout = view.findViewById<View>(R.id.customerDetailsLayout)
+            customerDetailsLayout.setOnClickListener {
+                val bundle = Bundle().apply {
+                    putParcelable("customer", currPurchase!!.customer)
+                }
+                view.findNavController().navigate(R.id.action_detailPurchaseFragment_to_detailCustomerFragment, bundle)
             }
-            view.findNavController().navigate(R.id.action_detailPurchaseFragment_to_detailCustomerFragment, bundle)
         }
     }
 

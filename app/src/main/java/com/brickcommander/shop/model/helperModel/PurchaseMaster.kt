@@ -13,6 +13,6 @@ data class PurchaseMaster(
     var purchaseId: Long = 0,
     val purchaseDate: Long,
     val totalAmount: Double,
-    val customer_customerId: Long,
+    val customer_customerId: Long?,
     val active: Boolean
 )

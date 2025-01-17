@@ -114,8 +114,8 @@ interface AppDao {
             return
         }
 
-        if ((purchase.customer == null || purchase.items.size == 0) && purchase.active == false) {
-            throw Exception("Complete Purchase should have customer and items.")
+        if (purchase.items.size == 0 && purchase.active == false) {
+            throw Exception("Complete Purchase should have items.")
         }
 
         if (purchase.active) { // clean up older carts
@@ -131,7 +131,7 @@ interface AppDao {
                 purchaseId = purchase.purchaseId,
                 currentDate,
                 amount,
-                purchase.customer!!.customerId,
+                purchase.customer?.customerId ?: null,
                 purchase.active,
             )
         )
@@ -140,7 +140,7 @@ interface AppDao {
         val purchaseDetailMasterList = purchase.items.map { itemDetail ->
             PurchaseDetailMaster(
                 purchase.purchaseId,
-                purchase.customer!!.customerId,
+                purchase.customer?.customerId ?: null,
                 itemDetail.item.itemId,
                 itemDetail.item.sellingPrice,
                 itemDetail.quantity,
@@ -170,8 +170,10 @@ interface AppDao {
             }
 
             // Update CustomerMaster
-            purchase.customer!!.totalAmount += amount
-            updateCustomer(purchase.customer!!)
+            if(purchase.customer != null) {
+                purchase.customer!!.totalAmount += amount
+                updateCustomer(purchase.customer!!)
+            }
         }
 
         Log.d(TAG, "Purchase added successfully ${purchase}")
@@ -182,7 +184,10 @@ interface AppDao {
         val purchaseMaster: PurchaseMaster =
             findPurchaseMasterByPurchaseId(purchaseId) ?: return null
 
-        val customer = findCustomerByCustomerId(purchaseMaster.customer_customerId)
+        var customer: Customer? = null
+        if(purchaseMaster.customer_customerId != null) {
+            customer = findCustomerByCustomerId(purchaseMaster.customer_customerId!!)
+        }
 
         val purchaseDetailMasterList = findPurchaseDetailMasterByPurchaseId(purchaseId)
         val itemDetailList = purchaseDetailMasterList.map { purchaseDetailMaster ->

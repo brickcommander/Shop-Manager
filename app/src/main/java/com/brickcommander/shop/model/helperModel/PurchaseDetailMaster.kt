@@ -10,7 +10,7 @@ import androidx.room.PrimaryKey
 )
 data class PurchaseDetailMaster(
     val purchase_purchaseId: Long,
-    val customer_customerId: Long,
+    val customer_customerId: Long?,
     val item_itemId: Long,
     val itemSellingPrice: Double,
     val quantity: Double,
