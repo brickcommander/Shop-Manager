@@ -23,5 +23,9 @@ class CustomerRepository(private val db: AppDatabase) : Repository<Customer> {
         TODO("Not yet implemented")
     }
 
+    override fun getAllPurchasesBuCustomerId(customerId: Long): List<Customer> {
+        TODO("Not yet implemented")
+    }
+
     override fun search(query: String?) = db.getDao().searchCustomer(query)
 }

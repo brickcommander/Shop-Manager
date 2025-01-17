@@ -239,6 +239,15 @@ interface AppDao {
     """)
     fun getAllPurchases(active: Boolean): LiveData<List<PurchaseLite>>
 
+    @Query("""
+        SELECT purchaseId, purchaseDate, P.totalAmount as totalAmount, C.name as customerName, P.active as active
+        FROM PurchaseMaster P 
+        JOIN CustomerMaster C ON P.customer_customerId = C.customerId 
+        WHERE C.customerId = :customerId AND P.active = 0
+        ORDER BY purchaseDate DESC
+    """)
+    fun getAllPurchasesByCustomerId(customerId: Long): List<PurchaseLite>
+
     fun getAllInActivePurchases(): LiveData<List<PurchaseLite>> {
         return getAllPurchases(false)
     }

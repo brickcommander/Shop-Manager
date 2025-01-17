@@ -8,5 +8,6 @@ interface Repository<T> {
     fun delete(item: T)
     fun getAll(): LiveData<List<T>>
     fun getAllActive(): LiveData<List<T>>
+    fun getAllPurchasesBuCustomerId(customerId: Long): List<T>
     fun search(query: String?): LiveData<List<T>>
 }

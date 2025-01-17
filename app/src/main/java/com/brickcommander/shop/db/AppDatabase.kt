@@ -10,7 +10,7 @@ import com.brickcommander.shop.model.Item
 import com.brickcommander.shop.model.helperModel.PurchaseDetailMaster
 import com.brickcommander.shop.model.helperModel.PurchaseMaster
 
-@Database(entities = [Item::class,Customer::class,PurchaseMaster::class,PurchaseDetailMaster::class], version = 5, exportSchema = false)
+@Database(entities = [Item::class,Customer::class,PurchaseMaster::class,PurchaseDetailMaster::class], version = 6, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun getDao(): AppDao

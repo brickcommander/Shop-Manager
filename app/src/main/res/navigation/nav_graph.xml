@@ -99,6 +99,9 @@
             android:name="customer"
             app:argType="com.brickcommander.shop.model.Customer"
             app:nullable="true" />
+        <action
+            android:id="@+id/action_detailCustomerFragment_to_detailPurchaseFragment"
+            app:destination="@id/detailPurchaseFragment" />
     </fragment>
     <fragment
         android:id="@+id/homeCustomerFragment"

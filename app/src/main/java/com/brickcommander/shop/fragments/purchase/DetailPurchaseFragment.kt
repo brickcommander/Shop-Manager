@@ -49,11 +49,6 @@ class DetailPurchaseFragment : Fragment(R.layout.fragment_details_purchase) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-            Log.d(TAG, "onBackPressedDispatcher: ")
-            view.findNavController().popBackStack(R.id.homePurchaseFragment, false) // Pop up to homeFragment
-        }
-
         // using purchase lite to get the actual Purchase object by purchaseLite.purchaseId
         val purchaseLite: PurchaseLite? = arguments?.getParcelable("purchaseLite")
         Log.d(TAG, "onViewCreated: $purchaseLite")

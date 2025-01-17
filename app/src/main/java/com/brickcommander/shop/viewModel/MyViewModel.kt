@@ -32,5 +32,9 @@ class MyViewModel<T>(
 
     fun getAllActive() = repository.getAllActive()
 
+    fun getAllPurchasesByCustomerId(customerId: Long): List<T> {
+        return repository.getAllPurchasesBuCustomerId(customerId)
+    }
+
     fun search(query: String?) = repository.search(query)
 }

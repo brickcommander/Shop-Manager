@@ -14,8 +14,10 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.brickcommander.shop.MainActivity
 import com.brickcommander.shop.R
+import com.brickcommander.shop.adapter.customer.PurchaseListAdapterForDetailCustomer
 import com.brickcommander.shop.databinding.FragmentDetailsCustomerBinding
 import com.brickcommander.shop.model.Customer
+import com.brickcommander.shop.model.helperModel.PurchaseLite
 import com.brickcommander.shop.shared.CONSTANTS
 import com.brickcommander.shop.util.toast
 import com.brickcommander.shop.viewModel.MyViewModel
@@ -30,6 +32,7 @@ class DetailCustomerFragment : Fragment(R.layout.fragment_details_customer) {
 
     private var currCustomer: Customer? = null
     private lateinit var customerViewModel: MyViewModel<Customer>
+    private lateinit var purchaseLiteViewModel: MyViewModel<PurchaseLite>
     private lateinit var mView: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,6 +63,7 @@ class DetailCustomerFragment : Fragment(R.layout.fragment_details_customer) {
         currCustomer = arguments?.getParcelable("customer")
         Log.d(TAG, "onViewCreated: $currCustomer")
         customerViewModel = (activity as MainActivity).customerViewModel
+        purchaseLiteViewModel = (activity as MainActivity).purchaseLiteViewModel
         mView = view
 
         if(currCustomer == null) {
@@ -76,6 +80,8 @@ class DetailCustomerFragment : Fragment(R.layout.fragment_details_customer) {
         binding.customerDetailsLayout.emailId.text = currCustomer!!.email
         binding.customerDetailsLayout.addressId.text = currCustomer!!.address
         binding.customerDetailsLayout.dueAmountId.text = currCustomer!!.dueAmount.toString()
+
+        binding.recentPurchaseListView.adapter = PurchaseListAdapterForDetailCustomer(requireContext(), purchaseLiteViewModel.getAllPurchasesByCustomerId(currCustomer!!.customerId))
     }
 
     private fun editItem(view: View) {
